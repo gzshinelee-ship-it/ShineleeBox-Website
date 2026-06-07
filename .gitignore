@@ -1,0 +1,39 @@
+node_modules/
+.DS_Store
+.accio/
+*.log
+bin/
+
+# Temporary and raw analytical assets
+sample_analysis/
+images/
+marketing/
+
+# Global binary types
+*.zip
+*.docx
+*.xlsx
+*.mp4
+*.jpg
+*.png
+*.jpeg
+*.pdf
+
+# Scripts & temporary tools
+build_about.js
+build_index.js
+build_products_list.js
+build_product_details.js
+build_static_pages.js
+compile.js
+deploy.sh
+extract_list.js
+fill_form_v2.js
+fill_form.js
+fill_info_v2.js
+fill_product_info.js
+final_fill.js
+finalize_visas.js
+find_switch_category.js
+generate_sop.js
+create_visa_invitation.js

@@ -1,0 +1,204 @@
+const fs = require('fs');
+const path = require('path');
+
+// Colors
+// Dark Green: #0B2F17
+// Luxury Gold: #C5A059
+// Light Ivory: #FCFAF6
+
+// Custom CSS / Header / Footer Template
+const headTemplate = (title, description, relativePath = '') => `
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${title}</title>
+    <meta name="description" content="${description}">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandGreen: {
+                            DEFAULT: '#0B2F17',
+                            dark: '#072210',
+                            light: '#144c25'
+                        },
+                        brandGold: {
+                            DEFAULT: '#C5A059',
+                            dark: '#ae8541',
+                            light: '#d9b977'
+                        },
+                        brandIvory: {
+                            DEFAULT: '#FCFAF6',
+                            dark: '#F5F0E6'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'Georgia', 'serif'],
+                        sans: ['Inter', 'Montserrat', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .gold-gradient-bg {
+            background: linear-gradient(135deg, #d9b977 0%, #C5A059 50%, #ae8541 100%);
+        }
+        .green-gradient-bg {
+            background: linear-gradient(135deg, #144c25 0%, #0B2F17 50%, #072210 100%);
+        }
+    </style>
+</head>
+<body class="bg-brandIvory text-slate-800 font-sans min-h-screen flex flex-col">
+`;
+
+const headerTemplate = (relativePath = '') => `
+<!-- Top Alert Bar -->
+<div class="bg-brandGold text-brandGreen-dark text-center text-xs font-semibold py-2 px-4">
+    Premium Custom Packaging Manufacturer — Disney FAMA & BSCI Certified Factory — MOQ From 50 PCS
+</div>
+
+<!-- Header Navigation -->
+<header class="bg-brandGreen text-white sticky top-0 z-50 shadow-lg border-b border-brandGreen-dark">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-20">
+            <!-- Logo -->
+            <div class="flex-shrink-0 flex flex-col justify-center">
+                <a href="${relativePath}index.html" class="flex items-center space-x-2">
+                    <span class="font-serif text-2xl font-bold tracking-wider text-brandGold">ShineleeBox</span>
+                </a>
+                <span class="text-[9px] uppercase tracking-widest text-brandGold-light font-medium -mt-1">Guangzhou Paper Packaging</span>
+            </div>
+            
+            <!-- Desktop Navigation Links -->
+            <nav class="hidden md:flex space-x-1 lg:space-x-4 items-center">
+                <a href="${relativePath}index.html" class="text-sm font-medium px-3 py-2 text-white hover:text-brandGold transition-colors">Home</a>
+                <a href="${relativePath}products/index.html" class="text-sm font-medium px-3 py-2 text-white hover:text-brandGold transition-colors">Products</a>
+                <a href="${relativePath}applications/index.html" class="text-sm font-medium px-3 py-2 text-white hover:text-brandGold transition-colors">Applications</a>
+                <a href="${relativePath}customization.html" class="text-sm font-medium px-3 py-2 text-white hover:text-brandGold transition-colors">Customization</a>
+                <a href="${relativePath}capabilities.html" class="text-sm font-medium px-3 py-2 text-white hover:text-brandGold transition-colors">Capabilities</a>
+                <a href="${relativePath}about.html" class="text-sm font-medium px-3 py-2 text-white hover:text-brandGold transition-colors">About</a>
+                <a href="${relativePath}blog/index.html" class="text-sm font-medium px-3 py-2 text-white hover:text-brandGold transition-colors">Blog</a>
+                <a href="${relativePath}contact.html" class="text-sm font-medium px-3 py-2 text-white hover:text-brandGold transition-colors">Contact</a>
+            </nav>
+
+            <!-- Right CTA Button -->
+            <div class="hidden md:block">
+                <a href="${relativePath}contact.html" class="inline-flex items-center justify-center px-5 py-2.5 border border-transparent text-sm font-semibold rounded-md text-brandGreen bg-brandGold hover:bg-brandGold-light transition-all shadow-md">
+                    Get Free Quote
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button -->
+            <div class="flex md:hidden">
+                <button id="mobile-menu-btn" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-brandGold focus:outline-none" aria-controls="mobile-menu" aria-expanded="false">
+                    <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mobile Navigation Menu -->
+    <div class="hidden md:hidden bg-brandGreen-dark border-t border-brandGreen" id="mobile-menu">
+        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            <a href="${relativePath}index.html" class="block text-base font-medium px-3 py-2 text-white hover:text-brandGold">Home</a>
+            <a href="${relativePath}products/index.html" class="block text-base font-medium px-3 py-2 text-white hover:text-brandGold">Products</a>
+            <a href="${relativePath}applications/index.html" class="block text-base font-medium px-3 py-2 text-white hover:text-brandGold">Applications</a>
+            <a href="${relativePath}customization.html" class="block text-base font-medium px-3 py-2 text-white hover:text-brandGold">Customization</a>
+            <a href="${relativePath}capabilities.html" class="block text-base font-medium px-3 py-2 text-white hover:text-brandGold">Capabilities</a>
+            <a href="${relativePath}about.html" class="block text-base font-medium px-3 py-2 text-white hover:text-brandGold">About</a>
+            <a href="${relativePath}blog/index.html" class="block text-base font-medium px-3 py-2 text-white hover:text-brandGold">Blog</a>
+            <a href="${relativePath}contact.html" class="block text-base font-medium px-3 py-2 text-white hover:text-brandGold">Contact</a>
+            <a href="${relativePath}contact.html" class="block text-center text-base font-semibold px-3 py-3 mt-4 text-brandGreen bg-brandGold rounded-md hover:bg-brandGold-light">Get Free Quote</a>
+        </div>
+    </div>
+</header>
+<main class="flex-grow">
+`;
+
+const footerTemplate = (relativePath = '') => `
+</main>
+<footer class="bg-brandGreen-dark text-white border-t border-brandGold-dark pt-16 pb-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-12">
+        <!-- Brand Info -->
+        <div class="md:col-span-1">
+            <h3 class="font-serif text-2xl font-bold text-brandGold tracking-wider">ShineleeBox</h3>
+            <p class="text-[9px] uppercase tracking-widest text-brandGold-light font-medium -mt-1 mb-4">Guangzhou Paper Packaging</p>
+            <p class="text-sm text-slate-300 italic mb-6">"Too Good To Throw Away. Packaging That Gets Shared, Not Discarded."</p>
+            <div class="flex space-x-3 text-xs text-brandGold-light font-semibold">
+                <span>Disney FAMA</span> | <span>BSCI Certified</span>
+            </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+            <h4 class="text-lg font-serif font-semibold text-brandGold mb-4">Product Collections</h4>
+            <ul class="space-y-2.5 text-sm text-slate-300">
+                <li><a href="${relativePath}products/index.html" class="hover:text-brandGold transition-colors">All Products</a></li>
+                <li><a href="${relativePath}products/index.html?filter=Advent" class="hover:text-brandGold transition-colors">Advent Calendar Boxes</a></li>
+                <li><a href="${relativePath}products/index.html?filter=Magnetic" class="hover:text-brandGold transition-colors">Magnetic Gift Boxes</a></li>
+                <li><a href="${relativePath}products/index.html?filter=Drawer" class="hover:text-brandGold transition-colors">Drawer Sliding Boxes</a></li>
+                <li><a href="${relativePath}products/index.html?filter=Luxury" class="hover:text-brandGold transition-colors">Luxury Packaging Sets</a></li>
+            </ul>
+        </div>
+
+        <!-- Applications -->
+        <div>
+            <h4 class="text-lg font-serif font-semibold text-brandGold mb-4">Industry Solutions</h4>
+            <ul class="space-y-2.5 text-sm text-slate-300">
+                <li><a href="${relativePath}applications/beauty-skincare.html" class="hover:text-brandGold transition-colors">Beauty & Skincare</a></li>
+                <li><a href="${relativePath}applications/perfume-fragrance.html" class="hover:text-brandGold transition-colors">Perfume & Fragrance</a></li>
+                <li><a href="${relativePath}applications/chocolate-food.html" class="hover:text-brandGold transition-colors">Gourmet Chocolate & Food</a></li>
+                <li><a href="${relativePath}applications/jewelry-accessories.html" class="hover:text-brandGold transition-colors">Jewelry & Accessories</a></li>
+                <li><a href="${relativePath}applications/ramadan-eid.html" class="hover:text-brandGold transition-colors">Ramadan & Eid Festival</a></li>
+            </ul>
+        </div>
+
+        <!-- Contact Info -->
+        <div>
+            <h4 class="text-lg font-serif font-semibold text-brandGold mb-4">Contact Manufacturer</h4>
+            <p class="text-sm text-slate-300 mb-1"><strong>Guangzhou Shinelee Paper Product Co., Ltd.</strong></p>
+            <p class="text-sm text-slate-300 mb-1">广州市晟丽纸制品有限公司</p>
+            <p class="text-sm text-slate-400 mb-4 font-serif italic">18+ Years Manufacturing Excellence</p>
+            <p class="text-sm text-slate-300 mb-1">📧 Email: <a href="mailto:info@slpack.net" class="hover:text-brandGold transition-colors font-medium">info@slpack.net</a></p>
+            <p class="text-sm text-slate-300 mb-1">📞 Tel / WhatsApp: <a href="https://wa.me/8618818840878" class="hover:text-brandGold transition-colors font-medium">+86 18818840878</a></p>
+            <p class="text-sm text-slate-300 mb-1">👤 Contact Person: Lisa</p>
+        </div>
+    </div>
+
+    <!-- Bottom Copyright -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-8 border-t border-brandGreen-light flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400">
+        <p>&copy; 2026 Guangzhou Shinelee Paper Product Co., Ltd. All rights reserved. Registered in China. Website hosted on Vercel.</p>
+        <div class="flex space-x-4 mt-4 sm:mt-0">
+            <a href="${relativePath}capabilities.html#faq" class="hover:text-brandGold transition-colors">FAQ</a>
+            <a href="${relativePath}customization.html" class="hover:text-brandGold transition-colors">Process</a>
+            <a href="${relativePath}contact.html" class="hover:text-brandGold transition-colors font-semibold text-brandGold">Get Custom Quotation</a>
+        </div>
+    </div>
+</footer>
+
+<!-- General Interactive Scripts -->
+<script>
+    // Mobile menu toggle
+    const mobileBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (mobileBtn && mobileMenu) {
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    }
+</script>
+</body>
+</html>
+`;
+
+module.exports = { headTemplate, headerTemplate, footerTemplate };
