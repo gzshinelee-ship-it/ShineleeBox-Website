@@ -122,7 +122,8 @@ const headerTemplate = (relativePath = '') => `
     <div class="hidden md:hidden bg-brandGreen-dark border-t border-brandGreen" id="mobile-menu">
         <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             <a href="${relativePath}index.html" class="block text-base font-medium px-3 py-2 text-white hover:text-brandGold">Home</a>
-            <a href="${relativePath}products/index.html" class="block text-base font-medium px-3 py-2 text-white hover:text-brandGold">Products</a>
+            <a href="${relativePath}products/advent-calendars.html" class="block text-base font-bold px-3 py-2 text-brandGold hover:text-white">Advent Calendar Boxes</a>
+            <a href="${relativePath}products/index.html" class="block text-base font-medium px-3 py-2 text-white hover:text-brandGold">All Products</a>
             <a href="${relativePath}applications/index.html" class="block text-base font-medium px-3 py-2 text-white hover:text-brandGold">Applications</a>
             <a href="${relativePath}customization.html" class="block text-base font-medium px-3 py-2 text-white hover:text-brandGold">Customization</a>
             <a href="${relativePath}capabilities.html" class="block text-base font-medium px-3 py-2 text-white hover:text-brandGold">Capabilities</a>
