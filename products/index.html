@@ -69,7 +69,18 @@
             <!-- Desktop Navigation Links -->
             <nav class="hidden md:flex space-x-1 lg:space-x-4 items-center">
                 <a href="../index.html" class="text-sm font-medium px-3 py-2 text-white hover:text-brandGold transition-colors">Home</a>
-                <a href="../products/index.html" class="text-sm font-medium px-3 py-2 text-white hover:text-brandGold transition-colors">Products</a>
+                <div class="relative group">
+                    <a href="../products/index.html" class="text-sm font-medium px-3 py-2 text-white hover:text-brandGold transition-colors flex items-center">
+                        Products <svg class="w-3 h-3 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 9l-7 7-7-7"/></svg>
+                    </a>
+                    <div class="absolute left-0 mt-0 w-56 bg-white rounded-md shadow-xl py-2 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-200 border border-slate-100 z-[60]">
+                        <a href="../products/advent-calendars.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Advent Calendar Boxes</a>
+                        <a href="../products/magnetic-boxes.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Magnetic Gift Boxes</a>
+                        <a href="../products/drawer-boxes.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Drawer Gift Boxes</a>
+                        <a href="../products/custom-shape-boxes.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Custom Shape Boxes</a>
+                        <a href="../products/index.html" class="block px-4 py-2 text-xs font-bold text-brandGreen border-t border-slate-50 mt-1 hover:bg-brandIvory">All Collections</a>
+                    </div>
+                </div>
                 <a href="../applications/index.html" class="text-sm font-medium px-3 py-2 text-white hover:text-brandGold transition-colors">Applications</a>
                 <a href="../customization.html" class="text-sm font-medium px-3 py-2 text-white hover:text-brandGold transition-colors">Customization</a>
                 <a href="../capabilities.html" class="text-sm font-medium px-3 py-2 text-white hover:text-brandGold transition-colors">Capabilities</a>
@@ -155,18 +166,19 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8" id="products-grid">
     
             <!-- Product Card: AC-001 -->
-            <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between" 
+            <div class="product-card group bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between cursor-pointer" 
+                 onclick="window.location.href='ac-001.html'"
                  data-category="Perfume / Beauty / Luxury" 
                  data-id="AC-001">
                 <div>
                     <div class="h-56 overflow-hidden bg-slate-100 relative">
-                        <img src="https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&w=800&q=80" alt="Custom Perfume Bottle Advent Calendar Box" class="w-full h-full object-cover">
+                        <img src="https://images.unsplash.com/photo-1547887537-6158d64c35b3?auto=format&fit=crop&w=800&q=80" alt="Custom Perfume Bottle Advent Calendar Box" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         <span class="absolute top-2 left-2 text-[10px] font-bold bg-brandGreen text-white px-2 py-0.5 rounded shadow">AC-001</span>
                         <span class="absolute bottom-2 right-2 text-[10px] font-semibold bg-brandIvory text-slate-600 px-2 py-0.5 rounded border border-slate-200 shadow-sm">Perfume</span>
                     </div>
                     <div class="p-5">
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-1 hover:text-brandGold transition-colors">
-                            <a href="ac-001.html">Custom Perfume Bottle Advent Calendar Box</a>
+                        <h3 class="font-serif text-base font-bold text-brandGreen mb-1 group-hover:text-brandGold transition-colors">
+                            <a href="ac-001.html" onclick="event.stopPropagation();">Custom Perfume Bottle Advent Calendar Box</a>
                         </h3>
                         <p class="text-xs text-brandGold font-semibold italic mb-3">Custom bottle-shaped structure with drawer calendar layout</p>
                         <p class="text-xs text-slate-500 line-clamp-2">ShineleeBox manufactures custom perfume bottle advent calendar boxes for fragrance, beauty and holiday gift campaigns. MOQ from 50 pcs for selected projects.</p>
@@ -174,25 +186,26 @@
                 </div>
                 <div class="px-5 pb-5 pt-2 flex items-center justify-between border-t border-slate-50 mt-2">
                     <span class="text-[10px] font-bold text-slate-400">Direct Factory</span>
-                    <a href="ac-001.html" class="inline-flex items-center text-xs font-bold text-brandGreen hover:text-brandGold transition-all">
+                    <a href="ac-001.html" onclick="event.stopPropagation();" class="inline-flex items-center text-xs font-bold text-brandGreen hover:text-brandGold transition-all">
                         View Specs <svg class="w-3.5 h-3.5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </a>
                 </div>
             </div>
         
             <!-- Product Card: AC-002 -->
-            <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between" 
+            <div class="product-card group bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between cursor-pointer" 
+                 onclick="window.location.href='ac-002.html'"
                  data-category="Perfume / Beauty / LED Packaging" 
                  data-id="AC-002">
                 <div>
                     <div class="h-56 overflow-hidden bg-slate-100 relative">
-                        <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=800&q=80" alt="LED Light-Up Perfume Advent Calendar Box" class="w-full h-full object-cover">
+                        <img src="https://images.unsplash.com/photo-1594035910387-fea47794261f?auto=format&fit=crop&w=800&q=80" alt="LED Light-Up Perfume Advent Calendar Box" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         <span class="absolute top-2 left-2 text-[10px] font-bold bg-brandGreen text-white px-2 py-0.5 rounded shadow">AC-002</span>
                         <span class="absolute bottom-2 right-2 text-[10px] font-semibold bg-brandIvory text-slate-600 px-2 py-0.5 rounded border border-slate-200 shadow-sm">Perfume</span>
                     </div>
                     <div class="p-5">
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-1 hover:text-brandGold transition-colors">
-                            <a href="ac-002.html">LED Light-Up Perfume Advent Calendar Box</a>
+                        <h3 class="font-serif text-base font-bold text-brandGreen mb-1 group-hover:text-brandGold transition-colors">
+                            <a href="ac-002.html" onclick="event.stopPropagation();">LED Light-Up Perfume Advent Calendar Box</a>
                         </h3>
                         <p class="text-xs text-brandGold font-semibold italic mb-3">Book-style calendar with central display area and optional LED lighting</p>
                         <p class="text-xs text-slate-500 line-clamp-2">Custom LED light-up perfume advent calendar boxes for fragrance, beauty, skincare and holiday gift campaigns.</p>
@@ -200,25 +213,26 @@
                 </div>
                 <div class="px-5 pb-5 pt-2 flex items-center justify-between border-t border-slate-50 mt-2">
                     <span class="text-[10px] font-bold text-slate-400">Direct Factory</span>
-                    <a href="ac-002.html" class="inline-flex items-center text-xs font-bold text-brandGreen hover:text-brandGold transition-all">
+                    <a href="ac-002.html" onclick="event.stopPropagation();" class="inline-flex items-center text-xs font-bold text-brandGreen hover:text-brandGold transition-all">
                         View Specs <svg class="w-3.5 h-3.5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </a>
                 </div>
             </div>
         
             <!-- Product Card: AC-003 -->
-            <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between" 
+            <div class="product-card group bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between cursor-pointer" 
+                 onclick="window.location.href='ac-003.html'"
                  data-category="Ramadan / Eid / Islamic Gifts" 
                  data-id="AC-003">
                 <div>
                     <div class="h-56 overflow-hidden bg-slate-100 relative">
-                        <img src="https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=800&q=80" alt="Ramadan 30-Day Advent Calendar Box" class="w-full h-full object-cover">
+                        <img src="https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=800&q=80" alt="Ramadan 30-Day Advent Calendar Box" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         <span class="absolute top-2 left-2 text-[10px] font-bold bg-brandGreen text-white px-2 py-0.5 rounded shadow">AC-003</span>
                         <span class="absolute bottom-2 right-2 text-[10px] font-semibold bg-brandIvory text-slate-600 px-2 py-0.5 rounded border border-slate-200 shadow-sm">Ramadan</span>
                     </div>
                     <div class="p-5">
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-1 hover:text-brandGold transition-colors">
-                            <a href="ac-003.html">Ramadan 30-Day Advent Calendar Box</a>
+                        <h3 class="font-serif text-base font-bold text-brandGreen mb-1 group-hover:text-brandGold transition-colors">
+                            <a href="ac-003.html" onclick="event.stopPropagation();">Ramadan 30-Day Advent Calendar Box</a>
                         </h3>
                         <p class="text-xs text-brandGold font-semibold italic mb-3">30 numbered drawers with green and gold religious festival design</p>
                         <p class="text-xs text-slate-500 line-clamp-2">Custom Ramadan advent calendar boxes for Eid gifts, dates, sweets, prayer items and Islamic gift collections.</p>
@@ -226,25 +240,26 @@
                 </div>
                 <div class="px-5 pb-5 pt-2 flex items-center justify-between border-t border-slate-50 mt-2">
                     <span class="text-[10px] font-bold text-slate-400">Direct Factory</span>
-                    <a href="ac-003.html" class="inline-flex items-center text-xs font-bold text-brandGreen hover:text-brandGold transition-all">
+                    <a href="ac-003.html" onclick="event.stopPropagation();" class="inline-flex items-center text-xs font-bold text-brandGreen hover:text-brandGold transition-all">
                         View Specs <svg class="w-3.5 h-3.5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </a>
                 </div>
             </div>
         
             <!-- Product Card: AC-004 -->
-            <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between" 
+            <div class="product-card group bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between cursor-pointer" 
+                 onclick="window.location.href='ac-004.html'"
                  data-category="Christmas / Chocolate / Gifts" 
                  data-id="AC-004">
                 <div>
                     <div class="h-56 overflow-hidden bg-slate-100 relative">
-                        <img src="https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80" alt="Red Round Christmas Advent Calendar Box" class="w-full h-full object-cover">
+                        <img src="https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80" alt="Red Round Christmas Advent Calendar Box" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         <span class="absolute top-2 left-2 text-[10px] font-bold bg-brandGreen text-white px-2 py-0.5 rounded shadow">AC-004</span>
                         <span class="absolute bottom-2 right-2 text-[10px] font-semibold bg-brandIvory text-slate-600 px-2 py-0.5 rounded border border-slate-200 shadow-sm">Christmas</span>
                     </div>
                     <div class="p-5">
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-1 hover:text-brandGold transition-colors">
-                            <a href="ac-004.html">Red Round Christmas Advent Calendar Box</a>
+                        <h3 class="font-serif text-base font-bold text-brandGreen mb-1 group-hover:text-brandGold transition-colors">
+                            <a href="ac-004.html" onclick="event.stopPropagation();">Red Round Christmas Advent Calendar Box</a>
                         </h3>
                         <p class="text-xs text-brandGold font-semibold italic mb-3">Round cylinder structure with removable drawers and holiday display</p>
                         <p class="text-xs text-slate-500 line-clamp-2">Custom round Christmas advent calendar boxes for chocolate, candy, toys, beauty and festive gift campaigns.</p>
@@ -252,25 +267,26 @@
                 </div>
                 <div class="px-5 pb-5 pt-2 flex items-center justify-between border-t border-slate-50 mt-2">
                     <span class="text-[10px] font-bold text-slate-400">Direct Factory</span>
-                    <a href="ac-004.html" class="inline-flex items-center text-xs font-bold text-brandGreen hover:text-brandGold transition-all">
+                    <a href="ac-004.html" onclick="event.stopPropagation();" class="inline-flex items-center text-xs font-bold text-brandGreen hover:text-brandGold transition-all">
                         View Specs <svg class="w-3.5 h-3.5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </a>
                 </div>
             </div>
         
             <!-- Product Card: AC-005 -->
-            <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between" 
+            <div class="product-card group bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between cursor-pointer" 
+                 onclick="window.location.href='ac-005.html'"
                  data-category="Christmas / Beauty / Gift" 
                  data-id="AC-005">
                 <div>
                     <div class="h-56 overflow-hidden bg-slate-100 relative">
-                        <img src="https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=800&q=80" alt="Red &amp; Gold Christmas Drawer Advent Calendar Box" class="w-full h-full object-cover">
+                        <img src="https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=800&q=80" alt="Red &amp; Gold Christmas Drawer Advent Calendar Box" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         <span class="absolute top-2 left-2 text-[10px] font-bold bg-brandGreen text-white px-2 py-0.5 rounded shadow">AC-005</span>
                         <span class="absolute bottom-2 right-2 text-[10px] font-semibold bg-brandIvory text-slate-600 px-2 py-0.5 rounded border border-slate-200 shadow-sm">Christmas</span>
                     </div>
                     <div class="p-5">
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-1 hover:text-brandGold transition-colors">
-                            <a href="ac-005.html">Red &amp; Gold Christmas Drawer Advent Calendar Box</a>
+                        <h3 class="font-serif text-base font-bold text-brandGreen mb-1 group-hover:text-brandGold transition-colors">
+                            <a href="ac-005.html" onclick="event.stopPropagation();">Red &amp; Gold Christmas Drawer Advent Calendar Box</a>
                         </h3>
                         <p class="text-xs text-brandGold font-semibold italic mb-3">Book-style opening with red and gold drawer layout</p>
                         <p class="text-xs text-slate-500 line-clamp-2">Custom red and gold Christmas advent calendar boxes for beauty, chocolate, gifts and holiday promotions.</p>
@@ -278,25 +294,26 @@
                 </div>
                 <div class="px-5 pb-5 pt-2 flex items-center justify-between border-t border-slate-50 mt-2">
                     <span class="text-[10px] font-bold text-slate-400">Direct Factory</span>
-                    <a href="ac-005.html" class="inline-flex items-center text-xs font-bold text-brandGreen hover:text-brandGold transition-all">
+                    <a href="ac-005.html" onclick="event.stopPropagation();" class="inline-flex items-center text-xs font-bold text-brandGreen hover:text-brandGold transition-all">
                         View Specs <svg class="w-3.5 h-3.5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </a>
                 </div>
             </div>
         
             <!-- Product Card: AC-006 -->
-            <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between" 
+            <div class="product-card group bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between cursor-pointer" 
+                 onclick="window.location.href='ac-006.html'"
                  data-category="Beauty / Cosmetic / Skincare" 
                  data-id="AC-006">
                 <div>
                     <div class="h-56 overflow-hidden bg-slate-100 relative">
-                        <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&q=80" alt="Pink Beauty Drawer Advent Calendar Box" class="w-full h-full object-cover">
+                        <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&q=80" alt="Pink Beauty Drawer Advent Calendar Box" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         <span class="absolute top-2 left-2 text-[10px] font-bold bg-brandGreen text-white px-2 py-0.5 rounded shadow">AC-006</span>
                         <span class="absolute bottom-2 right-2 text-[10px] font-semibold bg-brandIvory text-slate-600 px-2 py-0.5 rounded border border-slate-200 shadow-sm">Beauty</span>
                     </div>
                     <div class="p-5">
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-1 hover:text-brandGold transition-colors">
-                            <a href="ac-006.html">Pink Beauty Drawer Advent Calendar Box</a>
+                        <h3 class="font-serif text-base font-bold text-brandGreen mb-1 group-hover:text-brandGold transition-colors">
+                            <a href="ac-006.html" onclick="event.stopPropagation();">Pink Beauty Drawer Advent Calendar Box</a>
                         </h3>
                         <p class="text-xs text-brandGold font-semibold italic mb-3">Pink drawer calendar for beauty minis and cosmetics</p>
                         <p class="text-xs text-slate-500 line-clamp-2">Custom pink beauty advent calendar boxes for cosmetics, skincare, nail polish and influencer gift campaigns.</p>
@@ -304,25 +321,26 @@
                 </div>
                 <div class="px-5 pb-5 pt-2 flex items-center justify-between border-t border-slate-50 mt-2">
                     <span class="text-[10px] font-bold text-slate-400">Direct Factory</span>
-                    <a href="ac-006.html" class="inline-flex items-center text-xs font-bold text-brandGreen hover:text-brandGold transition-all">
+                    <a href="ac-006.html" onclick="event.stopPropagation();" class="inline-flex items-center text-xs font-bold text-brandGreen hover:text-brandGold transition-all">
                         View Specs <svg class="w-3.5 h-3.5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </a>
                 </div>
             </div>
         
             <!-- Product Card: AC-007 -->
-            <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between" 
+            <div class="product-card group bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between cursor-pointer" 
+                 onclick="window.location.href='ac-007.html'"
                  data-category="Beauty / Luxury Gift" 
                  data-id="AC-007">
                 <div>
                     <div class="h-56 overflow-hidden bg-slate-100 relative">
-                        <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=800&q=80" alt="Blue Luxury Beauty Advent Calendar Box" class="w-full h-full object-cover">
+                        <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=800&q=80" alt="Blue Luxury Beauty Advent Calendar Box" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         <span class="absolute top-2 left-2 text-[10px] font-bold bg-brandGreen text-white px-2 py-0.5 rounded shadow">AC-007</span>
                         <span class="absolute bottom-2 right-2 text-[10px] font-semibold bg-brandIvory text-slate-600 px-2 py-0.5 rounded border border-slate-200 shadow-sm">Beauty</span>
                     </div>
                     <div class="p-5">
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-1 hover:text-brandGold transition-colors">
-                            <a href="ac-007.html">Blue Luxury Beauty Advent Calendar Box</a>
+                        <h3 class="font-serif text-base font-bold text-brandGreen mb-1 group-hover:text-brandGold transition-colors">
+                            <a href="ac-007.html" onclick="event.stopPropagation();">Blue Luxury Beauty Advent Calendar Box</a>
                         </h3>
                         <p class="text-xs text-brandGold font-semibold italic mb-3">Premium blue drawer calendar with elegant gold details</p>
                         <p class="text-xs text-slate-500 line-clamp-2">Custom luxury beauty advent calendar boxes for skincare, fragrance, cosmetics and premium gift sets.</p>
@@ -330,25 +348,26 @@
                 </div>
                 <div class="px-5 pb-5 pt-2 flex items-center justify-between border-t border-slate-50 mt-2">
                     <span class="text-[10px] font-bold text-slate-400">Direct Factory</span>
-                    <a href="ac-007.html" class="inline-flex items-center text-xs font-bold text-brandGreen hover:text-brandGold transition-all">
+                    <a href="ac-007.html" onclick="event.stopPropagation();" class="inline-flex items-center text-xs font-bold text-brandGreen hover:text-brandGold transition-all">
                         View Specs <svg class="w-3.5 h-3.5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </a>
                 </div>
             </div>
         
             <!-- Product Card: AC-008 -->
-            <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between" 
+            <div class="product-card group bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between cursor-pointer" 
+                 onclick="window.location.href='ac-008.html'"
                  data-category="Luxury / Perfume / Beauty" 
                  data-id="AC-008">
                 <div>
                     <div class="h-56 overflow-hidden bg-slate-100 relative">
-                        <img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80" alt="White &amp; Gold Luxury Advent Calendar Box" class="w-full h-full object-cover">
+                        <img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80" alt="White &amp; Gold Luxury Advent Calendar Box" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         <span class="absolute top-2 left-2 text-[10px] font-bold bg-brandGreen text-white px-2 py-0.5 rounded shadow">AC-008</span>
                         <span class="absolute bottom-2 right-2 text-[10px] font-semibold bg-brandIvory text-slate-600 px-2 py-0.5 rounded border border-slate-200 shadow-sm">Luxury</span>
                     </div>
                     <div class="p-5">
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-1 hover:text-brandGold transition-colors">
-                            <a href="ac-008.html">White &amp; Gold Luxury Advent Calendar Box</a>
+                        <h3 class="font-serif text-base font-bold text-brandGreen mb-1 group-hover:text-brandGold transition-colors">
+                            <a href="ac-008.html" onclick="event.stopPropagation();">White &amp; Gold Luxury Advent Calendar Box</a>
                         </h3>
                         <p class="text-xs text-brandGold font-semibold italic mb-3">White and gold premium calendar structure for luxury brands</p>
                         <p class="text-xs text-slate-500 line-clamp-2">Custom white and gold advent calendar boxes for perfume, beauty, jewelry and luxury holiday campaigns.</p>
@@ -356,25 +375,26 @@
                 </div>
                 <div class="px-5 pb-5 pt-2 flex items-center justify-between border-t border-slate-50 mt-2">
                     <span class="text-[10px] font-bold text-slate-400">Direct Factory</span>
-                    <a href="ac-008.html" class="inline-flex items-center text-xs font-bold text-brandGreen hover:text-brandGold transition-all">
+                    <a href="ac-008.html" onclick="event.stopPropagation();" class="inline-flex items-center text-xs font-bold text-brandGreen hover:text-brandGold transition-all">
                         View Specs <svg class="w-3.5 h-3.5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </a>
                 </div>
             </div>
         
             <!-- Product Card: AC-009 -->
-            <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between" 
+            <div class="product-card group bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between cursor-pointer" 
+                 onclick="window.location.href='ac-009.html'"
                  data-category="Christmas / Custom Shape" 
                  data-id="AC-009">
                 <div>
                     <div class="h-56 overflow-hidden bg-slate-100 relative">
-                        <img src="https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80" alt="Christmas Tree Shape Advent Calendar Box" class="w-full h-full object-cover">
+                        <img src="https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80" alt="Christmas Tree Shape Advent Calendar Box" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         <span class="absolute top-2 left-2 text-[10px] font-bold bg-brandGreen text-white px-2 py-0.5 rounded shadow">AC-009</span>
                         <span class="absolute bottom-2 right-2 text-[10px] font-semibold bg-brandIvory text-slate-600 px-2 py-0.5 rounded border border-slate-200 shadow-sm">Christmas</span>
                     </div>
                     <div class="p-5">
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-1 hover:text-brandGold transition-colors">
-                            <a href="ac-009.html">Christmas Tree Shape Advent Calendar Box</a>
+                        <h3 class="font-serif text-base font-bold text-brandGreen mb-1 group-hover:text-brandGold transition-colors">
+                            <a href="ac-009.html" onclick="event.stopPropagation();">Christmas Tree Shape Advent Calendar Box</a>
                         </h3>
                         <p class="text-xs text-brandGold font-semibold italic mb-3">Tree-shaped festive display structure with drawers</p>
                         <p class="text-xs text-slate-500 line-clamp-2">Custom Christmas tree advent calendar boxes for holiday gifts, beauty, chocolate and retail display.</p>
@@ -382,25 +402,26 @@
                 </div>
                 <div class="px-5 pb-5 pt-2 flex items-center justify-between border-t border-slate-50 mt-2">
                     <span class="text-[10px] font-bold text-slate-400">Direct Factory</span>
-                    <a href="ac-009.html" class="inline-flex items-center text-xs font-bold text-brandGreen hover:text-brandGold transition-all">
+                    <a href="ac-009.html" onclick="event.stopPropagation();" class="inline-flex items-center text-xs font-bold text-brandGreen hover:text-brandGold transition-all">
                         View Specs <svg class="w-3.5 h-3.5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </a>
                 </div>
             </div>
         
             <!-- Product Card: AC-010 -->
-            <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between" 
+            <div class="product-card group bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between cursor-pointer" 
+                 onclick="window.location.href='ac-010.html'"
                  data-category="Christmas / Kids / Beauty" 
                  data-id="AC-010">
                 <div>
                     <div class="h-56 overflow-hidden bg-slate-100 relative">
-                        <img src="https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80" alt="Pink Ballet Nutcracker Advent Calendar Box" class="w-full h-full object-cover">
+                        <img src="https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80" alt="Pink Ballet Nutcracker Advent Calendar Box" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         <span class="absolute top-2 left-2 text-[10px] font-bold bg-brandGreen text-white px-2 py-0.5 rounded shadow">AC-010</span>
                         <span class="absolute bottom-2 right-2 text-[10px] font-semibold bg-brandIvory text-slate-600 px-2 py-0.5 rounded border border-slate-200 shadow-sm">Christmas</span>
                     </div>
                     <div class="p-5">
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-1 hover:text-brandGold transition-colors">
-                            <a href="ac-010.html">Pink Ballet Nutcracker Advent Calendar Box</a>
+                        <h3 class="font-serif text-base font-bold text-brandGreen mb-1 group-hover:text-brandGold transition-colors">
+                            <a href="ac-010.html" onclick="event.stopPropagation();">Pink Ballet Nutcracker Advent Calendar Box</a>
                         </h3>
                         <p class="text-xs text-brandGold font-semibold italic mb-3">Theater-style calendar with decorative holiday theme</p>
                         <p class="text-xs text-slate-500 line-clamp-2">Custom ballet and nutcracker themed advent calendar boxes for Christmas, gifts, kids products and beauty brands.</p>
@@ -408,25 +429,26 @@
                 </div>
                 <div class="px-5 pb-5 pt-2 flex items-center justify-between border-t border-slate-50 mt-2">
                     <span class="text-[10px] font-bold text-slate-400">Direct Factory</span>
-                    <a href="ac-010.html" class="inline-flex items-center text-xs font-bold text-brandGreen hover:text-brandGold transition-all">
+                    <a href="ac-010.html" onclick="event.stopPropagation();" class="inline-flex items-center text-xs font-bold text-brandGreen hover:text-brandGold transition-all">
                         View Specs <svg class="w-3.5 h-3.5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </a>
                 </div>
             </div>
         
             <!-- Product Card: AC-011 -->
-            <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between" 
+            <div class="product-card group bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between cursor-pointer" 
+                 onclick="window.location.href='ac-011.html'"
                  data-category="Christmas / Gift / Special Products" 
                  data-id="AC-011">
                 <div>
                     <div class="h-56 overflow-hidden bg-slate-100 relative">
-                        <img src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=800&q=80" alt="Green Cube Drawer Advent Calendar Box" class="w-full h-full object-cover">
+                        <img src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=800&q=80" alt="Green Cube Drawer Advent Calendar Box" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         <span class="absolute top-2 left-2 text-[10px] font-bold bg-brandGreen text-white px-2 py-0.5 rounded shadow">AC-011</span>
                         <span class="absolute bottom-2 right-2 text-[10px] font-semibold bg-brandIvory text-slate-600 px-2 py-0.5 rounded border border-slate-200 shadow-sm">Christmas</span>
                     </div>
                     <div class="p-5">
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-1 hover:text-brandGold transition-colors">
-                            <a href="ac-011.html">Green Cube Drawer Advent Calendar Box</a>
+                        <h3 class="font-serif text-base font-bold text-brandGreen mb-1 group-hover:text-brandGold transition-colors">
+                            <a href="ac-011.html" onclick="event.stopPropagation();">Green Cube Drawer Advent Calendar Box</a>
                         </h3>
                         <p class="text-xs text-brandGold font-semibold italic mb-3">Cube drawer structure with festive green design</p>
                         <p class="text-xs text-slate-500 line-clamp-2">Custom green cube advent calendar boxes for gifts, holiday products, wellness items and specialty campaigns.</p>
@@ -434,25 +456,26 @@
                 </div>
                 <div class="px-5 pb-5 pt-2 flex items-center justify-between border-t border-slate-50 mt-2">
                     <span class="text-[10px] font-bold text-slate-400">Direct Factory</span>
-                    <a href="ac-011.html" class="inline-flex items-center text-xs font-bold text-brandGreen hover:text-brandGold transition-all">
+                    <a href="ac-011.html" onclick="event.stopPropagation();" class="inline-flex items-center text-xs font-bold text-brandGreen hover:text-brandGold transition-all">
                         View Specs <svg class="w-3.5 h-3.5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </a>
                 </div>
             </div>
         
             <!-- Product Card: AC-012 -->
-            <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between" 
+            <div class="product-card group bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between cursor-pointer" 
+                 onclick="window.location.href='ac-012.html'"
                  data-category="Jewelry / Beauty / Accessories" 
                  data-id="AC-012">
                 <div>
                     <div class="h-56 overflow-hidden bg-slate-100 relative">
-                        <img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=800&q=80" alt="Pink Arch Jewelry Advent Calendar Box" class="w-full h-full object-cover">
+                        <img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=800&q=80" alt="Pink Arch Jewelry Advent Calendar Box" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         <span class="absolute top-2 left-2 text-[10px] font-bold bg-brandGreen text-white px-2 py-0.5 rounded shadow">AC-012</span>
                         <span class="absolute bottom-2 right-2 text-[10px] font-semibold bg-brandIvory text-slate-600 px-2 py-0.5 rounded border border-slate-200 shadow-sm">Jewelry</span>
                     </div>
                     <div class="p-5">
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-1 hover:text-brandGold transition-colors">
-                            <a href="ac-012.html">Pink Arch Jewelry Advent Calendar Box</a>
+                        <h3 class="font-serif text-base font-bold text-brandGreen mb-1 group-hover:text-brandGold transition-colors">
+                            <a href="ac-012.html" onclick="event.stopPropagation();">Pink Arch Jewelry Advent Calendar Box</a>
                         </h3>
                         <p class="text-xs text-brandGold font-semibold italic mb-3">Arch-shaped jewelry calendar with ribbon closure</p>
                         <p class="text-xs text-slate-500 line-clamp-2">Custom jewelry advent calendar boxes for earrings, charms, bracelets, beauty accessories and holiday gifts.</p>
@@ -460,25 +483,26 @@
                 </div>
                 <div class="px-5 pb-5 pt-2 flex items-center justify-between border-t border-slate-50 mt-2">
                     <span class="text-[10px] font-bold text-slate-400">Direct Factory</span>
-                    <a href="ac-012.html" class="inline-flex items-center text-xs font-bold text-brandGreen hover:text-brandGold transition-all">
+                    <a href="ac-012.html" onclick="event.stopPropagation();" class="inline-flex items-center text-xs font-bold text-brandGreen hover:text-brandGold transition-all">
                         View Specs <svg class="w-3.5 h-3.5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </a>
                 </div>
             </div>
         
             <!-- Product Card: AC-013 -->
-            <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between" 
+            <div class="product-card group bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between cursor-pointer" 
+                 onclick="window.location.href='ac-013.html'"
                  data-category="Luxury / Beauty / Jewelry" 
                  data-id="AC-013">
                 <div>
                     <div class="h-56 overflow-hidden bg-slate-100 relative">
-                        <img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80" alt="Gold Display Drawer Advent Calendar Box" class="w-full h-full object-cover">
+                        <img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80" alt="Gold Display Drawer Advent Calendar Box" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         <span class="absolute top-2 left-2 text-[10px] font-bold bg-brandGreen text-white px-2 py-0.5 rounded shadow">AC-013</span>
                         <span class="absolute bottom-2 right-2 text-[10px] font-semibold bg-brandIvory text-slate-600 px-2 py-0.5 rounded border border-slate-200 shadow-sm">Luxury</span>
                     </div>
                     <div class="p-5">
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-1 hover:text-brandGold transition-colors">
-                            <a href="ac-013.html">Gold Display Drawer Advent Calendar Box</a>
+                        <h3 class="font-serif text-base font-bold text-brandGreen mb-1 group-hover:text-brandGold transition-colors">
+                            <a href="ac-013.html" onclick="event.stopPropagation();">Gold Display Drawer Advent Calendar Box</a>
                         </h3>
                         <p class="text-xs text-brandGold font-semibold italic mb-3">Gold display structure with multiple drawers and strong visual impact</p>
                         <p class="text-xs text-slate-500 line-clamp-2">Custom gold advent calendar boxes for beauty, jewelry, cosmetics and luxury promotional gifts.</p>
@@ -486,25 +510,26 @@
                 </div>
                 <div class="px-5 pb-5 pt-2 flex items-center justify-between border-t border-slate-50 mt-2">
                     <span class="text-[10px] font-bold text-slate-400">Direct Factory</span>
-                    <a href="ac-013.html" class="inline-flex items-center text-xs font-bold text-brandGreen hover:text-brandGold transition-all">
+                    <a href="ac-013.html" onclick="event.stopPropagation();" class="inline-flex items-center text-xs font-bold text-brandGreen hover:text-brandGold transition-all">
                         View Specs <svg class="w-3.5 h-3.5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </a>
                 </div>
             </div>
         
             <!-- Product Card: AC-014 -->
-            <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between" 
+            <div class="product-card group bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between cursor-pointer" 
+                 onclick="window.location.href='ac-014.html'"
                  data-category="Beauty / Skincare / Candle" 
                  data-id="AC-014">
                 <div>
                     <div class="h-56 overflow-hidden bg-slate-100 relative">
-                        <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=800&q=80" alt="Round Beauty Advent Calendar Box" class="w-full h-full object-cover">
+                        <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?auto=format&fit=crop&w=800&q=80" alt="Round Beauty Advent Calendar Box" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         <span class="absolute top-2 left-2 text-[10px] font-bold bg-brandGreen text-white px-2 py-0.5 rounded shadow">AC-014</span>
                         <span class="absolute bottom-2 right-2 text-[10px] font-semibold bg-brandIvory text-slate-600 px-2 py-0.5 rounded border border-slate-200 shadow-sm">Beauty</span>
                     </div>
                     <div class="p-5">
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-1 hover:text-brandGold transition-colors">
-                            <a href="ac-014.html">Round Beauty Advent Calendar Box</a>
+                        <h3 class="font-serif text-base font-bold text-brandGreen mb-1 group-hover:text-brandGold transition-colors">
+                            <a href="ac-014.html" onclick="event.stopPropagation();">Round Beauty Advent Calendar Box</a>
                         </h3>
                         <p class="text-xs text-brandGold font-semibold italic mb-3">Circular calendar board with mixed doors and product display</p>
                         <p class="text-xs text-slate-500 line-clamp-2">Custom round beauty advent calendar boxes for skincare, cosmetics, candles and holiday discovery sets.</p>
@@ -512,25 +537,26 @@
                 </div>
                 <div class="px-5 pb-5 pt-2 flex items-center justify-between border-t border-slate-50 mt-2">
                     <span class="text-[10px] font-bold text-slate-400">Direct Factory</span>
-                    <a href="ac-014.html" class="inline-flex items-center text-xs font-bold text-brandGreen hover:text-brandGold transition-all">
+                    <a href="ac-014.html" onclick="event.stopPropagation();" class="inline-flex items-center text-xs font-bold text-brandGreen hover:text-brandGold transition-all">
                         View Specs <svg class="w-3.5 h-3.5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </a>
                 </div>
             </div>
         
             <!-- Product Card: AC-015 -->
-            <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between" 
+            <div class="product-card group bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between cursor-pointer" 
+                 onclick="window.location.href='ac-015.html'"
                  data-category="Jewelry / Accessories" 
                  data-id="AC-015">
                 <div>
                     <div class="h-56 overflow-hidden bg-slate-100 relative">
-                        <img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=800&q=80" alt="Orange Jewelry 12-Day Advent Calendar Box" class="w-full h-full object-cover">
+                        <img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=800&q=80" alt="Orange Jewelry 12-Day Advent Calendar Box" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         <span class="absolute top-2 left-2 text-[10px] font-bold bg-brandGreen text-white px-2 py-0.5 rounded shadow">AC-015</span>
                         <span class="absolute bottom-2 right-2 text-[10px] font-semibold bg-brandIvory text-slate-600 px-2 py-0.5 rounded border border-slate-200 shadow-sm">Jewelry</span>
                     </div>
                     <div class="p-5">
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-1 hover:text-brandGold transition-colors">
-                            <a href="ac-015.html">Orange Jewelry 12-Day Advent Calendar Box</a>
+                        <h3 class="font-serif text-base font-bold text-brandGreen mb-1 group-hover:text-brandGold transition-colors">
+                            <a href="ac-015.html" onclick="event.stopPropagation();">Orange Jewelry 12-Day Advent Calendar Box</a>
                         </h3>
                         <p class="text-xs text-brandGold font-semibold italic mb-3">Compact 12-day drawer calendar for jewelry and accessories</p>
                         <p class="text-xs text-slate-500 line-clamp-2">Custom 12-day jewelry advent calendar boxes for earrings, charms, accessories and boutique gift campaigns.</p>
@@ -538,25 +564,26 @@
                 </div>
                 <div class="px-5 pb-5 pt-2 flex items-center justify-between border-t border-slate-50 mt-2">
                     <span class="text-[10px] font-bold text-slate-400">Direct Factory</span>
-                    <a href="ac-015.html" class="inline-flex items-center text-xs font-bold text-brandGreen hover:text-brandGold transition-all">
+                    <a href="ac-015.html" onclick="event.stopPropagation();" class="inline-flex items-center text-xs font-bold text-brandGreen hover:text-brandGold transition-all">
                         View Specs <svg class="w-3.5 h-3.5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </a>
                 </div>
             </div>
         
             <!-- Product Card: AC-016 -->
-            <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between" 
+            <div class="product-card group bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between cursor-pointer" 
+                 onclick="window.location.href='ac-016.html'"
                  data-category="Beauty / Nail / Jewelry" 
                  data-id="AC-016">
                 <div>
                     <div class="h-56 overflow-hidden bg-slate-100 relative">
-                        <img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=800&q=80" alt="Pink Velvet Arch Advent Calendar Box" class="w-full h-full object-cover">
+                        <img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=800&q=80" alt="Pink Velvet Arch Advent Calendar Box" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         <span class="absolute top-2 left-2 text-[10px] font-bold bg-brandGreen text-white px-2 py-0.5 rounded shadow">AC-016</span>
                         <span class="absolute bottom-2 right-2 text-[10px] font-semibold bg-brandIvory text-slate-600 px-2 py-0.5 rounded border border-slate-200 shadow-sm">Beauty</span>
                     </div>
                     <div class="p-5">
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-1 hover:text-brandGold transition-colors">
-                            <a href="ac-016.html">Pink Velvet Arch Advent Calendar Box</a>
+                        <h3 class="font-serif text-base font-bold text-brandGreen mb-1 group-hover:text-brandGold transition-colors">
+                            <a href="ac-016.html" onclick="event.stopPropagation();">Pink Velvet Arch Advent Calendar Box</a>
                         </h3>
                         <p class="text-xs text-brandGold font-semibold italic mb-3">Pink arch structure for beauty, nail and jewelry brands</p>
                         <p class="text-xs text-slate-500 line-clamp-2">Custom pink arch advent calendar boxes for nails, beauty, accessories and holiday gift sets.</p>
@@ -564,25 +591,26 @@
                 </div>
                 <div class="px-5 pb-5 pt-2 flex items-center justify-between border-t border-slate-50 mt-2">
                     <span class="text-[10px] font-bold text-slate-400">Direct Factory</span>
-                    <a href="ac-016.html" class="inline-flex items-center text-xs font-bold text-brandGreen hover:text-brandGold transition-all">
+                    <a href="ac-016.html" onclick="event.stopPropagation();" class="inline-flex items-center text-xs font-bold text-brandGreen hover:text-brandGold transition-all">
                         View Specs <svg class="w-3.5 h-3.5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </a>
                 </div>
             </div>
         
             <!-- Product Card: AC-017 -->
-            <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between" 
+            <div class="product-card group bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between cursor-pointer" 
+                 onclick="window.location.href='ac-017.html'"
                  data-category="Jewelry / Kids / Gift" 
                  data-id="AC-017">
                 <div>
                     <div class="h-56 overflow-hidden bg-slate-100 relative">
-                        <img src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=800&q=80" alt="Blue Arch Drawer Advent Calendar Box" class="w-full h-full object-cover">
+                        <img src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=800&q=80" alt="Blue Arch Drawer Advent Calendar Box" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         <span class="absolute top-2 left-2 text-[10px] font-bold bg-brandGreen text-white px-2 py-0.5 rounded shadow">AC-017</span>
                         <span class="absolute bottom-2 right-2 text-[10px] font-semibold bg-brandIvory text-slate-600 px-2 py-0.5 rounded border border-slate-200 shadow-sm">Jewelry</span>
                     </div>
                     <div class="p-5">
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-1 hover:text-brandGold transition-colors">
-                            <a href="ac-017.html">Blue Arch Drawer Advent Calendar Box</a>
+                        <h3 class="font-serif text-base font-bold text-brandGreen mb-1 group-hover:text-brandGold transition-colors">
+                            <a href="ac-017.html" onclick="event.stopPropagation();">Blue Arch Drawer Advent Calendar Box</a>
                         </h3>
                         <p class="text-xs text-brandGold font-semibold italic mb-3">Blue arch calendar with drawer compartments</p>
                         <p class="text-xs text-slate-500 line-clamp-2">Custom blue arch advent calendar boxes for gifts, kids products, jewelry and seasonal campaigns.</p>
@@ -590,25 +618,26 @@
                 </div>
                 <div class="px-5 pb-5 pt-2 flex items-center justify-between border-t border-slate-50 mt-2">
                     <span class="text-[10px] font-bold text-slate-400">Direct Factory</span>
-                    <a href="ac-017.html" class="inline-flex items-center text-xs font-bold text-brandGreen hover:text-brandGold transition-all">
+                    <a href="ac-017.html" onclick="event.stopPropagation();" class="inline-flex items-center text-xs font-bold text-brandGreen hover:text-brandGold transition-all">
                         View Specs <svg class="w-3.5 h-3.5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </a>
                 </div>
             </div>
         
             <!-- Product Card: AC-018 -->
-            <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between" 
+            <div class="product-card group bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between cursor-pointer" 
+                 onclick="window.location.href='ac-018.html'"
                  data-category="Small Gift / Beauty Trial Set" 
                  data-id="AC-018">
                 <div>
                     <div class="h-56 overflow-hidden bg-slate-100 relative">
-                        <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&q=80" alt="Mini 5-Day Pink Advent Calendar Box" class="w-full h-full object-cover">
+                        <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&q=80" alt="Mini 5-Day Pink Advent Calendar Box" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         <span class="absolute top-2 left-2 text-[10px] font-bold bg-brandGreen text-white px-2 py-0.5 rounded shadow">AC-018</span>
                         <span class="absolute bottom-2 right-2 text-[10px] font-semibold bg-brandIvory text-slate-600 px-2 py-0.5 rounded border border-slate-200 shadow-sm">Small Gift</span>
                     </div>
                     <div class="p-5">
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-1 hover:text-brandGold transition-colors">
-                            <a href="ac-018.html">Mini 5-Day Pink Advent Calendar Box</a>
+                        <h3 class="font-serif text-base font-bold text-brandGreen mb-1 group-hover:text-brandGold transition-colors">
+                            <a href="ac-018.html" onclick="event.stopPropagation();">Mini 5-Day Pink Advent Calendar Box</a>
                         </h3>
                         <p class="text-xs text-brandGold font-semibold italic mb-3">Small trial calendar with 5 drawers and ribbon closure</p>
                         <p class="text-xs text-slate-500 line-clamp-2">Custom mini advent calendar boxes for sample kits, beauty trials, small gifts and boutique campaigns.</p>
@@ -616,25 +645,26 @@
                 </div>
                 <div class="px-5 pb-5 pt-2 flex items-center justify-between border-t border-slate-50 mt-2">
                     <span class="text-[10px] font-bold text-slate-400">Direct Factory</span>
-                    <a href="ac-018.html" class="inline-flex items-center text-xs font-bold text-brandGreen hover:text-brandGold transition-all">
+                    <a href="ac-018.html" onclick="event.stopPropagation();" class="inline-flex items-center text-xs font-bold text-brandGreen hover:text-brandGold transition-all">
                         View Specs <svg class="w-3.5 h-3.5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </a>
                 </div>
             </div>
         
             <!-- Product Card: AC-019 -->
-            <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between" 
+            <div class="product-card group bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between cursor-pointer" 
+                 onclick="window.location.href='ac-019.html'"
                  data-category="Ramadan / Islamic Gift" 
                  data-id="AC-019">
                 <div>
                     <div class="h-56 overflow-hidden bg-slate-100 relative">
-                        <img src="https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=800&q=80" alt="Ramadan Blue-Gold Pattern Advent Calendar Box" class="w-full h-full object-cover">
+                        <img src="https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=800&q=80" alt="Ramadan Blue-Gold Pattern Advent Calendar Box" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         <span class="absolute top-2 left-2 text-[10px] font-bold bg-brandGreen text-white px-2 py-0.5 rounded shadow">AC-019</span>
                         <span class="absolute bottom-2 right-2 text-[10px] font-semibold bg-brandIvory text-slate-600 px-2 py-0.5 rounded border border-slate-200 shadow-sm">Ramadan</span>
                     </div>
                     <div class="p-5">
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-1 hover:text-brandGold transition-colors">
-                            <a href="ac-019.html">Ramadan Blue-Gold Pattern Advent Calendar Box</a>
+                        <h3 class="font-serif text-base font-bold text-brandGreen mb-1 group-hover:text-brandGold transition-colors">
+                            <a href="ac-019.html" onclick="event.stopPropagation();">Ramadan Blue-Gold Pattern Advent Calendar Box</a>
                         </h3>
                         <p class="text-xs text-brandGold font-semibold italic mb-3">Blue and gold Islamic pattern calendar with numbered drawers</p>
                         <p class="text-xs text-slate-500 line-clamp-2">Custom blue and gold Ramadan advent calendar boxes for Islamic gifts, Eid, sweets, dates and religious products.</p>
@@ -642,25 +672,26 @@
                 </div>
                 <div class="px-5 pb-5 pt-2 flex items-center justify-between border-t border-slate-50 mt-2">
                     <span class="text-[10px] font-bold text-slate-400">Direct Factory</span>
-                    <a href="ac-019.html" class="inline-flex items-center text-xs font-bold text-brandGreen hover:text-brandGold transition-all">
+                    <a href="ac-019.html" onclick="event.stopPropagation();" class="inline-flex items-center text-xs font-bold text-brandGreen hover:text-brandGold transition-all">
                         View Specs <svg class="w-3.5 h-3.5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </a>
                 </div>
             </div>
         
             <!-- Product Card: AC-020 -->
-            <div class="product-card bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between" 
+            <div class="product-card group bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between cursor-pointer" 
+                 onclick="window.location.href='ac-020.html'"
                  data-category="Ramadan / Eid / Islamic Gift" 
                  data-id="AC-020">
                 <div>
                     <div class="h-56 overflow-hidden bg-slate-100 relative">
-                        <img src="https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=800&q=80" alt="Green Lantern Ramadan Advent Calendar Box" class="w-full h-full object-cover">
+                        <img src="https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=800&q=80" alt="Green Lantern Ramadan Advent Calendar Box" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         <span class="absolute top-2 left-2 text-[10px] font-bold bg-brandGreen text-white px-2 py-0.5 rounded shadow">AC-020</span>
                         <span class="absolute bottom-2 right-2 text-[10px] font-semibold bg-brandIvory text-slate-600 px-2 py-0.5 rounded border border-slate-200 shadow-sm">Ramadan</span>
                     </div>
                     <div class="p-5">
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-1 hover:text-brandGold transition-colors">
-                            <a href="ac-020.html">Green Lantern Ramadan Advent Calendar Box</a>
+                        <h3 class="font-serif text-base font-bold text-brandGreen mb-1 group-hover:text-brandGold transition-colors">
+                            <a href="ac-020.html" onclick="event.stopPropagation();">Green Lantern Ramadan Advent Calendar Box</a>
                         </h3>
                         <p class="text-xs text-brandGold font-semibold italic mb-3">Green book-style calendar with lantern artwork and 30 drawers</p>
                         <p class="text-xs text-slate-500 line-clamp-2">Custom green Ramadan advent calendar boxes for Eid gifts, dates, sweets, prayer accessories and festival campaigns.</p>
@@ -668,7 +699,7 @@
                 </div>
                 <div class="px-5 pb-5 pt-2 flex items-center justify-between border-t border-slate-50 mt-2">
                     <span class="text-[10px] font-bold text-slate-400">Direct Factory</span>
-                    <a href="ac-020.html" class="inline-flex items-center text-xs font-bold text-brandGreen hover:text-brandGold transition-all">
+                    <a href="ac-020.html" onclick="event.stopPropagation();" class="inline-flex items-center text-xs font-bold text-brandGreen hover:text-brandGold transition-all">
                         View Specs <svg class="w-3.5 h-3.5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </a>
                 </div>
