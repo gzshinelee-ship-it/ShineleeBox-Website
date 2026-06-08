@@ -82,9 +82,57 @@ function parseCSV(content) {
     return records.filter(r => r['Product ID']);
 }
 
+function resolveImageFolder(id) {
+    const productsImagesDir = path.join(__dirname, 'images', 'products');
+    if (fs.existsSync(productsImagesDir)) {
+        const dirs = fs.readdirSync(productsImagesDir);
+        const matched = dirs.find(d => d.startsWith(id + '_'));
+        if (matched) return matched;
+    }
+    return '';
+}
+
 const csvPath = path.join(__dirname, 'Accio_Product_Upload_First20.csv');
 const csvContent = fs.readFileSync(csvPath, 'utf8');
-const products = parseCSV(csvContent);
+const originalProducts = parseCSV(csvContent);
+
+// Load and parse interactive products
+const interactiveCsvPath = path.join(__dirname, 'Accio_Interactive_Product_Upload.csv');
+let interactiveProducts = [];
+if (fs.existsSync(interactiveCsvPath)) {
+    const interactiveContent = fs.readFileSync(interactiveCsvPath, 'utf8');
+    const parsedInteractive = parseCSV(interactiveContent);
+    interactiveProducts = parsedInteractive.map(p => {
+        const id = p['Product ID'];
+        const name = p['Product Name EN'];
+        const slug = p['URL Slug'];
+        return {
+            'Product ID': id,
+            'Product Name': name,
+            'URL Slug': slug,
+            'Main Category': 'Interactive Packaging',
+            'Subcategory': p['Product Subcategory'] || '',
+            'Application Tags': p['Application Tags'] ? p['Application Tags'].replace(/\s*\/\s*/g, ';') : '',
+            'Holiday Tags': p['Holiday / Occasion Tags'] ? p['Holiday / Occasion Tags'].replace(/\s*\/\s*/g, ';') : '',
+            'Gift Set': p['Advent Calendar Gift Set'] || 'No',
+            'SEO Title': p['SEO Title'] || `${name} | ShineleeBox`,
+            'Meta Description': p['Meta Description'] || '',
+            'H1': name,
+            'Short Description': p['Main Selling Point'] || '',
+            'Description': `Built with high-end structures and interactive features, this ${name.toLowerCase()} is perfect for luxury brands. ${p['Main Selling Point'] || ''}`,
+            'Key Features': p['Key Features'] || '',
+            'Best For': '',
+            'Custom Options': p['Custom Options'] || '',
+            'Manufacturing Support': 'Structure development, module positioning, custom sampling, printing, finishing, hand assembly, function testing, and export packing.',
+            'CTA': 'Contact Lisa: info@slpack.net or WhatsApp +86 18818840878 for custom details.',
+            'Image Folder': resolveImageFolder(id),
+            'Main Image': p['Main Image Filename'] || '',
+            'Video': p['Video Filename'] || ''
+        };
+    });
+}
+
+const products = originalProducts.concat(interactiveProducts);
 
 const categories = [
     {
@@ -108,6 +156,28 @@ const categories = [
             { name: 'Rotating Round Tower', desc: 'Innovative multi-layer carousel display structures with mechanical motion.' }
         ],
         filter: 'Advent'
+    },
+    {
+        slug: 'interactive-packaging',
+        name: 'Interactive Packaging',
+        title: 'Custom Interactive Packaging | Music Boxes, LED Light-Up Gift Boxes & Video Boxes',
+        desc: 'ShineleeBox manufactures custom interactive packaging, including music boxes, LED light-up gift boxes, sound boxes, video boxes and premium gift set packaging for beauty, perfume, chocolate, small gifts and holiday campaigns.',
+        h1: 'Custom Interactive Packaging',
+        intro: 'Interactive packaging adds sound, light or video to the unboxing experience. It helps brands turn ordinary product packaging into a campaign moment, a display piece and a stronger emotional connection with customers.',
+        heroSub: 'ShineleeBox develops custom interactive gift boxes for B2B buyers, including LED light-up gift boxes, music boxes, sound boxes, video gift boxes and custom advent calendar gift sets.',
+        industries: [
+            { name: 'Perfume & Fragrance', desc: 'LED light-up boxes and sound-activated packaging for high-end perfume.' },
+            { name: 'Beauty & Skincare', desc: 'Premium interactive advent calendars with music vinyl players and built-in lights.' },
+            { name: 'Festivals & Food', desc: 'Sensor-controlled light-up mooncake, chocolate, and tea gift boxes.' },
+            { name: 'Luxury PR & Gifting', desc: 'Deep space PR gift boxes and video box packaging for influencer branding.' }
+        ],
+        structures: [
+            { name: 'LED Light-Up Gift Boxes', desc: 'Built-in LED panels, sensor-controlled lights, or magnetic activation to showcase your products.' },
+            { name: 'Music & Sound Boxes', desc: 'Sound modules and record player mechanisms that play high-quality music when opened.' },
+            { name: 'LCD Video Boxes', desc: 'Integrated digital screens with USB charging for immersive brand video presentations.' },
+            { name: 'Interactive Calendars', desc: 'Advent calendars incorporating lights, sounds, and rotating mechanical effects.' }
+        ],
+        filter: 'Interactive'
     },
     {
         slug: 'magnetic-boxes',
@@ -213,6 +283,8 @@ function buildCategoryPages() {
                         .filter(p => {
                             if (cat.slug === 'advent-calendars') {
                                 return p['Main Category'] === 'Advent Calendar Boxes';
+                            } else if (cat.slug === 'interactive-packaging') {
+                                return p['Main Category'] === 'Interactive Packaging';
                             } else if (cat.slug === 'magnetic-boxes') {
                                 return p['Subcategory'].toLowerCase().includes('magnetic') || p['Custom Options'].toLowerCase().includes('magnetic');
                             } else if (cat.slug === 'drawer-boxes') {
@@ -224,7 +296,8 @@ function buildCategoryPages() {
                             const id = p['Product ID'];
                             const name = p['Product Name'];
                             const folderName = p['Image Folder'];
-                            const idLower = id.toLowerCase().replace('ac-', '');
+                            const prefix = id.startsWith('IP-') ? 'ip' : 'ac';
+                            const idLower = id.toLowerCase().replace('ac-', '').replace('ip-', '');
                             
                             let imgPath = 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=800&q=80';
                             const imageFolderPath = path.join(__dirname, 'images', 'products', folderName);
@@ -238,7 +311,7 @@ function buildCategoryPages() {
 
                             return `
                                 <div class="group bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between cursor-pointer"
-                                     onclick="window.location.href='ac-${idLower}.html'">
+                                     onclick="window.location.href='${prefix}-${idLower}.html'">
                                     <div>
                                         <div class="h-56 overflow-hidden bg-white relative p-1 flex items-center justify-center">
                                             <img src="${imgPath}" alt="${escapeHtml(name)}" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-500">
