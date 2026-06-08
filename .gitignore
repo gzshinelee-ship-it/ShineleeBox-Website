@@ -6,17 +6,16 @@ bin/
 
 # Temporary and raw analytical assets
 sample_analysis/
-images/
 marketing/
+temp_upload/
+page_initial.png
+product_image.png
 
-# Global binary types
+# Global binary types (keep docx, xlsx, zip, etc. ignored, but allow images)
 *.zip
 *.docx
 *.xlsx
 *.mp4
-*.jpg
-*.png
-*.jpeg
 *.pdf
 
 # Scripts & temporary tools
@@ -37,3 +36,4 @@ finalize_visas.js
 find_switch_category.js
 generate_sop.js
 create_visa_invitation.js
+test_csv.js
