@@ -92,11 +92,11 @@ function resolveImageFolder(id) {
     return '';
 }
 
+// Load databases
 const csvPath = path.join(__dirname, 'Accio_Product_Upload_First20.csv');
 const csvContent = fs.readFileSync(csvPath, 'utf8');
 const originalProducts = parseCSV(csvContent);
 
-// Load and parse interactive products
 const interactiveCsvPath = path.join(__dirname, 'Accio_Interactive_Product_Upload.csv');
 let interactiveProducts = [];
 if (fs.existsSync(interactiveCsvPath)) {
@@ -134,81 +134,410 @@ if (fs.existsSync(interactiveCsvPath)) {
 
 const products = originalProducts.concat(interactiveProducts);
 
+// Ensure directories exist
+const productsDir = path.join(__dirname, 'products');
+const applicationsDir = path.join(__dirname, 'applications');
+const holidayOccasionsDir = path.join(__dirname, 'holiday-occasions');
+
+function ensureDir(dirPath) {
+    if (!fs.existsSync(dirPath)) {
+        fs.mkdirSync(dirPath, { recursive: true });
+    }
+}
+ensureDir(productsDir);
+ensureDir(applicationsDir);
+ensureDir(holidayOccasionsDir);
+
+// Categories Mapping metadata
 const categories = [
+    // --- PRODUCTS (products/) ---
     {
-        slug: 'advent-calendars',
-        name: 'Custom Advent Calendar Boxes',
-        title: 'Custom Advent Calendar Boxes | Beauty, Perfume, Christmas & Ramadan Packaging',
-        desc: 'ShineleeBox manufactures custom advent calendar boxes for beauty, perfume, skincare, chocolate, jewelry, Christmas, Ramadan and luxury gift campaigns.',
+        dir: 'products',
+        slug: 'advent-calendar-boxes',
+        name: 'Advent Calendar Boxes',
+        title: 'Custom Advent Calendar Boxes Manufacturer | ShineleeBox',
+        desc: 'ShineleeBox is a leading custom advent calendar boxes manufacturer in Guangzhou, China. We supply bespoke 12, 24, and 25-day rigid card drawer boxes for beauty, perfume, cosmetics, jewelry, chocolate, and retail brands.',
         h1: 'Custom Advent Calendar Boxes',
-        intro: 'An advent calendar is more than holiday packaging. It is a daily unboxing experience, a product discovery journey and a powerful seasonal campaign tool.',
-        heroSub: 'Premium bespoke advent calendar packaging for beauty, perfume, chocolate, candles, jewelry, Christmas, Ramadan and luxury brand campaigns.',
-        industries: [
-            { name: 'Beauty & Skincare', desc: 'Custom drawer calendars for skincare, makeup, and influencer gifts.' },
-            { name: 'Perfume & Fragrance', desc: 'Luxury calendar boxes for fragrance samples and discovery sets.' },
-            { name: 'Ramadan & Eid', desc: '30-day calendar boxes for Ramadan, Eid, and Islamic gifts.' },
-            { name: 'Christmas & Holiday', desc: 'Classic holiday calendars for seasonal retail launches.' }
-        ],
-        structures: [
-            { name: 'Sliding Drawers', desc: 'Individual pull-out drawers that create a satisfying daily unboxing reveal.' },
-            { name: 'Book-Style Gatefold', desc: 'Classic structural opening with left and right doors secured by magnetic snaps.' },
-            { name: 'Shaped Silhouette', desc: 'Uniquely crafted house, tree, perfume bottle, or carousel shapes.' },
-            { name: 'Rotating Round Tower', desc: 'Innovative multi-layer carousel display structures with mechanical motion.' }
-        ],
-        filter: 'Advent'
+        heroSub: 'Guangzhou factory-direct manufacturing of premium book-style, sliding drawer, rotating tower, and custom-shaped advent calendars with low 50 pcs MOQ.',
+        intro: 'Elevate your holiday marketing campaigns with high-end, custom-made advent calendar packaging. Our Guangzhou-based engineering team specializes in designing intricate, multi-compartment rigid board structures that provide a premium unboxing experience and drive organic social sharing.',
+        filter: p => p['Main Category'] === 'Advent Calendar Boxes' || p['Subcategory'].toLowerCase().includes('advent') || p['Product Name'].toLowerCase().includes('advent')
     },
     {
+        dir: 'products',
+        slug: 'advent-calendar-gift-set',
+        name: 'Advent Calendar Gift Set',
+        title: 'Custom Advent Calendar Gift Set Packaging | ShineleeBox',
+        desc: 'Design custom advent calendar gift set packaging with ShineleeBox. Premium rigid holiday gift sets featuring sliding drawers, magnetic closure panels, custom structural trays, and gold hot stamping decoration.',
+        h1: 'Custom Advent Calendar Gift Sets',
+        heroSub: 'Complete customized holiday gift set boxes and advent calendar collections built for international brands with Disney FAMA and BSCI certification.',
+        intro: 'A complete holiday gift set demands packaging that tells a story. ShineleeBox develops bespoke advent calendar gift sets with coordinated outer cases and inner numbered drawers, creating a cohesive, high-impact seasonal campaign for your brand.',
+        filter: p => p['Gift Set'] === 'Yes' || p['Subcategory'].toLowerCase().includes('gift set') || p['Product Name'].toLowerCase().includes('gift set')
+    },
+    {
+        dir: 'products',
+        slug: 'perfume-packaging',
+        name: 'Perfume Packaging',
+        title: 'Custom Perfume Packaging & Fragrance Gift Boxes | ShineleeBox',
+        desc: 'Bespoke perfume packaging manufacturer supplying luxury perfume gift boxes, discovery sets, sample packaging, and custom-shaped cologne cases. High-density rigid boards with soft-touch finishing and spot UV.',
+        h1: 'Custom Perfume Packaging',
+        heroSub: 'Factory-direct luxury perfume gift boxes, discovery sample collections, and custom-shaped fragrance unboxing cases starting at 50 pcs MOQ.',
+        intro: 'First impressions are critical for premium fragrances. ShineleeBox engineers custom perfume packaging that mirrors the sophistication of your scent. From book-style magnetic closures to high-density foam inserts and velvet-touch sheets, we deliver retail-ready structural masterpieces.',
+        filter: p => p['Main Category'] === 'Perfume Packaging' || p['Subcategory'].toLowerCase().includes('perfume') || p['Application Tags'].toLowerCase().includes('perfume') || p['Product Name'].toLowerCase().includes('perfume') || p['Product Name'].toLowerCase().includes('fragrance')
+    },
+    {
+        dir: 'products',
+        slug: 'cosmetic-packaging',
+        name: 'Cosmetic Packaging',
+        title: 'Custom Cosmetic Packaging & Skincare Gift Boxes | ShineleeBox',
+        desc: 'Bespoke cosmetic packaging manufacturer in Guangzhou. Custom skincare gift boxes, makeup set packaging, and premium beauty PR boxes. Disney FAMA & BSCI certified supplier.',
+        h1: 'Custom Cosmetic Packaging',
+        heroSub: 'Premium skincare gift boxes, custom makeup set cases, and influencer beauty PR boxes with gold hot foil stamping and custom trays.',
+        intro: 'Showcase your beauty and cosmetics collections in custom cosmetic packaging that radiates luxury. ShineleeBox manufactures heavy-board rigid boxes, pull-out drawer sets, and magnetic folding boxes designed specifically for makeup and skincare bottles, jars, and sample sets.',
+        filter: p => p['Main Category'] === 'Cosmetic Packaging' || p['Subcategory'].toLowerCase().includes('cosmetic') || p['Subcategory'].toLowerCase().includes('skincare') || p['Application Tags'].toLowerCase().includes('cosmetic') || p['Application Tags'].toLowerCase().includes('skincare') || p['Product Name'].toLowerCase().includes('cosmetic') || p['Product Name'].toLowerCase().includes('skincare')
+    },
+    {
+        dir: 'products',
+        slug: 'luxury-gift-boxes',
+        name: 'Luxury Gift Boxes',
+        title: 'Custom Luxury Gift Boxes | Premium Rigid Cardboard Manufacturer',
+        desc: 'ShineleeBox manufactures high-end custom luxury gift boxes in Guangzhou, including magnetic flip-top boxes, sliding drawer boxes, foldable rigid boxes, and custom-shaped display boxes.',
+        h1: 'Custom Luxury Gift Boxes',
+        heroSub: 'Factory-direct premium rigid cardboard gift boxes with magnetic closures, pull-out drawers, custom sizes, and premium surface finishes.',
+        intro: 'Create a truly premium unboxing experience with our collection of custom luxury gift boxes. Constructed from high-density chipboard and wrapped in specialty papers, these rigid boxes are perfect for high-end retail, promotional kits, corporate gifting, and product launches.',
+        filter: p => p['Main Category'] === 'Luxury Gift Boxes' || p['Subcategory'].toLowerCase().includes('drawer') || p['Subcategory'].toLowerCase().includes('magnetic') || p['Product Name'].toLowerCase().includes('magnetic') || p['Product Name'].toLowerCase().includes('drawer') || p['Custom Options'].toLowerCase().includes('magnetic') || p['Custom Options'].toLowerCase().includes('drawer')
+    },
+    {
+        dir: 'products',
         slug: 'interactive-packaging',
         name: 'Interactive Packaging',
-        title: 'Custom Interactive Packaging | Music Boxes, LED Light-Up Gift Boxes & Video Boxes',
-        desc: 'ShineleeBox manufactures custom interactive packaging, including music boxes, LED light-up gift boxes, sound boxes, video boxes and premium gift set packaging for beauty, perfume, chocolate, small gifts and holiday campaigns.',
+        title: 'Custom Interactive Packaging | Music, LED & Video Boxes | ShineleeBox',
+        desc: 'ShineleeBox is the leading Chinese manufacturer of custom interactive packaging, including LED light-up boxes, music gift boxes, and video presentation boxes with integrated LCD screens.',
         h1: 'Custom Interactive Packaging',
-        intro: 'Interactive packaging adds sound, light or video to the unboxing experience. It helps brands turn ordinary product packaging into a campaign moment, a display piece and a stronger emotional connection with customers.',
-        heroSub: 'ShineleeBox develops custom interactive gift boxes for B2B buyers, including LED light-up gift boxes, music boxes, sound boxes, video gift boxes and custom advent calendar gift sets.',
-        industries: [
-            { name: 'Perfume & Fragrance', desc: 'LED light-up boxes and sound-activated packaging for high-end perfume.' },
-            { name: 'Beauty & Skincare', desc: 'Premium interactive advent calendars with music vinyl players and built-in lights.' },
-            { name: 'Festivals & Food', desc: 'Sensor-controlled light-up mooncake, chocolate, and tea gift boxes.' },
-            { name: 'Luxury PR & Gifting', desc: 'Deep space PR gift boxes and video box packaging for influencer branding.' }
-        ],
-        structures: [
-            { name: 'LED Light-Up Gift Boxes', desc: 'Built-in LED panels, sensor-controlled lights, or magnetic activation to showcase your products.' },
-            { name: 'Music & Sound Boxes', desc: 'Sound modules and record player mechanisms that play high-quality music when opened.' },
-            { name: 'LCD Video Boxes', desc: 'Integrated digital screens with USB charging for immersive brand video presentations.' },
-            { name: 'Interactive Calendars', desc: 'Advent calendars incorporating lights, sounds, and rotating mechanical effects.' }
-        ],
-        filter: 'Interactive'
+        heroSub: 'Elevate your unboxing with sensor-activated light-up gift boxes, embedded music modules, and integrated video screens for premium brand engagement.',
+        intro: 'Engage all of your customer\'s senses with interactive packaging. ShineleeBox leads the industry in integrating electronic sound modules, LED lighting arrays, and digital video screens directly into rigid box structures, creating a memorable, shareable social media moment for influencer PR campaigns and luxury launches.',
+        filter: p => p['Main Category'] === 'Interactive Packaging' || p['Product ID'].startsWith('IP-')
     },
     {
-        slug: 'magnetic-boxes',
-        name: 'Magnetic Gift Boxes',
-        title: 'Custom Magnetic Gift Boxes | Luxury Rigid Box Manufacturer',
-        desc: 'Custom magnetic gift boxes for beauty, jewelry, perfume, chocolate and premium gifts. Rigid structure, magnetic closure, custom printing.',
-        h1: 'Custom Magnetic Gift Boxes',
-        intro: 'Magnetic gift boxes offer a premium opening experience and strong product protection. They are widely used for luxury retail packaging.',
-        heroSub: 'Rigid board structure with magnetic closure for a high-end unboxing experience.',
-        industries: [],
-        structures: [],
-        filter: 'Magnetic'
+        dir: 'products',
+        slug: 'keepsake-boxes',
+        name: 'Keepsake Boxes',
+        title: 'Custom Keepsake Boxes & Premium Memory Packaging | ShineleeBox',
+        desc: 'Manufacturer of custom keepsake boxes for baby milestones, weddings, anniversaries, graduations, and religious memories. Heavy rigid board boxes with luxury lining and dividers.',
+        h1: 'Custom Keepsake Boxes',
+        heroSub: 'Bespoke, long-lasting rigid memory and keepsake packaging with premium ribbon closures and velvet-touch drawers.',
+        intro: 'Some packaging is simply "Too Good To Throw Away." ShineleeBox designs and constructs heavy, high-durability custom keepsake boxes meant to be stored and cherished for years. These high-end memory containers are ideal for baby milestones, wedding invitations, graduations, and emotional commemorative campaigns.',
+        filter: p => p['Subcategory'].toLowerCase().includes('keepsake') || p['Application Tags'].toLowerCase().includes('keepsake') || p['Product Name'].toLowerCase().includes('keepsake') || p['Product Name'].toLowerCase().includes('memorial') || p['Product ID'] === 'IP-006' || p['Product ID'] === 'IP-007' || p['Product ID'] === 'AC-003' || p['Product ID'] === 'AC-015' || p['Product ID'] === 'AC-016'
     },
     {
-        slug: 'drawer-boxes',
-        name: 'Drawer Boxes',
-        title: 'Custom Drawer Boxes | Sliding Gift Box Packaging Manufacturer',
-        desc: 'Custom drawer boxes for cosmetics, jewelry, candles, chocolate, gift sets and retail packaging. Sliding structure, custom size.',
-        h1: 'Custom Drawer Boxes',
-        intro: 'Drawer boxes create a smooth sliding unboxing experience and are suitable for premium gift sets and products.',
-        heroSub: 'Sliding drawer structure with optional ribbon pull for an elegant reveal.',
-        industries: [],
-        structures: [],
-        filter: 'Drawer'
+        dir: 'products',
+        slug: 'greeting-cards',
+        name: 'Greeting Cards',
+        title: 'Custom Luxury Greeting Cards & PR Invitation Cards | ShineleeBox',
+        desc: 'Bespoke greeting card manufacturer in Guangzhou, China. Custom luxury greeting cards, interactive sound & music cards, pop-up 3D cards, and premium video invitations for corporate events.',
+        h1: 'Custom Luxury Greeting Cards',
+        heroSub: 'Custom pop-up cards, electronic music greeting cards, and LCD video invitation mailers with hot foil stamping and premium envelopes.',
+        intro: 'Complement your product packaging or launch custom mailing campaigns with our bespoke luxury greeting cards. ShineleeBox manufactures premium hot foil-stamped cards, intricate 3D pop-up structural cards, and high-tech greeting cards with embedded music chips and video displays for corporate announcements and VIP invitations.',
+        filter: p => p['Product Name'].toLowerCase().includes('card') || p['Subcategory'].toLowerCase().includes('card') || p['Product ID'] === 'IP-004' || p['Product ID'] === 'IP-005'
+    },
+    {
+        dir: 'products',
+        slug: 'religious-gift-packaging',
+        name: 'Religious Gift Packaging',
+        title: 'Custom Religious Gift Packaging | Ramadan, Eid & Islamic Boxes',
+        desc: 'Guangzhou factory supplying custom religious gift packaging, including 30-day Ramadan calendar boxes, Eid sweet gift boxes, Islamic prayer sets, and Tayammum pad packaging.',
+        h1: 'Custom Religious Gift Packaging',
+        heroSub: 'Bespoke Ramadan & Eid drawer calendars, luxury Quran boxes, and high-quality Islamic pattern rigid packaging with gold foil accents.',
+        intro: 'Respect religious tradition with beautifully crafted, culturally compliant custom religious gift packaging. ShineleeBox specializes in designing intricate geometric patterns, multi-layer drawer calendars for the 30 days of Ramadan, and robust keepsake boxes for Quran storage, Eid sweets, and Tayammum pad kits.',
+        filter: p => p['Main Category'] === 'Religious Gift Packaging' || p['Subcategory'].toLowerCase().includes('ramadan') || p['Subcategory'].toLowerCase().includes('eid') || p['Application Tags'].toLowerCase().includes('religious') || p['Product Name'].toLowerCase().includes('ramadan') || p['Product Name'].toLowerCase().includes('eid') || p['Product Name'].toLowerCase().includes('islamic') || p['Product Name'].toLowerCase().includes('tayammum')
+    },
+
+    // --- APPLICATIONS (applications/) ---
+    {
+        dir: 'applications',
+        slug: 'perfume-and-fragrance-packaging',
+        name: 'Perfume & Fragrance Packaging',
+        title: 'Perfume & Fragrance Packaging Manufacturer | ShineleeBox',
+        desc: 'Bespoke packaging manufacturer for fragrance brands. Custom perfume gift boxes, fragrance set packaging, discovery sample sets, and cologne display boxes with rigid inserts.',
+        h1: 'Perfume & Fragrance Packaging',
+        heroSub: 'Luxury rigid box solutions, discovery sets, and custom-shaped cologne display cases manufactured for premium fragrance houses.',
+        intro: 'Deliver a sensory masterpiece before the scent is even sprayed. Our custom perfume and fragrance packaging solutions feature high-density boards, premium textured art wraps, custom-engineered protective bottle slots, and elegant hot foil stamping details designed for luxury retail and PR campaigns.',
+        filter: p => p['Application Tags'].toLowerCase().includes('perfume') || p['Application Tags'].toLowerCase().includes('fragrance') || p['Product Name'].toLowerCase().includes('perfume') || p['Product Name'].toLowerCase().includes('fragrance')
+    },
+    {
+        dir: 'applications',
+        slug: 'beauty-and-skincare-packaging',
+        name: 'Beauty & Skincare Packaging',
+        title: 'Beauty & Skincare Packaging Manufacturer | ShineleeBox',
+        desc: 'Custom skincare packaging, beauty gift boxes, and influencer PR box manufacturer in Guangzhou. Custom drawers, magnetic closures, and premium printing with low 50 pcs MOQ.',
+        h1: 'Beauty & Skincare Packaging',
+        heroSub: 'High-end skincare gift sets, beauty sample subscription boxes, and custom makeup organizers with gold foil finishes.',
+        intro: 'Turn beauty unboxing into an Instagram-worthy social media trend. ShineleeBox builds high-end beauty and skincare packaging, including sliding drawers, magnetic flip-top gift boxes, and specialty PR kits equipped with custom EVA foam and paper dividers to cradle delicate cream jars, serum bottles, and makeup compacts.',
+        filter: p => p['Application Tags'].toLowerCase().includes('beauty') || p['Application Tags'].toLowerCase().includes('skincare') || p['Application Tags'].toLowerCase().includes('cosmetic') || p['Product Name'].toLowerCase().includes('beauty') || p['Product Name'].toLowerCase().includes('skincare') || p['Product Name'].toLowerCase().includes('cosmetic')
+    },
+    {
+        dir: 'applications',
+        slug: 'chocolate-and-food-packaging',
+        name: 'Chocolate & Food Packaging',
+        title: 'Chocolate & Gourmet Food Packaging Manufacturer | ShineleeBox',
+        desc: 'Luxury chocolate boxes, macaron packaging, tea sample sets, and holiday cookie gift box manufacturer. Premium food-safe custom paper structures with gold foil highlights.',
+        h1: 'Chocolate & Food Packaging',
+        heroSub: 'Factory-direct premium rigid cardboard packaging for chocolate, tea, macarons, dates, and gourmet food gift sets.',
+        intro: 'Ensure your gourmet sweets and delicacies look as exquisite as they taste. ShineleeBox manufactures elegant custom chocolate and food packaging, featuring rigid sliding drawers, numbered advent countdown boxes, and multi-compartment layouts equipped with FDA-compliant food safe interior inserts.',
+        filter: p => p['Application Tags'].toLowerCase().includes('chocolate') || p['Application Tags'].toLowerCase().includes('food') || p['Application Tags'].toLowerCase().includes('sweet') || p['Application Tags'].toLowerCase().includes('cookie') || p['Application Tags'].toLowerCase().includes('tea') || p['Product Name'].toLowerCase().includes('chocolate') || p['Product Name'].toLowerCase().includes('food') || p['Product Name'].toLowerCase().includes('dates')
+    },
+    {
+        dir: 'applications',
+        slug: 'jewelry-and-accessories-packaging',
+        name: 'Jewelry & Accessories Packaging',
+        title: 'Jewelry & Accessories Packaging Manufacturer | ShineleeBox',
+        desc: 'Elegant sliding drawer jewelry boxes, velvet arch calendars, and watch rigid cases. Premium custom jewelry and accessory gift box manufacturer with high-quality velvet flocking.',
+        h1: 'Jewelry & Accessories Packaging',
+        heroSub: 'Bespoke sliding drawer boxes, rigid ring cases, and luxury accessory advent calendars lined with premium velvet and soft sponge dividers.',
+        intro: 'Cradle your fine metals, watches, and precious accessories in packaging that mirrors their intrinsic value. ShineleeBox constructs elegant, heavy rigid boxes with sliding drawers, ribbon pulls, and secure magnetic panels, all lined with custom velvet flocking and sponge trays for ultimate protection and luxury appeal.',
+        filter: p => p['Application Tags'].toLowerCase().includes('jewelry') || p['Application Tags'].toLowerCase().includes('accessory') || p['Application Tags'].toLowerCase().includes('ring') || p['Product Name'].toLowerCase().includes('jewelry') || p['Product Name'].toLowerCase().includes('watch') || p['Product Name'].toLowerCase().includes('ring')
+    },
+    {
+        dir: 'applications',
+        slug: 'corporate-and-retail-packaging',
+        name: 'Corporate & Retail Packaging',
+        title: 'Corporate Gift Boxes & Luxury Retail Packaging | ShineleeBox',
+        desc: 'Premium corporate gift packaging, VIP client unboxing kits, product launch boxes, and luxury retail rigid bags. Custom sizes and gold foil logos from Guangzhou factory.',
+        h1: 'Corporate & Retail Packaging',
+        heroSub: 'Bespoke VIP onboarding welcome kits, luxury PR campaign mailers, and premium custom retail carrier packaging.',
+        intro: 'Forge a powerful connection with clients, employees, and retail buyers. ShineleeBox manufactures high-impact corporate and retail packaging that carries your brand logo with absolute prestige. Perfect for luxury boutique packaging, high-profile corporate welcome gifts, and influencer unboxing kits.',
+        filter: p => p['Application Tags'].toLowerCase().includes('corporate') || p['Application Tags'].toLowerCase().includes('retail') || p['Application Tags'].toLowerCase().includes('pr') || p['Application Tags'].toLowerCase().includes('promotion') || p['Product Name'].toLowerCase().includes('pr ') || p['Product Name'].toLowerCase().includes('corporate') || p['Product Name'].toLowerCase().includes('retail')
+    },
+    {
+        dir: 'applications',
+        slug: 'religious-and-cultural-gift-packaging',
+        name: 'Religious & Cultural Gift Packaging',
+        title: 'Religious & Cultural Gift Packaging Manufacturer | ShineleeBox',
+        desc: 'Bespoke cultural and religious packaging, featuring Ramadan dates boxes, Eid sweet gift boxes, and luxury Islamic prayer set storage. Hot foil geometric patterns.',
+        h1: 'Religious & Cultural Gift Packaging',
+        heroSub: 'Factory-direct high-end cultural gift packaging, Quran rigid storage boxes, and traditional Islamic pattern gold foiled boxes.',
+        intro: 'Celebrate faith and cultural heritage with highly respectful, premium custom packaging. ShineleeBox creates religious and cultural gift packaging built with gold foil Islamic geometric lines, custom compartment boards for religious texts or prayer pads, and sweets boxes for major cultural festivals.',
+        filter: p => p['Application Tags'].toLowerCase().includes('religious') || p['Application Tags'].toLowerCase().includes('cultural') || p['Application Tags'].toLowerCase().includes('islamic') || p['Product Name'].toLowerCase().includes('ramadan') || p['Product Name'].toLowerCase().includes('eid') || p['Product Name'].toLowerCase().includes('islamic')
+    },
+    {
+        dir: 'applications',
+        slug: 'personal-care-packaging',
+        name: 'Personal Care Packaging',
+        title: 'Personal Care & Bath Packaging Manufacturer | ShineleeBox',
+        desc: 'Custom packaging for luxury candles, bath bomb sets, spa gift packs, and essential oil cases. Rigid card drawer packaging and magnetic boxes with custom inserts.',
+        h1: 'Personal Care Packaging',
+        heroSub: 'Bespoke rigid drawer boxes, candle presentation boxes, and organic spa gift pack containers starting at 50 pcs MOQ.',
+        intro: 'Promote tranquility and self-care through soothing, elegant packaging design. ShineleeBox constructs custom personal care and bath packaging, specialized for aromatherapy candle jars, essential oil collections, and luxury spa kits. Our rigid cardboard cases protect heavy glass and delicate soaps with premium custom liners.',
+        filter: p => p['Application Tags'].toLowerCase().includes('personal care') || p['Application Tags'].toLowerCase().includes('bath') || p['Application Tags'].toLowerCase().includes('candle') || p['Application Tags'].toLowerCase().includes('spa') || p['Product Name'].toLowerCase().includes('candle') || p['Product Name'].toLowerCase().includes('soap') || p['Product Name'].toLowerCase().includes('bath')
+    },
+    {
+        dir: 'applications',
+        slug: 'electronics-and-premium-gift-packaging',
+        name: 'Electronics & Premium Gift Packaging',
+        title: 'Electronics & Premium Gift Packaging Manufacturer | ShineleeBox',
+        desc: 'Luxury electronics gift boxes, executive smart gadgets unboxing sets, and premium LED/sound gift packaging. Custom rigid box manufacturer with integrated electronics.',
+        h1: 'Electronics & Premium Gift Packaging',
+        heroSub: 'Premium rigid boxes with integrated light sensors, sound modules, and charging ports for high-end digital accessories and digital packaging.',
+        intro: 'Protect and highlight high-value technology with packaging that feels just as innovative. ShineleeBox crafts custom electronics and premium gift packaging, featuring secure shock-absorbing inserts, clean magnetic flip closures, and option for integrated light-up panels or video screens to display your technical specs.',
+        filter: p => p['Application Tags'].toLowerCase().includes('electronics') || p['Application Tags'].toLowerCase().includes('video') || p['Application Tags'].toLowerCase().includes('led') || p['Application Tags'].toLowerCase().includes('sound') || p['Product Name'].toLowerCase().includes('video') || p['Product Name'].toLowerCase().includes('led') || p['Product Name'].toLowerCase().includes('music')
+    },
+
+    // --- HOLIDAY & OCCASIONS (holiday-occasions/) ---
+    {
+        dir: 'holiday-occasions',
+        slug: 'christmas-packaging',
+        name: 'Christmas Packaging',
+        title: 'Christmas Packaging Manufacturer | Holiday Advent Calendars | ShineleeBox',
+        desc: 'Custom Christmas advent calendar boxes, Christmas tree rigid boxes, round holiday cylinder boxes, and red-gold gift sets for festive retail and influencer campaigns.',
+        h1: 'Christmas Packaging',
+        heroSub: 'Guangzhou factory-direct custom Christmas advent calendars, rigid holiday gift sets, and red & gold foiled retail packaging.',
+        intro: 'Make the holidays unforgettable with stunning custom Christmas packaging. As a specialized B2B manufacturer in Guangzhou, ShineleeBox engineers premium 12, 24, and 25-day countdown advent calendars, book-style magnetic holiday gift sets, and gold-foiled red rigid boxes that elevate seasonal sales and influencer unboxings.',
+        filter: p => p['Holiday Tags'].toLowerCase().includes('christmas') || p['Holiday Tags'].toLowerCase().includes('holiday') || p['Product Name'].toLowerCase().includes('christmas') || p['Product Name'].toLowerCase().includes('holiday')
+    },
+    {
+        dir: 'holiday-occasions',
+        slug: 'ramadan-and-eid-packaging',
+        name: 'Ramadan & Eid Packaging',
+        title: 'Ramadan & Eid Packaging Manufacturer | Islamic Gift Boxes',
+        desc: 'Custom 30-day Ramadan drawer calendar boxes, Eid sweet gift boxes, and Islamic pattern rigid cases with gold foil accents from Guangzhou packaging manufacturer.',
+        h1: 'Ramadan & Eid Packaging',
+        heroSub: 'Factory-direct 30-day numbered drawer countdown calendars and gold-embossed blue Eid sweets boxes.',
+        intro: 'Honor the blessed months of Ramadan and Eid with custom gift boxes that celebrate traditional elegance. ShineleeBox designs and manufactures heavy rigid cardboard countdown calendars with 30 numbered drawers, and premium gold foil-embossed boxes for dates, sweets, and religious keepsake storage.',
+        filter: p => p['Holiday Tags'].toLowerCase().includes('ramadan') || p['Holiday Tags'].toLowerCase().includes('eid') || p['Product Name'].toLowerCase().includes('ramadan') || p['Product Name'].toLowerCase().includes('eid')
+    },
+    {
+        dir: 'holiday-occasions',
+        slug: 'valentines-day-packaging',
+        name: 'Valentine’s Day Packaging',
+        title: 'Valentine’s Day Packaging Manufacturer | Romantic Gift Boxes',
+        desc: 'Guangzhou factory supplying custom Valentine’s Day packaging, including heart-shaped gift boxes, double door romantic perfume boxes, and chocolate gift packaging.',
+        h1: 'Valentine’s Day Packaging',
+        heroSub: 'Bespoke heart boxes, romantic pink-red double-door gift cases, and luxury chocolate drawer sets for Valentine\'s promotions.',
+        intro: 'Incite emotion and brand loyalty with romantic custom packaging designed for Valentine\'s Day. ShineleeBox manufactures high-end rigid heart gift boxes, sliding drawers, and ribbon-tied double-door opening gift sets, perfect for couples\' fragrances, limited-edition cosmetics, jewelry, and gourmet chocolates.',
+        filter: p => p['Holiday Tags'].toLowerCase().includes('valentine') || p['Product Name'].toLowerCase().includes('valentine') || p['Product Name'].toLowerCase().includes('love') || p['Product Name'].toLowerCase().includes('heart')
+    },
+    {
+        dir: 'holiday-occasions',
+        slug: 'wedding-and-anniversary-packaging',
+        name: 'Wedding & Anniversary Packaging',
+        title: 'Wedding & Anniversary Packaging | Premium Keepsake Gift Boxes',
+        desc: 'Guangzhou factory-direct wedding keepsake boxes, bridal invitation card cases, anniversary gift boxes, and high-end rigid ribbon boxes with custom compartments.',
+        h1: 'Wedding & Anniversary Packaging',
+        heroSub: 'Bespoke bridal souvenir boxes, luxury wedding invitation cases, and gold-stamped marriage anniversary gift boxes.',
+        intro: 'Commemorate love and milestones with luxury packaging built to stand the test of time. ShineleeBox specializes in constructing premium wedding keepsake boxes, high-end bridal party invitation cards, and custom gift boxes with elegant ribbon closures, soft velvet inserts, and delicate hot foil lettering.',
+        filter: p => p['Holiday Tags'].toLowerCase().includes('wedding') || p['Holiday Tags'].toLowerCase().includes('anniversary') || p['Product Name'].toLowerCase().includes('wedding') || p['Product Name'].toLowerCase().includes('anniversary')
+    },
+    {
+        dir: 'holiday-occasions',
+        slug: 'baby-and-family-keepsake-packaging',
+        name: 'Baby & Family Keepsake Packaging',
+        title: 'Baby & Family Keepsake Packaging | Custom Rigid Memory Boxes',
+        desc: 'Custom baby keepsake boxes, family memory rigid cases, custom milestone packaging, and children\'s event gift box manufacturer in Guangzhou, China.',
+        h1: 'Baby & Family Keepsake Packaging',
+        heroSub: 'Premium rigid storage and keepsake packaging for baby milestones, family memories, and children\'s gift campaigns.',
+        intro: 'Cherish family milestones forever with custom baby and family keepsake packaging. ShineleeBox constructs highly durable, luxury paper memory boxes, complete with sliding drawers, ribbon handles, and secure magnetic flips, making them perfect for holding early milestone keepsakes and family heirlooms.',
+        filter: p => p['Holiday Tags'].toLowerCase().includes('baby') || p['Holiday Tags'].toLowerCase().includes('family') || p['Holiday Tags'].toLowerCase().includes('keepsake') || p['Product Name'].toLowerCase().includes('baby') || p['Product Name'].toLowerCase().includes('memory') || p['Product Name'].toLowerCase().includes('keepsake')
+    },
+    {
+        dir: 'holiday-occasions',
+        slug: 'graduation-packaging',
+        name: 'Graduation Packaging',
+        title: 'Graduation Packaging Manufacturer | Premium Keepsake Box Supplier',
+        desc: 'Bespoke graduation keepsake boxes, custom certificate cases, university gift sets, and academic memory packaging with gold hot stamping and custom layouts.',
+        h1: 'Graduation Packaging',
+        heroSub: 'Guangzhou factory-direct high-end university souvenir boxes, certificate cases, and academic graduation gift packaging.',
+        intro: 'Honor academic achievement with high-quality, professional custom graduation packaging. ShineleeBox designs and manufactures durable souvenir storage boxes, custom book-style certificate folders, and elegant rigid card gift sets printed with custom crests, gold hot foil stamps, and secure silk linings.',
+        filter: p => p['Holiday Tags'].toLowerCase().includes('graduation') || p['Product Name'].toLowerCase().includes('graduation') || p['Product Name'].toLowerCase().includes('certificate')
+    },
+    {
+        dir: 'holiday-occasions',
+        slug: 'mothers-day-fathers-day-packaging',
+        name: 'Mother’s Day / Father’s Day Packaging',
+        title: 'Mother’s & Father’s Day Packaging Manufacturer | Premium Gift Boxes',
+        desc: 'Custom gift boxes for Mother’s Day and Father’s Day campaigns. Premium rigid skincare sets, fragrance drawer boxes, leather-touch cases, and limited edition gift sets.',
+        h1: 'Mother’s / Father’s Day Packaging',
+        heroSub: 'Premium rigid gift sets, fragrance countdown drawers, and cosmetic skincare boxes for parent celebration campaigns.',
+        intro: 'Deliver a heartfelt unboxing experience for parent appreciation campaigns. ShineleeBox manufactures elegant, limited-edition custom gift boxes for Mother\'s Day and Father\'s Day, specializing in deep rigid drawer boxes, magnetic flip-open perfume cases, and luxury retail gift sets with clean foil lettering.',
+        filter: p => p['Holiday Tags'].toLowerCase().includes('mother') || p['Holiday Tags'].toLowerCase().includes('father') || p['Product Name'].toLowerCase().includes('mother') || p['Product Name'].toLowerCase().includes('father')
+    },
+    {
+        dir: 'holiday-occasions',
+        slug: 'other-occasions',
+        name: 'Other Occasions',
+        title: 'Custom Special Occasion Packaging & Specialty Gift Boxes',
+        desc: 'Bespoke packaging manufacturer for special events, limited editions, corporate promotions, PR campaigns, and seasonal holidays. High quality custom rigid boxes in Guangzhou.',
+        h1: 'Custom Special Occasion Packaging',
+        heroSub: 'Flexible rigid packaging solutions, limited-edition promotional kits, and versatile gift packaging starting at 50 pcs MOQ.',
+        intro: 'No matter the milestone or event, ShineleeBox possesses the structural expertise to design compliant, luxury packaging. From annual company galas and boutique product launch PR kits to long-tail holidays, our Guangzhou paper packaging engineers translate your artwork into tangible unboxing magic.',
+        filter: p => true // Catch-all showing versatile high-end packages
     }
 ];
+
+// Helper to build list index pages
+function buildSubdirectoryIndices() {
+    // 1. Applications Index (applications/index.html)
+    let appsHtml = headTemplate("Industry Packaging Applications & Solutions | ShineleeBox", "Browse custom packaging and rigid cardboard box application solutions across beauty, perfume, food, jewelry, Ramadan, Christmas and luxury retail.", '../') + headerTemplate('../');
+    appsHtml += `
+    <section class="bg-brandGreen text-white py-16 border-b border-brandGold-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <span class="text-xs font-semibold text-brandGold uppercase tracking-widest">Target Solutions</span>
+            <h1 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold mt-1">Industry Packaging Applications</h1>
+            <p class="text-slate-300 text-sm sm:text-base mt-4 max-w-2xl font-light">
+                Explore custom-designed paper box solutions engineered for specific brand unboxing scenarios and product safety.
+            </p>
+        </div>
+    </section>
+
+    <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+    `;
+
+    categories.filter(c => c.dir === 'applications').forEach(a => {
+        let matchedCount = products.filter(a.filter).length;
+        appsHtml += `
+            <div class="bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg transition-all flex flex-col justify-between">
+                <div>
+                    <div class="h-48 overflow-hidden bg-slate-100">
+                        <img src="https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=800&q=80" alt="${a.name}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-serif text-lg font-bold text-brandGreen mb-2">${a.name}</h3>
+                        <p class="text-xs text-slate-500 mb-4 line-clamp-3">${a.desc}</p>
+                    </div>
+                </div>
+                <div class="px-5 pb-5">
+                    <a href="${a.slug}.html" class="block text-center text-xs font-bold text-brandGreen hover:text-brandGold border border-brandGreen hover:border-brandGold py-2 rounded transition-colors">
+                        View ${matchedCount} Custom Solutions
+                    </a>
+                </div>
+            </div>
+        `;
+    });
+
+    appsHtml += `
+        </div>
+    </section>
+    `;
+    appsHtml += footerTemplate('../');
+    fs.writeFileSync(path.join(applicationsDir, 'index.html'), appsHtml, 'utf8');
+
+    // 2. Holiday & Occasions Index (holiday-occasions/index.html)
+    let holidaysHtml = headTemplate("Holiday & Special Occasions Custom Packaging | ShineleeBox", "Custom holiday gift boxes and countdown advent calendar packaging solutions for Christmas, Ramadan, Eid, Valentine's Day, weddings, family keepsakes, and graduations.", '../') + headerTemplate('../');
+    holidaysHtml += `
+    <section class="bg-brandGreen text-white py-16 border-b border-brandGold-dark">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <span class="text-xs font-semibold text-brandGold uppercase tracking-widest">Seasonal Highlights</span>
+            <h1 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold mt-1">Holiday & Special Occasions Packaging</h1>
+            <p class="text-slate-300 text-sm sm:text-base mt-4 max-w-2xl font-light">
+                Deliver festive cheer and make life's grand celebrations memorable with direct-factory custom seasonal gift packaging.
+            </p>
+        </div>
+    </section>
+
+    <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+    `;
+
+    categories.filter(c => c.dir === 'holiday-occasions').forEach(h => {
+        let matchedCount = products.filter(h.filter).length;
+        holidaysHtml += `
+            <div class="bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg transition-all flex flex-col justify-between">
+                <div>
+                    <div class="h-48 overflow-hidden bg-slate-100">
+                        <img src="https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=800&q=80" alt="${h.name}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="p-5">
+                        <h3 class="font-serif text-lg font-bold text-brandGreen mb-2">${h.name}</h3>
+                        <p class="text-xs text-slate-500 mb-4 line-clamp-3">${h.desc}</p>
+                    </div>
+                </div>
+                <div class="px-5 pb-5">
+                    <a href="${h.slug}.html" class="block text-center text-xs font-bold text-brandGreen hover:text-brandGold border border-brandGreen hover:border-brandGold py-2 rounded transition-colors">
+                        View ${matchedCount} Custom Items
+                    </a>
+                </div>
+            </div>
+        `;
+    });
+
+    holidaysHtml += `
+        </div>
+    </section>
+    `;
+    holidaysHtml += footerTemplate('../');
+    fs.writeFileSync(path.join(holidayOccasionsDir, 'index.html'), holidaysHtml, 'utf8');
+}
 
 function buildCategoryPages() {
     categories.forEach(cat => {
         let html = headTemplate(cat.title, cat.desc, '../') + headerTemplate('../');
         
+        let matchedProducts = products.filter(cat.filter);
+        
+        // For Other Occasions or empty-match pages, fill with 8 high-quality items as reference
+        if (matchedProducts.length === 0 || cat.slug === 'other-occasions') {
+            matchedProducts = products.slice(0, 8);
+        }
+
         html += `
         <!-- Hero Section -->
         <section class="bg-brandGreen text-white py-16 border-b border-brandGold-dark">
@@ -245,53 +574,11 @@ function buildCategoryPages() {
                 </div>
             </div>
 
-            <!-- Solutions & Structures for Advent Calendars -->
-            ${cat.slug === 'advent-calendars' ? `
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-                <!-- Industry Solutions -->
-                <div class="bg-white p-8 rounded-lg border border-slate-100 shadow-xs">
-                    <h3 class="font-serif text-lg font-bold text-brandGreen mb-4">Industry-Specific Applications</h3>
-                    <div class="space-y-4">
-                        ${cat.industries.map(ind => `
-                            <div>
-                                <h4 class="font-bold text-brandGreen-light text-sm mb-1">${escapeHtml(ind.name)}</h4>
-                                <p class="text-slate-500 text-xs">${escapeHtml(ind.desc)}</p>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-                <!-- Popular Structures -->
-                <div class="bg-white p-8 rounded-lg border border-slate-100 shadow-xs">
-                    <h3 class="font-serif text-lg font-bold text-brandGreen mb-4">Innovative Structures We Build</h3>
-                    <div class="space-y-4">
-                        ${cat.structures.map(str => `
-                            <div>
-                                <h4 class="font-bold text-brandGreen-light text-sm mb-1">${escapeHtml(str.name)}</h4>
-                                <p class="text-slate-500 text-xs">${escapeHtml(str.desc)}</p>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            </div>
-            ` : ''}
-
             <!-- Dynamically Render Category Products Grid -->
             <div class="mb-16">
                 <h3 class="font-serif text-2xl font-bold text-brandGreen text-center mb-8">Premium ${cat.name} Showcase</h3>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                    ${products
-                        .filter(p => {
-                            if (cat.slug === 'advent-calendars') {
-                                return p['Main Category'] === 'Advent Calendar Boxes';
-                            } else if (cat.slug === 'interactive-packaging') {
-                                return p['Main Category'] === 'Interactive Packaging';
-                            } else if (cat.slug === 'magnetic-boxes') {
-                                return p['Subcategory'].toLowerCase().includes('magnetic') || p['Custom Options'].toLowerCase().includes('magnetic');
-                            } else if (cat.slug === 'drawer-boxes') {
-                                return p['Subcategory'].toLowerCase().includes('drawer') || p['Custom Options'].toLowerCase().includes('drawer');
-                            }
-                            return false;
-                        })
+                    ${matchedProducts
                         .map(p => {
                             const id = p['Product ID'];
                             const name = p['Product Name'];
@@ -311,7 +598,7 @@ function buildCategoryPages() {
 
                             return `
                                 <div class="group bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg hover:border-brandGold/30 transition-all flex flex-col justify-between cursor-pointer"
-                                     onclick="window.location.href='${prefix}-${idLower}.html'">
+                                     onclick="window.location.href='../products/${prefix}-${idLower}.html'">
                                     <div>
                                         <div class="h-56 overflow-hidden bg-white relative p-1 flex items-center justify-center">
                                             <img src="${imgPath}" alt="${escapeHtml(name)}" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-500">
@@ -348,9 +635,13 @@ function buildCategoryPages() {
         `;
         
         html += footerTemplate('../');
-        fs.writeFileSync(path.join(__dirname, 'products', `${cat.slug}.html`), html, 'utf8');
+        
+        const targetPath = path.join(__dirname, cat.dir, `${cat.slug}.html`);
+        fs.writeFileSync(targetPath, html, 'utf8');
+        console.log(`Generated page: ${cat.dir}/${cat.slug}.html`);
     });
-    console.log("Category landing pages generated successfully!");
+    console.log("All individual category landing pages generated successfully!");
 }
 
+buildSubdirectoryIndices();
 buildCategoryPages();

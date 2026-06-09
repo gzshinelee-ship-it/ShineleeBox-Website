@@ -80,23 +80,75 @@ const headerTemplate = (relativePath = '') => `
             <!-- Desktop Navigation Links -->
             <nav class="hidden md:flex space-x-1 lg:space-x-4 items-center">
                 <a href="${relativePath}index.html" class="text-sm font-medium px-3 py-2 text-white hover:text-brandGold transition-colors">Home</a>
+                
+                <!-- Products Menu -->
                 <div class="relative group">
                     <a href="${relativePath}products/index.html" class="text-sm font-medium px-3 py-2 text-white hover:text-brandGold transition-colors flex items-center">
                         Products <svg class="w-3 h-3 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 9l-7 7-7-7"/></svg>
                     </a>
-                    <div class="absolute left-0 mt-0 w-56 bg-white rounded-md shadow-xl py-2 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-200 border border-slate-100 z-[60]">
-                        <a href="${relativePath}products/advent-calendars.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Advent Calendar Boxes</a>
+                    <div class="absolute left-0 mt-0 w-64 bg-white rounded-md shadow-xl py-2 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-200 border border-slate-100 z-[60]">
+                        <a href="${relativePath}products/advent-calendar-boxes.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Advent Calendar Boxes</a>
+                        <a href="${relativePath}products/perfume-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Perfume Packaging</a>
+                        <a href="${relativePath}products/cosmetic-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Cosmetic Packaging</a>
+                        <a href="${relativePath}products/luxury-gift-boxes.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Luxury Gift Boxes</a>
                         <a href="${relativePath}products/interactive-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Interactive Packaging</a>
-                        <a href="${relativePath}products/magnetic-boxes.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Magnetic Gift Boxes</a>
-                        <a href="${relativePath}products/drawer-boxes.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Drawer Gift Boxes</a>
-                        <a href="${relativePath}products/custom-shape-boxes.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Custom Shape Boxes</a>
+                        <a href="${relativePath}products/keepsake-boxes.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Keepsake Boxes</a>
+                        <a href="${relativePath}products/greeting-cards.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Greeting Cards</a>
+                        <a href="${relativePath}products/religious-gift-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Religious Gift Packaging</a>
                         <a href="${relativePath}products/index.html" class="block px-4 py-2 text-xs font-bold text-brandGreen border-t border-slate-50 mt-1 hover:bg-brandIvory">All Collections</a>
                     </div>
                 </div>
-                <a href="${relativePath}applications/index.html" class="text-sm font-medium px-3 py-2 text-white hover:text-brandGold transition-colors">Applications</a>
-                <a href="${relativePath}customization.html" class="text-sm font-medium px-3 py-2 text-white hover:text-brandGold transition-colors">Customization</a>
-                <a href="${relativePath}capabilities.html" class="text-sm font-medium px-3 py-2 text-white hover:text-brandGold transition-colors">Capabilities</a>
-                <a href="${relativePath}about.html" class="text-sm font-medium px-3 py-2 text-white hover:text-brandGold transition-colors">About</a>
+
+                <!-- Applications Menu -->
+                <div class="relative group">
+                    <a href="${relativePath}applications/index.html" class="text-sm font-medium px-3 py-2 text-white hover:text-brandGold transition-colors flex items-center">
+                        Applications <svg class="w-3 h-3 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 9l-7 7-7-7"/></svg>
+                    </a>
+                    <div class="absolute left-0 mt-0 w-64 bg-white rounded-md shadow-xl py-2 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-200 border border-slate-100 z-[60]">
+                        <a href="${relativePath}applications/perfume-and-fragrance-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Perfume & Fragrance Packaging</a>
+                        <a href="${relativePath}applications/beauty-and-skincare-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Beauty & Skincare Packaging</a>
+                        <a href="${relativePath}applications/chocolate-and-food-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Chocolate & Food Packaging</a>
+                        <a href="${relativePath}applications/jewelry-and-accessories-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Jewelry & Accessories Packaging</a>
+                        <a href="${relativePath}applications/corporate-and-retail-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Corporate & Retail Packaging</a>
+                        <a href="${relativePath}applications/religious-and-cultural-gift-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Religious & Cultural Gift Packaging</a>
+                        <a href="${relativePath}applications/personal-care-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Personal Care Packaging</a>
+                        <a href="${relativePath}applications/electronics-and-premium-gift-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Electronics & Premium Packaging</a>
+                        <a href="${relativePath}applications/index.html" class="block px-4 py-2 text-xs font-bold text-brandGreen border-t border-slate-50 mt-1 hover:bg-brandIvory">All Solutions</a>
+                    </div>
+                </div>
+
+                <!-- Holiday & Occasions Menu -->
+                <div class="relative group">
+                    <a href="${relativePath}holiday-occasions/index.html" class="text-sm font-medium px-3 py-2 text-white hover:text-brandGold transition-colors flex items-center">
+                        Holiday & Occasions <svg class="w-3 h-3 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 9l-7 7-7-7"/></svg>
+                    </a>
+                    <div class="absolute left-0 mt-0 w-64 bg-white rounded-md shadow-xl py-2 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-200 border border-slate-100 z-[60]">
+                        <a href="${relativePath}holiday-occasions/christmas-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Christmas Packaging</a>
+                        <a href="${relativePath}holiday-occasions/ramadan-and-eid-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Ramadan & Eid Packaging</a>
+                        <a href="${relativePath}holiday-occasions/valentines-day-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Valentine’s Day Packaging</a>
+                        <a href="${relativePath}holiday-occasions/wedding-and-anniversary-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Wedding & Anniversary Packaging</a>
+                        <a href="${relativePath}holiday-occasions/baby-and-family-keepsake-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Baby & Family Keepsake Packaging</a>
+                        <a href="${relativePath}holiday-occasions/graduation-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Graduation Packaging</a>
+                        <a href="${relativePath}holiday-occasions/mothers-day-fathers-day-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Mother / Father's Day Packaging</a>
+                        <a href="${relativePath}holiday-occasions/other-occasions.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Other Occasions</a>
+                    </div>
+                </div>
+
+                <!-- About Menu -->
+                <div class="relative group">
+                    <a href="${relativePath}about.html" class="text-sm font-medium px-3 py-2 text-white hover:text-brandGold transition-colors flex items-center">
+                        About <svg class="w-3 h-3 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 9l-7 7-7-7"/></svg>
+                    </a>
+                    <div class="absolute left-0 mt-0 w-56 bg-white rounded-md shadow-xl py-2 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-200 border border-slate-100 z-[60]">
+                        <a href="${relativePath}about.html#profile" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Company Profile</a>
+                        <a href="${relativePath}about.html#factory" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Factory & Production</a>
+                        <a href="${relativePath}about.html#process" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Custom Process</a>
+                        <a href="${relativePath}about.html#craftsmanship" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Craftsmanship & Finishing</a>
+                        <a href="${relativePath}about.html#quality" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Quality Control</a>
+                        <a href="${relativePath}about.html#faq" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">FAQ</a>
+                    </div>
+                </div>
+
                 <a href="${relativePath}blog/index.html" class="text-sm font-medium px-3 py-2 text-white hover:text-brandGold transition-colors">Blog</a>
                 <a href="${relativePath}contact.html" class="text-sm font-medium px-3 py-2 text-white hover:text-brandGold transition-colors">Contact</a>
             </nav>
@@ -121,15 +173,47 @@ const headerTemplate = (relativePath = '') => `
 
     <!-- Mobile Navigation Menu -->
     <div class="hidden md:hidden bg-brandGreen-dark border-t border-brandGreen" id="mobile-menu">
-        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-sm">
             <a href="${relativePath}index.html" class="block text-base font-medium px-3 py-2 text-white hover:text-brandGold">Home</a>
-            <a href="${relativePath}products/advent-calendars.html" class="block text-base font-bold px-3 py-2 text-brandGold hover:text-white">Advent Calendar Boxes</a>
-            <a href="${relativePath}products/interactive-packaging.html" class="block text-base font-bold px-3 py-2 text-brandGold hover:text-white">Interactive Packaging</a>
-            <a href="${relativePath}products/index.html" class="block text-base font-medium px-3 py-2 text-white hover:text-brandGold">All Products</a>
-            <a href="${relativePath}applications/index.html" class="block text-base font-medium px-3 py-2 text-white hover:text-brandGold">Applications</a>
-            <a href="${relativePath}customization.html" class="block text-base font-medium px-3 py-2 text-white hover:text-brandGold">Customization</a>
-            <a href="${relativePath}capabilities.html" class="block text-base font-medium px-3 py-2 text-white hover:text-brandGold">Capabilities</a>
-            <a href="${relativePath}about.html" class="block text-base font-medium px-3 py-2 text-white hover:text-brandGold">About</a>
+            
+            <!-- Products Submenu Header -->
+            <div class="px-3 py-2 text-xs font-bold uppercase tracking-wider text-brandGold-light border-b border-brandGreen/40 mt-2">Products</div>
+            <a href="${relativePath}products/advent-calendar-boxes.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Advent Calendar Boxes</a>
+            <a href="${relativePath}products/perfume-packaging.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Perfume Packaging</a>
+            <a href="${relativePath}products/cosmetic-packaging.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Cosmetic Packaging</a>
+            <a href="${relativePath}products/luxury-gift-boxes.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Luxury Gift Boxes</a>
+            <a href="${relativePath}products/interactive-packaging.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Interactive Packaging</a>
+            <a href="${relativePath}products/keepsake-boxes.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Keepsake Boxes</a>
+            <a href="${relativePath}products/greeting-cards.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Greeting Cards</a>
+            <a href="${relativePath}products/religious-gift-packaging.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Religious Gift Packaging</a>
+            <a href="${relativePath}products/index.html" class="block text-sm font-medium pl-6 py-1 text-brandGold hover:text-white">All Products</a>
+
+            <!-- Applications Submenu Header -->
+            <div class="px-3 py-2 text-xs font-bold uppercase tracking-wider text-brandGold-light border-b border-brandGreen/40 mt-2">Applications</div>
+            <a href="${relativePath}applications/perfume-and-fragrance-packaging.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Perfume & Fragrance Packaging</a>
+            <a href="${relativePath}applications/beauty-and-skincare-packaging.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Beauty & Skincare Packaging</a>
+            <a href="${relativePath}applications/chocolate-and-food-packaging.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Chocolate & Food Packaging</a>
+            <a href="${relativePath}applications/jewelry-and-accessories-packaging.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Jewelry & Accessories Packaging</a>
+            <a href="${relativePath}applications/corporate-and-retail-packaging.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Corporate & Retail Packaging</a>
+            <a href="${relativePath}applications/religious-and-cultural-gift-packaging.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Religious & Cultural Packaging</a>
+            <a href="${relativePath}applications/personal-care-packaging.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Personal Care Packaging</a>
+            <a href="${relativePath}applications/electronics-and-premium-gift-packaging.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Electronics & Premium Packaging</a>
+            <a href="${relativePath}applications/index.html" class="block text-sm font-medium pl-6 py-1 text-brandGold hover:text-white">All Solutions</a>
+
+            <!-- Holiday & Occasions Submenu Header -->
+            <div class="px-3 py-2 text-xs font-bold uppercase tracking-wider text-brandGold-light border-b border-brandGreen/40 mt-2">Holiday & Occasions</div>
+            <a href="${relativePath}holiday-occasions/christmas-packaging.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Christmas Packaging</a>
+            <a href="${relativePath}holiday-occasions/ramadan-and-eid-packaging.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Ramadan & Eid Packaging</a>
+            <a href="${relativePath}holiday-occasions/valentines-day-packaging.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Valentine’s Day Packaging</a>
+            <a href="${relativePath}holiday-occasions/wedding-and-anniversary-packaging.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Wedding & Anniversary Packaging</a>
+            <a href="${relativePath}holiday-occasions/baby-and-family-keepsake-packaging.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Baby & Family Keepsake Packaging</a>
+            <a href="${relativePath}holiday-occasions/graduation-packaging.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Graduation Packaging</a>
+            <a href="${relativePath}holiday-occasions/mothers-day-fathers-day-packaging.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Mother / Father's Day Packaging</a>
+            <a href="${relativePath}holiday-occasions/other-occasions.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Other Occasions</a>
+
+            <!-- Other Links -->
+            <div class="border-t border-brandGreen/40 my-2 pt-2"></div>
+            <a href="${relativePath}about.html" class="block text-base font-medium px-3 py-2 text-white hover:text-brandGold">About ShineleeBox</a>
             <a href="${relativePath}blog/index.html" class="block text-base font-medium px-3 py-2 text-white hover:text-brandGold">Blog</a>
             <a href="${relativePath}contact.html" class="block text-base font-medium px-3 py-2 text-white hover:text-brandGold">Contact</a>
             <a href="${relativePath}contact.html" class="block text-center text-base font-semibold px-3 py-3 mt-4 text-brandGreen bg-brandGold rounded-md hover:bg-brandGold-light">Get Free Quote</a>
@@ -158,10 +242,11 @@ const footerTemplate = (relativePath = '') => `
             <h4 class="text-lg font-serif font-semibold text-brandGold mb-4">Product Collections</h4>
             <ul class="space-y-2.5 text-sm text-slate-300">
                 <li><a href="${relativePath}products/index.html" class="hover:text-brandGold transition-colors">All Products</a></li>
-                <li><a href="${relativePath}products/index.html?filter=Advent" class="hover:text-brandGold transition-colors">Advent Calendar Boxes</a></li>
-                <li><a href="${relativePath}products/index.html?filter=Interactive" class="hover:text-brandGold transition-colors">Interactive Packaging</a></li>
-                <li><a href="${relativePath}products/index.html?filter=Magnetic" class="hover:text-brandGold transition-colors">Magnetic Gift Boxes</a></li>
-                <li><a href="${relativePath}products/index.html?filter=Drawer" class="hover:text-brandGold transition-colors">Drawer Sliding Boxes</a></li>
+                <li><a href="${relativePath}products/advent-calendar-boxes.html" class="hover:text-brandGold transition-colors">Advent Calendar Boxes</a></li>
+                <li><a href="${relativePath}products/perfume-packaging.html" class="hover:text-brandGold transition-colors">Perfume Packaging</a></li>
+                <li><a href="${relativePath}products/cosmetic-packaging.html" class="hover:text-brandGold transition-colors">Cosmetic Packaging</a></li>
+                <li><a href="${relativePath}products/luxury-gift-boxes.html" class="hover:text-brandGold transition-colors">Luxury Gift Boxes</a></li>
+                <li><a href="${relativePath}products/interactive-packaging.html" class="hover:text-brandGold transition-colors">Interactive Packaging</a></li>
             </ul>
         </div>
 
@@ -169,11 +254,11 @@ const footerTemplate = (relativePath = '') => `
         <div>
             <h4 class="text-lg font-serif font-semibold text-brandGold mb-4">Industry Solutions</h4>
             <ul class="space-y-2.5 text-sm text-slate-300">
-                <li><a href="${relativePath}applications/beauty-skincare.html" class="hover:text-brandGold transition-colors">Beauty & Skincare</a></li>
-                <li><a href="${relativePath}applications/perfume-fragrance.html" class="hover:text-brandGold transition-colors">Perfume & Fragrance</a></li>
-                <li><a href="${relativePath}applications/chocolate-food.html" class="hover:text-brandGold transition-colors">Gourmet Chocolate & Food</a></li>
-                <li><a href="${relativePath}applications/jewelry-accessories.html" class="hover:text-brandGold transition-colors">Jewelry & Accessories</a></li>
-                <li><a href="${relativePath}applications/ramadan-eid.html" class="hover:text-brandGold transition-colors">Ramadan & Eid Festival</a></li>
+                <li><a href="${relativePath}applications/perfume-and-fragrance-packaging.html" class="hover:text-brandGold transition-colors">Perfume & Fragrance</a></li>
+                <li><a href="${relativePath}applications/beauty-and-skincare-packaging.html" class="hover:text-brandGold transition-colors">Beauty & Skincare</a></li>
+                <li><a href="${relativePath}applications/chocolate-and-food-packaging.html" class="hover:text-brandGold transition-colors">Gourmet Chocolate & Food</a></li>
+                <li><a href="${relativePath}applications/jewelry-and-accessories-packaging.html" class="hover:text-brandGold transition-colors">Jewelry & Accessories</a></li>
+                <li><a href="${relativePath}holiday-occasions/ramadan-and-eid-packaging.html" class="hover:text-brandGold transition-colors">Ramadan & Eid Festival</a></li>
             </ul>
         </div>
 
@@ -193,8 +278,8 @@ const footerTemplate = (relativePath = '') => `
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-8 border-t border-brandGreen-light flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400">
         <p>&copy; 2026 Guangzhou Shinelee Paper Product Co., Ltd. All rights reserved. Registered in China. Website hosted on Vercel.</p>
         <div class="flex space-x-4 mt-4 sm:mt-0">
-            <a href="${relativePath}capabilities.html#faq" class="hover:text-brandGold transition-colors">FAQ</a>
-            <a href="${relativePath}customization.html" class="hover:text-brandGold transition-colors">Process</a>
+            <a href="${relativePath}about.html#faq" class="hover:text-brandGold transition-colors">FAQ</a>
+            <a href="${relativePath}about.html#process" class="hover:text-brandGold transition-colors">Process</a>
             <a href="${relativePath}contact.html" class="hover:text-brandGold transition-colors font-semibold text-brandGold">Get Custom Quotation</a>
         </div>
     </div>
