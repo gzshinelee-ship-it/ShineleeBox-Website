@@ -135,7 +135,6 @@ const headerTemplate = (relativePath = '') => `
                         <a href="${relativePath}applications/jewelry-and-accessories-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Jewelry & Accessories Packaging</a>
                         <a href="${relativePath}applications/corporate-and-retail-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Corporate & Retail Packaging</a>
                         <a href="${relativePath}applications/religious-and-cultural-gift-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Religious & Cultural Gift Packaging</a>
-                        <a href="${relativePath}applications/personal-care-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Personal Care Packaging</a>
                         <a href="${relativePath}applications/electronics-and-premium-gift-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Electronics & Premium Packaging</a>
                         <a href="${relativePath}applications/index.html" class="block px-4 py-2 text-xs font-bold text-brandGreen border-t border-slate-50 mt-1 hover:bg-brandIvory">All Solutions</a>
                     </div>
@@ -218,7 +217,6 @@ const headerTemplate = (relativePath = '') => `
             <a href="${relativePath}applications/jewelry-and-accessories-packaging.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Jewelry & Accessories Packaging</a>
             <a href="${relativePath}applications/corporate-and-retail-packaging.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Corporate & Retail Packaging</a>
             <a href="${relativePath}applications/religious-and-cultural-gift-packaging.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Religious & Cultural Packaging</a>
-            <a href="${relativePath}applications/personal-care-packaging.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Personal Care Packaging</a>
             <a href="${relativePath}applications/electronics-and-premium-gift-packaging.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Electronics & Premium Packaging</a>
             <a href="${relativePath}applications/index.html" class="block text-sm font-medium pl-6 py-1 text-brandGold hover:text-white">All Solutions</a>
 
