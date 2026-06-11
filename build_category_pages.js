@@ -175,25 +175,14 @@ const categories = [
     },
     {
         dir: 'products',
-        slug: 'perfume-packaging',
-        name: 'Perfume Packaging',
-        title: 'Custom Perfume Packaging & Fragrance Gift Boxes | ShineleeBox',
-        desc: 'Bespoke perfume packaging manufacturer supplying luxury perfume gift boxes, discovery sets, sample packaging, and custom-shaped cologne cases. High-density rigid boards with soft-touch finishing and spot UV.',
-        h1: 'Custom Perfume Packaging',
-        heroSub: 'Factory-direct luxury perfume gift boxes, discovery sample collections, and custom-shaped fragrance unboxing cases starting at 50 pcs MOQ.',
-        intro: 'First impressions are critical for premium fragrances. ShineleeBox engineers custom perfume packaging that mirrors the sophistication of your scent. From book-style magnetic closures to high-density foam inserts and velvet-touch sheets, we deliver retail-ready structural masterpieces.',
-        filter: p => p['Main Category'] === 'Perfume Packaging' || p['Subcategory'].toLowerCase().includes('perfume') || p['Application Tags'].toLowerCase().includes('perfume') || p['Product Name'].toLowerCase().includes('perfume') || p['Product Name'].toLowerCase().includes('fragrance')
-    },
-    {
-        dir: 'products',
-        slug: 'cosmetic-packaging',
-        name: 'Cosmetic Packaging',
-        title: 'Custom Cosmetic Packaging & Skincare Gift Boxes | ShineleeBox',
-        desc: 'Bespoke cosmetic packaging manufacturer in Guangzhou. Custom skincare gift boxes, makeup set packaging, and premium beauty PR boxes. Disney FAMA & BSCI certified supplier.',
-        h1: 'Custom Cosmetic Packaging',
-        heroSub: 'Premium skincare gift boxes, custom makeup set cases, and influencer beauty PR boxes with gold hot foil stamping and custom trays.',
-        intro: 'Showcase your beauty and cosmetics collections in custom cosmetic packaging that radiates luxury. ShineleeBox manufactures heavy-board rigid boxes, pull-out drawer sets, and magnetic folding boxes designed specifically for makeup and skincare bottles, jars, and sample sets.',
-        filter: p => p['Main Category'] === 'Cosmetic Packaging' || p['Subcategory'].toLowerCase().includes('cosmetic') || p['Subcategory'].toLowerCase().includes('skincare') || p['Application Tags'].toLowerCase().includes('cosmetic') || p['Application Tags'].toLowerCase().includes('skincare') || p['Product Name'].toLowerCase().includes('cosmetic') || p['Product Name'].toLowerCase().includes('skincare')
+        slug: 'beauty-perfume-packaging',
+        name: 'Beauty & Perfume Packaging',
+        title: 'Custom Beauty & Perfume Packaging | Luxury Rigid Gift Boxes',
+        desc: 'Premium manufacturer of custom perfume packaging and cosmetic gift boxes. We supply luxury fragrance discovery sets, skincare PR boxes, and makeup set packaging with gold foil accents.',
+        h1: 'Custom Beauty & Perfume Packaging',
+        heroSub: 'Factory-direct luxury perfume gift boxes, premium skincare packaging, and custom beauty PR kits starting at 50 pcs MOQ.',
+        intro: 'First impressions are critical for premium beauty and fragrance brands. ShineleeBox engineers custom packaging that mirrors the sophistication of your brand. From book-style magnetic closures for perfumes to pull-out drawer sets for skincare, we deliver retail-ready structural masterpieces designed to elevate the unboxing experience.',
+        filter: p => p['Main Category'] === 'Perfume Packaging' || p['Main Category'] === 'Cosmetic Packaging' || p['Subcategory'].toLowerCase().includes('perfume') || p['Subcategory'].toLowerCase().includes('cosmetic') || p['Subcategory'].toLowerCase().includes('skincare') || p['Application Tags'].toLowerCase().includes('perfume') || p['Application Tags'].toLowerCase().includes('fragrance') || p['Application Tags'].toLowerCase().includes('beauty') || p['Application Tags'].toLowerCase().includes('skincare') || p['Product Name'].toLowerCase().includes('perfume') || p['Product Name'].toLowerCase().includes('fragrance') || p['Product Name'].toLowerCase().includes('cosmetic') || p['Product Name'].toLowerCase().includes('skincare')
     },
     {
         dir: 'products',
@@ -254,25 +243,14 @@ const categories = [
     // --- APPLICATIONS (applications/) ---
     {
         dir: 'applications',
-        slug: 'perfume-and-fragrance-packaging',
-        name: 'Perfume & Fragrance Packaging',
-        title: 'Perfume & Fragrance Packaging Manufacturer | ShineleeBox',
-        desc: 'Bespoke packaging manufacturer for fragrance brands. Custom perfume gift boxes, fragrance set packaging, discovery sample sets, and cologne display boxes with rigid inserts.',
-        h1: 'Perfume & Fragrance Packaging',
-        heroSub: 'Luxury rigid box solutions, discovery sets, and custom-shaped cologne display cases manufactured for premium fragrance houses.',
-        intro: 'Deliver a sensory masterpiece before the scent is even sprayed. Our custom perfume and fragrance packaging solutions feature high-density boards, premium textured art wraps, custom-engineered protective bottle slots, and elegant hot foil stamping details designed for luxury retail and PR campaigns.',
-        filter: p => p['Application Tags'].toLowerCase().includes('perfume') || p['Application Tags'].toLowerCase().includes('fragrance') || p['Product Name'].toLowerCase().includes('perfume') || p['Product Name'].toLowerCase().includes('fragrance')
-    },
-    {
-        dir: 'applications',
-        slug: 'beauty-and-skincare-packaging',
-        name: 'Beauty & Skincare Packaging',
-        title: 'Beauty & Skincare Packaging Manufacturer | ShineleeBox',
-        desc: 'Custom skincare packaging, beauty gift boxes, and influencer PR box manufacturer in Guangzhou. Custom drawers, magnetic closures, and premium printing with low 50 pcs MOQ.',
-        h1: 'Beauty & Skincare Packaging',
-        heroSub: 'High-end skincare gift sets, beauty sample subscription boxes, and custom makeup organizers with gold foil finishes.',
-        intro: 'Turn beauty unboxing into an Instagram-worthy social media trend. ShineleeBox builds high-end beauty and skincare packaging, including sliding drawers, magnetic flip-top gift boxes, and specialty PR kits equipped with custom EVA foam and paper dividers to cradle delicate cream jars, serum bottles, and makeup compacts.',
-        filter: p => p['Application Tags'].toLowerCase().includes('beauty') || p['Application Tags'].toLowerCase().includes('skincare') || p['Application Tags'].toLowerCase().includes('cosmetic') || p['Product Name'].toLowerCase().includes('beauty') || p['Product Name'].toLowerCase().includes('skincare') || p['Product Name'].toLowerCase().includes('cosmetic')
+        slug: 'beauty-perfume-personal-care-packaging',
+        name: 'Beauty, Perfume & Personal Care',
+        title: 'Beauty, Perfume & Personal Care Packaging Solutions | ShineleeBox',
+        desc: 'Bespoke packaging manufacturer for beauty, fragrance, and personal care brands. Custom perfume gift boxes, skincare packaging, spa gift packs, and luxury candle cases.',
+        h1: 'Beauty, Perfume & Personal Care Packaging',
+        heroSub: 'Luxury rigid box solutions, discovery sets, and custom-shaped display cases manufactured for premium beauty and fragrance houses.',
+        intro: 'Deliver a sensory masterpiece before the product is even used. Our custom beauty, perfume, and personal care packaging solutions feature high-density boards, premium textured art wraps, custom-engineered protective inserts, and elegant hot foil stamping details designed for luxury retail and PR campaigns.',
+        filter: p => p['Application Tags'].toLowerCase().includes('perfume') || p['Application Tags'].toLowerCase().includes('fragrance') || p['Application Tags'].toLowerCase().includes('beauty') || p['Application Tags'].toLowerCase().includes('skincare') || p['Application Tags'].toLowerCase().includes('cosmetic') || p['Application Tags'].toLowerCase().includes('personal care') || p['Application Tags'].toLowerCase().includes('bath') || p['Application Tags'].toLowerCase().includes('candle') || p['Application Tags'].toLowerCase().includes('spa') || p['Product Name'].toLowerCase().includes('perfume') || p['Product Name'].toLowerCase().includes('fragrance') || p['Product Name'].toLowerCase().includes('beauty') || p['Product Name'].toLowerCase().includes('skincare') || p['Product Name'].toLowerCase().includes('cosmetic') || p['Product Name'].toLowerCase().includes('candle') || p['Product Name'].toLowerCase().includes('soap') || p['Product Name'].toLowerCase().includes('bath')
     },
     {
         dir: 'applications',
@@ -317,17 +295,6 @@ const categories = [
         heroSub: 'Factory-direct high-end cultural gift packaging, Quran rigid storage boxes, and traditional Islamic pattern gold foiled boxes.',
         intro: 'Celebrate faith and cultural heritage with highly respectful, premium custom packaging. ShineleeBox creates religious and cultural gift packaging built with gold foil Islamic geometric lines, custom compartment boards for religious texts or prayer pads, and sweets boxes for major cultural festivals.',
         filter: p => p['Application Tags'].toLowerCase().includes('religious') || p['Application Tags'].toLowerCase().includes('cultural') || p['Application Tags'].toLowerCase().includes('islamic') || p['Product Name'].toLowerCase().includes('ramadan') || p['Product Name'].toLowerCase().includes('eid') || p['Product Name'].toLowerCase().includes('islamic')
-    },
-    {
-        dir: 'applications',
-        slug: 'personal-care-packaging',
-        name: 'Personal Care Packaging',
-        title: 'Personal Care & Bath Packaging Manufacturer | ShineleeBox',
-        desc: 'Custom packaging for luxury candles, bath bomb sets, spa gift packs, and essential oil cases. Rigid card drawer packaging and magnetic boxes with custom inserts.',
-        h1: 'Personal Care Packaging',
-        heroSub: 'Bespoke rigid drawer boxes, candle presentation boxes, and organic spa gift pack containers starting at 50 pcs MOQ.',
-        intro: 'Promote tranquility and self-care through soothing, elegant packaging design. ShineleeBox constructs custom personal care and bath packaging, specialized for aromatherapy candle jars, essential oil collections, and luxury spa kits. Our rigid cardboard cases protect heavy glass and delicate soaps with premium custom liners.',
-        filter: p => p['Application Tags'].toLowerCase().includes('personal care') || p['Application Tags'].toLowerCase().includes('bath') || p['Application Tags'].toLowerCase().includes('candle') || p['Application Tags'].toLowerCase().includes('spa') || p['Product Name'].toLowerCase().includes('candle') || p['Product Name'].toLowerCase().includes('soap') || p['Product Name'].toLowerCase().includes('bath')
     },
     {
         dir: 'applications',

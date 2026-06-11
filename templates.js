@@ -114,8 +114,7 @@ const headerTemplate = (relativePath = '') => `
                     </a>
                     <div class="absolute left-0 mt-0 w-64 bg-white rounded-md shadow-xl py-2 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-200 border border-slate-100 z-[60]">
                         <a href="${relativePath}products/advent-calendar-boxes.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Advent Calendar Boxes</a>
-                        <a href="${relativePath}products/perfume-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Perfume Packaging</a>
-                        <a href="${relativePath}products/cosmetic-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Cosmetic Packaging</a>
+                        <a href="${relativePath}products/beauty-perfume-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Beauty & Perfume Packaging</a>
                         <a href="${relativePath}products/luxury-gift-boxes.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Luxury Gift Boxes</a>
                         <a href="${relativePath}products/interactive-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Interactive Packaging</a>
                         <a href="${relativePath}products/keepsake-boxes.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Keepsake Boxes</a>
@@ -131,8 +130,7 @@ const headerTemplate = (relativePath = '') => `
                         Applications <svg class="w-3 h-3 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 9l-7 7-7-7"/></svg>
                     </a>
                     <div class="absolute left-0 mt-0 w-64 bg-white rounded-md shadow-xl py-2 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-200 border border-slate-100 z-[60]">
-                        <a href="${relativePath}applications/perfume-and-fragrance-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Perfume & Fragrance Packaging</a>
-                        <a href="${relativePath}applications/beauty-and-skincare-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Beauty & Skincare Packaging</a>
+                        <a href="${relativePath}applications/beauty-perfume-personal-care-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Beauty, Perfume & Personal Care</a>
                         <a href="${relativePath}applications/chocolate-and-food-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Chocolate & Food Packaging</a>
                         <a href="${relativePath}applications/jewelry-and-accessories-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Jewelry & Accessories Packaging</a>
                         <a href="${relativePath}applications/corporate-and-retail-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Corporate & Retail Packaging</a>
@@ -205,8 +203,7 @@ const headerTemplate = (relativePath = '') => `
             <!-- Products Submenu Header -->
             <div class="px-3 py-2 text-xs font-bold uppercase tracking-wider text-brandGold-light border-b border-brandGreen/40 mt-2">Products</div>
             <a href="${relativePath}products/advent-calendar-boxes.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Advent Calendar Boxes</a>
-            <a href="${relativePath}products/perfume-packaging.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Perfume Packaging</a>
-            <a href="${relativePath}products/cosmetic-packaging.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Cosmetic Packaging</a>
+            <a href="${relativePath}products/beauty-perfume-packaging.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Beauty & Perfume Packaging</a>
             <a href="${relativePath}products/luxury-gift-boxes.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Luxury Gift Boxes</a>
             <a href="${relativePath}products/interactive-packaging.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Interactive Packaging</a>
             <a href="${relativePath}products/keepsake-boxes.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Keepsake Boxes</a>
@@ -216,8 +213,7 @@ const headerTemplate = (relativePath = '') => `
 
             <!-- Applications Submenu Header -->
             <div class="px-3 py-2 text-xs font-bold uppercase tracking-wider text-brandGold-light border-b border-brandGreen/40 mt-2">Applications</div>
-            <a href="${relativePath}applications/perfume-and-fragrance-packaging.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Perfume & Fragrance Packaging</a>
-            <a href="${relativePath}applications/beauty-and-skincare-packaging.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Beauty & Skincare Packaging</a>
+            <a href="${relativePath}applications/beauty-perfume-personal-care-packaging.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Beauty, Perfume & Personal Care</a>
             <a href="${relativePath}applications/chocolate-and-food-packaging.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Chocolate & Food Packaging</a>
             <a href="${relativePath}applications/jewelry-and-accessories-packaging.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Jewelry & Accessories Packaging</a>
             <a href="${relativePath}applications/corporate-and-retail-packaging.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Corporate & Retail Packaging</a>
@@ -269,8 +265,7 @@ const footerTemplate = (relativePath = '') => `
             <ul class="space-y-2.5 text-sm text-slate-300">
                 <li><a href="${relativePath}products/index.html" class="hover:text-brandGold transition-colors">All Products</a></li>
                 <li><a href="${relativePath}products/advent-calendar-boxes.html" class="hover:text-brandGold transition-colors">Advent Calendar Boxes</a></li>
-                <li><a href="${relativePath}products/perfume-packaging.html" class="hover:text-brandGold transition-colors">Perfume Packaging</a></li>
-                <li><a href="${relativePath}products/cosmetic-packaging.html" class="hover:text-brandGold transition-colors">Cosmetic Packaging</a></li>
+                <li><a href="${relativePath}products/beauty-perfume-packaging.html" class="hover:text-brandGold transition-colors">Beauty & Perfume Packaging</a></li>
                 <li><a href="${relativePath}products/luxury-gift-boxes.html" class="hover:text-brandGold transition-colors">Luxury Gift Boxes</a></li>
                 <li><a href="${relativePath}products/interactive-packaging.html" class="hover:text-brandGold transition-colors">Interactive Packaging</a></li>
             </ul>
@@ -280,8 +275,7 @@ const footerTemplate = (relativePath = '') => `
         <div>
             <h4 class="text-lg font-serif font-semibold text-brandGold mb-4">Industry Solutions</h4>
             <ul class="space-y-2.5 text-sm text-slate-300">
-                <li><a href="${relativePath}applications/perfume-and-fragrance-packaging.html" class="hover:text-brandGold transition-colors">Perfume & Fragrance</a></li>
-                <li><a href="${relativePath}applications/beauty-and-skincare-packaging.html" class="hover:text-brandGold transition-colors">Beauty & Skincare</a></li>
+                <li><a href="${relativePath}applications/beauty-perfume-personal-care-packaging.html" class="hover:text-brandGold transition-colors">Beauty & Perfume Care</a></li>
                 <li><a href="${relativePath}applications/chocolate-and-food-packaging.html" class="hover:text-brandGold transition-colors">Gourmet Chocolate & Food</a></li>
                 <li><a href="${relativePath}applications/jewelry-and-accessories-packaging.html" class="hover:text-brandGold transition-colors">Jewelry & Accessories</a></li>
                 <li><a href="${relativePath}holiday-occasions/ramadan-and-eid-packaging.html" class="hover:text-brandGold transition-colors">Ramadan & Eid Festival</a></li>
