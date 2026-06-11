@@ -186,14 +186,14 @@ const categories = [
     },
     {
         dir: 'products',
-        slug: 'luxury-gift-boxes',
-        name: 'Luxury Gift Boxes',
-        title: 'Custom Luxury Gift Boxes | Premium Rigid Cardboard Manufacturer',
-        desc: 'ShineleeBox manufactures high-end custom luxury gift boxes in Guangzhou, including magnetic flip-top boxes, sliding drawer boxes, foldable rigid boxes, and custom-shaped display boxes.',
-        h1: 'Custom Luxury Gift Boxes',
-        heroSub: 'Factory-direct premium rigid cardboard gift boxes with magnetic closures, pull-out drawers, custom sizes, and premium surface finishes.',
-        intro: 'Create a truly premium unboxing experience with our collection of custom luxury gift boxes. Constructed from high-density chipboard and wrapped in specialty papers, these rigid boxes are perfect for high-end retail, promotional kits, corporate gifting, and product launches.',
-        filter: p => p['Main Category'] === 'Luxury Gift Boxes' || p['Subcategory'].toLowerCase().includes('drawer') || p['Subcategory'].toLowerCase().includes('magnetic') || p['Product Name'].toLowerCase().includes('magnetic') || p['Product Name'].toLowerCase().includes('drawer') || p['Custom Options'].toLowerCase().includes('magnetic') || p['Custom Options'].toLowerCase().includes('drawer')
+        slug: 'rigid-boxes',
+        name: 'Rigid Boxes',
+        title: 'Custom Rigid Boxes & Premium Cardboard Gift Boxes | ShineleeBox',
+        desc: 'ShineleeBox manufactures high-end custom rigid boxes in Guangzhou, including magnetic flip-top boxes, sliding drawer boxes, foldable rigid boxes, and luxury gift set packaging.',
+        h1: 'Custom Rigid Boxes',
+        heroSub: 'Factory-direct premium rigid cardboard gift boxes with magnetic closures, pull-out drawers, custom sizes, and high-end surface finishes.',
+        intro: 'Create a truly premium unboxing experience with our collection of custom rigid boxes. Constructed from high-density chipboard and wrapped in specialty papers, these rigid boxes are perfect for high-end retail, promotional kits, corporate gifting, and product launches.',
+        filter: p => p['Main Category'] === 'Luxury Gift Boxes' || p['Main Category'].toLowerCase().includes('rigid') || p['Subcategory'].toLowerCase().includes('drawer') || p['Subcategory'].toLowerCase().includes('magnetic') || p['Product Name'].toLowerCase().includes('magnetic') || p['Product Name'].toLowerCase().includes('drawer') || p['Product Name'].toLowerCase().includes('rigid') || p['Custom Options'].toLowerCase().includes('magnetic') || p['Custom Options'].toLowerCase().includes('drawer') || p['Custom Options'].toLowerCase().includes('rigid')
     },
     {
         dir: 'products',

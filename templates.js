@@ -115,7 +115,7 @@ const headerTemplate = (relativePath = '') => `
                     <div class="absolute left-0 mt-0 w-64 bg-white rounded-md shadow-xl py-2 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-200 border border-slate-100 z-[60]">
                         <a href="${relativePath}products/advent-calendar-boxes.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Advent Calendar Boxes</a>
                         <a href="${relativePath}products/beauty-perfume-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Beauty & Perfume Packaging</a>
-                        <a href="${relativePath}products/luxury-gift-boxes.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Luxury Gift Boxes</a>
+                        <a href="${relativePath}products/rigid-boxes.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Rigid Boxes</a>
                         <a href="${relativePath}products/interactive-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Interactive Packaging</a>
                         <a href="${relativePath}products/keepsake-boxes.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Keepsake Boxes</a>
                         <a href="${relativePath}products/greeting-cards.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Greeting Cards</a>
