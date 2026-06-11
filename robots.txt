@@ -1,0 +1,13 @@
+# Standard Robots.txt for ShineleeBox Custom Packaging Website (https://slpack.net)
+# Optimized for maximum search engine indexability and crawling efficiency.
+
+User-agent: *
+Allow: /
+
+# Exclude temporary or raw resource folders if any
+Disallow: /temp_upload/
+Disallow: /structure_update/
+Disallow: /sample_analysis/
+
+# Direct crawlers to our dynamically generated sitemap
+Sitemap: https://slpack.net/sitemap.xml

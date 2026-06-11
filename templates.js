@@ -6,11 +6,33 @@ const path = require('path');
 // Luxury Gold: #C5A059
 // Light Ivory: #FCFAF6
 
+// Analytics & Conversion Tracking Configuration
+// Change these IDs to your real Google Analytics / GTM IDs when ready.
+const GA4_MEASUREMENT_ID = 'G-XXXXXXXXXX'; // Replace with your Google Analytics 4 Measurement ID, e.g. 'G-E59XLSB1L5'
+const GTM_CONTAINER_ID = 'GTM-XXXXXXX';   // Replace with your Google Tag Manager Container ID, e.g. 'GTM-N6LCS37'
+
 // Custom CSS / Header / Footer Template
 const headTemplate = (title, description, relativePath = '') => `
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','${GTM_CONTAINER_ID}');</script>
+    <!-- End Google Tag Manager -->
+
+    <!-- Google tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=${GA4_MEASUREMENT_ID}"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', '${GA4_MEASUREMENT_ID}');
+    </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${title}</title>
@@ -57,6 +79,10 @@ const headTemplate = (title, description, relativePath = '') => `
     </style>
 </head>
 <body class="bg-brandIvory text-slate-800 font-sans min-h-screen flex flex-col">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=${GTM_CONTAINER_ID}"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
 `;
 
 const headerTemplate = (relativePath = '') => `
@@ -295,6 +321,41 @@ const footerTemplate = (relativePath = '') => `
             mobileMenu.classList.toggle('hidden');
         });
     }
+
+    // Universal WhatsApp click tracking
+    document.addEventListener('click', function(event) {
+        const target = event.target.closest('a');
+        if (target && target.href) {
+            const href = target.href.toLowerCase();
+            if (href.includes('wa.me') || href.includes('whatsapp.com') || href.includes('api.whatsapp.com')) {
+                const label = target.textContent.trim() || target.getAttribute('aria-label') || 'WhatsApp Link';
+                const pagePath = window.location.pathname;
+
+                console.log('WhatsApp link clicked:', href, label, 'on page:', pagePath);
+
+                // Push to GTM dataLayer
+                if (window.dataLayer) {
+                    window.dataLayer.push({
+                        'event': 'whatsapp_click',
+                        'event_category': 'conversion',
+                        'event_label': label,
+                        'page_path': pagePath,
+                        'whatsapp_url': href
+                    });
+                }
+
+                // Push directly to GA4
+                if (typeof gtag === 'function') {
+                    gtag('event', 'whatsapp_click', {
+                        'event_category': 'conversion',
+                        'event_label': label,
+                        'page_path': pagePath,
+                        'whatsapp_url': href
+                    });
+                }
+            }
+        }
+    }, true);
 </script>
 </body>
 </html>

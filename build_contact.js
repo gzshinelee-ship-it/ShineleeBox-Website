@@ -257,6 +257,37 @@ function buildContactPage() {
         // Submit mock flow
         document.getElementById('inquiryForm').addEventListener('submit', function(e) {
             e.preventDefault();
+            
+            // Extract parameters for high-precision analytics
+            const productType = document.getElementById('productType').value;
+            const estimatedQuantity = document.getElementById('estimatedQuantity').value;
+            const pagePath = window.location.pathname;
+
+            console.log('Inquiry Form Submitted:', { productType, estimatedQuantity, pagePath });
+
+            // Push to GTM dataLayer
+            if (window.dataLayer) {
+                window.dataLayer.push({
+                    'event': 'form_submission',
+                    'event_category': 'conversion',
+                    'event_label': 'Contact Form Submission',
+                    'product_type': productType,
+                    'estimated_quantity': estimatedQuantity,
+                    'page_path': pagePath
+                });
+            }
+
+            // Push directly to GA4 (lead generation event)
+            if (typeof gtag === 'function') {
+                gtag('event', 'generate_lead', {
+                    'event_category': 'conversion',
+                    'event_label': 'Contact Form Submission',
+                    'product_type': productType,
+                    'estimated_quantity': estimatedQuantity,
+                    'page_path': pagePath
+                });
+            }
+
             document.getElementById('successModal').style.display = 'flex';
             this.reset();
             document.getElementById('fileName').textContent = "No file selected";
