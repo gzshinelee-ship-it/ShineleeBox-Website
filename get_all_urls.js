@@ -1,0 +1,58 @@
+const fs = require('fs');
+
+const products = {
+  valentine: [
+    "https://www.alibaba.com/product-detail/Fireworks-Music-Colorful-Lights-Laser-Cut_1601806329364.html",
+    "https://www.alibaba.com/product-detail/Lovebirds-3D-Pop-Card-Custom-Laser_1601797995220.html",
+    "https://www.alibaba.com/product-detail/Sweet-Birthday-and-Anniversary-Card-for_1601711654155.html",
+    "https://www.alibaba.com/product-detail/Lovebirds-3D-Pop-Card-Custom-Laser_1601711608397.html",
+    "https://www.alibaba.com/product-detail/Purple-Butterfly-3D-Pop-up-Greeting_1601621242182.html",
+    "https://www.alibaba.com/product-detail/Sushi-Lover-Card-Pop-up-Box_1601019286649.html"
+  ],
+  parents: [
+    "https://www.alibaba.com/product-detail/Custom-Hotsell-3D-Pop-up-Laser_1601791174367.html",
+    "https://www.alibaba.com/product-detail/Custom-3D-Pop-up-Fathers-Day_1601791195282.html",
+    "https://www.alibaba.com/product-detail/Custom-Paper-Love-Wholesale-Happy-Fathers_1601791178396.html",
+    "https://www.alibaba.com/product-detail/Custom-3D-Dad-Holiday-Greeting-Card_1601791164402.html",
+    "https://www.alibaba.com/product-detail/Luxury-Mom-Flower-Box-Mother-s_1601611406622.html",
+    "https://www.alibaba.com/product-detail/Custom-Disposable-Rectangle-Red-Coated-Flower_1601734193565.html"
+  ],
+  graduation: [
+    "https://www.alibaba.com/product-detail/3D-Memo-Pad-Custom-Sticky-Note_1601791457302.html",
+    "https://www.alibaba.com/product-detail/Luxury-Scrapbook-Packaging-Chocolate-Candy-Diy_1600462678646.html",
+    "https://www.alibaba.com/product-detail/Creative-DIY-Graduation-Picture-Photo-Album_1600492665971.html",
+    "https://www.alibaba.com/product-detail/Round-Paper-Flower-Box-Gift-Packaging_1600832835807.html",
+    "https://www.alibaba.com/product-detail/Custom-Large-Plastic-Pencil-Case-Organizer_1601711565476.html",
+    "https://www.alibaba.com/product-detail/4x6-Inch-Handrawn-Thank-You-Cards_1601625923871.html"
+  ],
+  wedding: [
+    "https://www.alibaba.com/product-detail/Luxury-Gift-Boxes-Factory-Wholesale-Custom_1600717066181.html",
+    "https://www.alibaba.com/product-detail/Photo-Packaging-Linen-Box-with-Video_1601757833264.html",
+    "https://www.alibaba.com/product-detail/Wholesale-Recyclable-Customizable-Luxury-Pink-Flower_1600971648322.html",
+    "https://www.alibaba.com/product-detail/High-End-Wedding-Cake-Pastry-Gift_1601461447175.html",
+    "https://www.alibaba.com/product-detail/Wedding-Keepsake-Box-with-Lid-Ribbon_1601734402135.html",
+    "https://www.alibaba.com/product-detail/Custom-HD-4-Inch-LCD-Screen_1601734288742.html"
+  ],
+  ramadan: [
+    "https://www.alibaba.com/product-detail/Cardboard-Zakat-Box-for-Kid-Educational_10000042640470.html",
+    "https://www.alibaba.com/product-detail/Matte-Finish-Embossed-Dates-Box-Ramadan_1601112972095.html",
+    "https://www.alibaba.com/product-detail/Custom-Recycled-Materials-Embossed-Rigid-Foldable_1600334738730.html",
+    "https://www.alibaba.com/product-detail/Custom-Empty-Advent-Calendar-Box-Ramadan_1600746274366.html",
+    "https://www.alibaba.com/product-detail/Custom-Printed-Eid-Mubarak-Recyclable-Rigid_1601457971923.html",
+    "https://www.alibaba.com/product-detail/Custom-Ramadan-Beauty-Advent-Calendar-Eid_1600482836934.html"
+  ]
+};
+
+// Flatten to a list of URLs
+const allUrls = [];
+const urlToMeta = {};
+
+Object.entries(products).forEach(([category, urls]) => {
+  urls.forEach(url => {
+    allUrls.push(url);
+    urlToMeta[url] = { category };
+  });
+});
+
+fs.writeFileSync('all_urls.json', JSON.stringify({ urls: allUrls, urlToMeta }, null, 2));
+console.log(`Saved ${allUrls.length} URLs to all_urls.json`);

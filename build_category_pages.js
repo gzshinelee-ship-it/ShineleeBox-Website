@@ -413,90 +413,98 @@ const categories = [
     {
         dir: 'holiday-occasions',
         slug: 'christmas-packaging',
-        name: 'Christmas Packaging',
-        title: 'Christmas Packaging Manufacturer | Holiday Advent Calendars | ShineleeBox',
-        desc: 'Custom Christmas advent calendar boxes, Christmas tree rigid boxes, round holiday cylinder boxes, and red-gold gift sets for festive retail and influencer campaigns.',
-        h1: 'Christmas Packaging',
-        heroSub: 'Guangzhou factory-direct custom Christmas advent calendars, rigid holiday gift sets, and red & gold foiled retail packaging.',
-        intro: 'Make the holidays unforgettable with stunning custom Christmas packaging. As a specialized B2B manufacturer in Guangzhou, ShineleeBox engineers premium 12, 24, and 25-day countdown advent calendars, book-style magnetic holiday gift sets, and gold-foiled red rigid boxes that elevate seasonal sales and influencer unboxings.',
-        filter: p => p['Holiday Tags'].toLowerCase().includes('christmas') || p['Holiday Tags'].toLowerCase().includes('holiday') || p['Product Name'].toLowerCase().includes('christmas') || p['Product Name'].toLowerCase().includes('holiday')
+        name: 'Christmas & Holiday Packaging',
+        title: 'Custom Christmas Advent Calendar Boxes | Holiday Gift Packaging',
+        desc: 'Direct-factory custom Christmas packaging. Specialized in luxury 12 and 24-day advent calendar boxes, holiday gift set packaging, and festive rigid boxes with premium finishes.',
+        h1: 'Christmas & Holiday Packaging',
+        heroSub: 'Elevate your seasonal campaigns with bespoke luxury advent calendars and festive gift boxes manufactured to your exact brand specifications.',
+        intro: 'Christmas is the peak unboxing season. ShineleeBox manufactures premium holiday packaging that turns products into festive experiences. From classic 24-drawer advent calendars to book-style countdown boxes, we help brands create viral unboxing moments with high-density boards, vibrant festive prints, and luxury foils.',
+        filter: p => p['Holiday Tags'].toLowerCase().includes('christmas') || p['Holiday Tags'].toLowerCase().includes('holiday') || p['Main Category'] === 'Advent Calendar Boxes',
+        thumbnail: 'https://images.unsplash.com/photo-1543589077-47d81606c1bf?auto=format&fit=crop&w=800&q=80'
     },
     {
         dir: 'holiday-occasions',
         slug: 'ramadan-and-eid-packaging',
         name: 'Ramadan & Eid Packaging',
-        title: 'Ramadan & Eid Packaging Manufacturer | Islamic Gift Boxes',
-        desc: 'Custom 30-day Ramadan drawer calendar boxes, Eid sweet gift boxes, and Islamic pattern rigid cases with gold foil accents from Guangzhou packaging manufacturer.',
-        h1: 'Ramadan & Eid Packaging',
-        heroSub: 'Factory-direct 30-day numbered drawer countdown calendars and gold-embossed blue Eid sweets boxes.',
-        intro: 'Honor the blessed months of Ramadan and Eid with custom gift boxes that celebrate traditional elegance. ShineleeBox designs and manufactures heavy rigid cardboard countdown calendars with 30 numbered drawers, and premium gold foil-embossed boxes for dates, sweets, and religious keepsake storage.',
-        filter: p => p['Holiday Tags'].toLowerCase().includes('ramadan') || p['Holiday Tags'].toLowerCase().includes('eid') || p['Product Name'].toLowerCase().includes('ramadan') || p['Product Name'].toLowerCase().includes('eid')
+        title: 'Custom Ramadan & Eid Gift Packaging | Luxury Islamic Gift Boxes',
+        desc: 'Bespoke Ramadan advent calendars, Eid sweet boxes, and traditional Islamic pattern gift packaging. High-end luxury rigid boxes with gold foil geometric designs.',
+        h1: 'Ramadan & Eid Gift Packaging',
+        heroSub: 'Respectful and elegant custom packaging for the holy month of Ramadan and Eid al-Fitr celebrations. Specialized in 30-day countdown boxes.',
+        intro: 'Honor tradition with sophistication. Our Ramadan and Eid packaging collection features intricate Islamic geometric art, moon and star motifs, and specialized structures like 30-compartment dates boxes and luxury gift sets for family and corporate sharing.',
+        filter: p => p['Holiday Tags'].toLowerCase().includes('ramadan') || p['Holiday Tags'].toLowerCase().includes('eid') || p['Application Tags'].toLowerCase().includes('islamic'),
+        thumbnail: 'https://images.unsplash.com/photo-1564507004663-b6dfb3c824d5?auto=format&fit=crop&w=800&q=80'
     },
     {
         dir: 'holiday-occasions',
         slug: 'valentines-day-packaging',
-        name: 'Valentine’s Day Packaging',
-        title: 'Valentine’s Day Packaging Manufacturer | Romantic Gift Boxes',
-        desc: 'Guangzhou factory supplying custom Valentine’s Day packaging, including heart-shaped gift boxes, double door romantic perfume boxes, and chocolate gift packaging.',
-        h1: 'Valentine’s Day Packaging',
-        heroSub: 'Bespoke heart boxes, romantic pink-red double-door gift cases, and luxury chocolate drawer sets for Valentine\'s promotions.',
-        intro: 'Incite emotion and brand loyalty with romantic custom packaging designed for Valentine\'s Day. ShineleeBox manufactures high-end rigid heart gift boxes, sliding drawers, and ribbon-tied double-door opening gift sets, perfect for couples\' fragrances, limited-edition cosmetics, jewelry, and gourmet chocolates.',
-        filter: p => p['Holiday Tags'].toLowerCase().includes('valentine') || p['Product Name'].toLowerCase().includes('valentine') || p['Product Name'].toLowerCase().includes('love') || p['Product Name'].toLowerCase().includes('heart')
+        name: "Valentine's Day Packaging",
+        title: "Custom Valentine's Day Gift Boxes | Romantic Luxury Packaging",
+        desc: "Premium Valentine's Day gift packaging manufacturer. Custom heart-shaped boxes, romantic red and pink rigid boxes, and luxury flower gift set packaging.",
+        h1: "Valentine's Day Gift Packaging",
+        heroSub: 'Capture the essence of romance with premium custom gift boxes designed for high-end jewelry, perfumes, and luxury confectionery gifts.',
+        intro: "Love is in the details. ShineleeBox creates romantic, high-end Valentine's Day packaging that speaks to the heart. We specialize in deep red and soft pink finishes, soft-touch textures, and elegant opening structures that make every romantic gift feel like a treasure.",
+        filter: p => p['Holiday Tags'].toLowerCase().includes('valentine') || p['Product Name'].toLowerCase().includes('valentine') || p['Application Tags'].toLowerCase().includes('jewelry'),
+        thumbnail: 'https://images.unsplash.com/photo-1518199266791-739d6ff26ef0?auto=format&fit=crop&w=800&q=80'
     },
     {
         dir: 'holiday-occasions',
         slug: 'wedding-and-anniversary-packaging',
         name: 'Wedding & Anniversary Packaging',
-        title: 'Wedding & Anniversary Packaging | Premium Keepsake Gift Boxes',
-        desc: 'Guangzhou factory-direct wedding keepsake boxes, bridal invitation card cases, anniversary gift boxes, and high-end rigid ribbon boxes with custom compartments.',
+        title: 'Custom Wedding Invitation & Anniversary Gift Boxes | ShineleeBox',
+        desc: 'Bespoke wedding and anniversary packaging manufacturer. Luxury wedding invitation boxes, bridesmaid proposal kits, and elegant anniversary gift sets.',
         h1: 'Wedding & Anniversary Packaging',
-        heroSub: 'Bespoke bridal souvenir boxes, luxury wedding invitation cases, and gold-stamped marriage anniversary gift boxes.',
-        intro: 'Commemorate love and milestones with luxury packaging built to stand the test of time. ShineleeBox specializes in constructing premium wedding keepsake boxes, high-end bridal party invitation cards, and custom gift boxes with elegant ribbon closures, soft velvet inserts, and delicate hot foil lettering.',
-        filter: p => p['Holiday Tags'].toLowerCase().includes('wedding') || p['Holiday Tags'].toLowerCase().includes('anniversary') || p['Product Name'].toLowerCase().includes('wedding') || p['Product Name'].toLowerCase().includes('anniversary')
+        heroSub: 'Timeless and elegant custom packaging for life’s most precious commitments. High-end bridal gift boxes and luxury invitation suites.',
+        intro: 'Make the commitment as beautiful as the celebration. Our wedding and anniversary collection focuses on timeless elegance—featuring pearlized papers, delicate silk ribbon closures, and high-density rigid structures designed to be kept as lifelong keepsakes.',
+        filter: p => p['Holiday Tags'].toLowerCase().includes('wedding') || p['Holiday Tags'].toLowerCase().includes('anniversary') || p['Product Name'].toLowerCase().includes('wedding'),
+        thumbnail: 'https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?auto=format&fit=crop&w=800&q=80'
     },
     {
         dir: 'holiday-occasions',
         slug: 'baby-and-family-keepsake-packaging',
         name: 'Baby & Family Keepsake Packaging',
-        title: 'Baby & Family Keepsake Packaging | Custom Rigid Memory Boxes',
-        desc: 'Custom baby keepsake boxes, family memory rigid cases, custom milestone packaging, and children\'s event gift box manufacturer in Guangzhou, China.',
+        title: 'Custom Baby Milestone & Family Keepsake Boxes | ShineleeBox',
+        desc: 'Bespoke baby shower gift boxes, newborn milestone keepsake boxes, and family memory storage boxes. Durable high-end rigid packaging meant to last a lifetime.',
         h1: 'Baby & Family Keepsake Packaging',
-        heroSub: 'Premium rigid storage and keepsake packaging for baby milestones, family memories, and children\'s gift campaigns.',
-        intro: 'Cherish family milestones forever with custom baby and family keepsake packaging. ShineleeBox constructs highly durable, luxury paper memory boxes, complete with sliding drawers, ribbon handles, and secure magnetic flips, making them perfect for holding early milestone keepsakes and family heirlooms.',
-        filter: p => p['Holiday Tags'].toLowerCase().includes('baby') || p['Holiday Tags'].toLowerCase().includes('family') || p['Holiday Tags'].toLowerCase().includes('keepsake') || p['Product Name'].toLowerCase().includes('baby') || p['Product Name'].toLowerCase().includes('memory') || p['Product Name'].toLowerCase().includes('keepsake')
+        heroSub: 'Celebrate the journey of family with "too good to throw away" keepsake boxes that protect your most precious memories for generations.',
+        intro: 'Packaging that preserves a lifetime. ShineleeBox specializes in durable, museum-quality keepsake boxes for families. From baby milestone kits to multi-generational photo storage, our boxes are built with archival-safe materials and elegant, nursery-friendly aesthetics.',
+        filter: p => p['Holiday Tags'].toLowerCase().includes('baby') || p['Holiday Tags'].toLowerCase().includes('family') || p['Application Tags'].toLowerCase().includes('keepsake') || p['Main Category'] === 'Keepsake Boxes',
+        thumbnail: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?auto=format&fit=crop&w=800&q=80'
     },
     {
         dir: 'holiday-occasions',
         slug: 'graduation-packaging',
         name: 'Graduation Packaging',
-        title: 'Graduation Packaging Manufacturer | Premium Keepsake Box Supplier',
-        desc: 'Bespoke graduation keepsake boxes, custom certificate cases, university gift sets, and academic memory packaging with gold hot stamping and custom layouts.',
-        h1: 'Graduation Packaging',
-        heroSub: 'Guangzhou factory-direct high-end university souvenir boxes, certificate cases, and academic graduation gift packaging.',
-        intro: 'Honor academic achievement with high-quality, professional custom graduation packaging. ShineleeBox designs and manufactures durable souvenir storage boxes, custom book-style certificate folders, and elegant rigid card gift sets printed with custom crests, gold hot foil stamps, and secure silk linings.',
-        filter: p => p['Holiday Tags'].toLowerCase().includes('graduation') || p['Product Name'].toLowerCase().includes('graduation') || p['Product Name'].toLowerCase().includes('certificate')
+        title: 'Custom Graduation Gift Boxes & Diploma Cases | ShineleeBox',
+        desc: 'Bespoke graduation gift packaging and diploma certificate cases. High-end rigid boxes for universities, schools, and executive education gifts.',
+        h1: 'Graduation & Achievement Packaging',
+        heroSub: 'Honor academic excellence with prestigious custom graduation gift boxes, luxury certificate holders, and commemorative achievement kits.',
+        intro: 'Mark the milestone of success with prestigious packaging. Our graduation collection is designed for institutions and gift brands that require an atmosphere of achievement. We utilize collegiate colors, heavy-duty diploma-safe structures, and elegant gold foil academic crests.',
+        filter: p => p['Holiday Tags'].toLowerCase().includes('graduation') || p['Application Tags'].toLowerCase().includes('education') || p['Product Name'].toLowerCase().includes('graduation'),
+        thumbnail: 'https://images.unsplash.com/photo-1523050853051-be991f85a6ad?auto=format&fit=crop&w=800&q=80'
     },
     {
         dir: 'holiday-occasions',
         slug: 'mothers-day-fathers-day-packaging',
-        name: 'Mother’s Day / Father’s Day Packaging',
-        title: 'Mother’s & Father’s Day Packaging Manufacturer | Premium Gift Boxes',
-        desc: 'Custom gift boxes for Mother’s Day and Father’s Day campaigns. Premium rigid skincare sets, fragrance drawer boxes, leather-touch cases, and limited edition gift sets.',
-        h1: 'Mother’s / Father’s Day Packaging',
-        heroSub: 'Premium rigid gift sets, fragrance countdown drawers, and cosmetic skincare boxes for parent celebration campaigns.',
-        intro: 'Deliver a heartfelt unboxing experience for parent appreciation campaigns. ShineleeBox manufactures elegant, limited-edition custom gift boxes for Mother\'s Day and Father\'s Day, specializing in deep rigid drawer boxes, magnetic flip-open perfume cases, and luxury retail gift sets with clean foil lettering.',
-        filter: p => p['Holiday Tags'].toLowerCase().includes('mother') || p['Holiday Tags'].toLowerCase().includes('father') || p['Product Name'].toLowerCase().includes('mother') || p['Product Name'].toLowerCase().includes('father')
+        name: "Mother's & Father's Day Packaging",
+        title: "Custom Mother's & Father's Day Gift Boxes | ShineleeBox",
+        desc: "Custom gift boxes for Mother's Day and Father's Day campaigns. Premium rigid skincare sets, fragrance drawer boxes, leather-touch cases, and limited edition gift sets.",
+        h1: "Mother's & Father's Day Packaging",
+        heroSub: 'Celebrate parents with premium custom gift sets. Specialized in luxury beauty packaging for Mom and sophisticated grooming cases for Dad.',
+        intro: "Gratitude deserves a grand presentation. ShineleeBox manufactures limited-edition gift packaging for parental holidays, from floral-inspired luxury skincare sets to refined, tech-friendly rigid boxes for men's grooming and executive gifts.",
+        filter: p => p['Holiday Tags'].toLowerCase().includes('mother') || p['Holiday Tags'].toLowerCase().includes('father') || p['Product Name'].toLowerCase().includes('mother') || p['Product Name'].toLowerCase().includes('father'),
+        thumbnail: 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=800&q=80'
     },
     {
         dir: 'holiday-occasions',
         slug: 'other-occasions',
         name: 'Other Occasions',
-        title: 'Custom Special Occasion Packaging & Specialty Gift Boxes',
-        desc: 'Bespoke packaging manufacturer for special events, limited editions, corporate promotions, PR campaigns, and seasonal holidays. High quality custom rigid boxes in Guangzhou.',
-        h1: 'Custom Special Occasion Packaging',
-        heroSub: 'Flexible rigid packaging solutions, limited-edition promotional kits, and versatile gift packaging starting at 50 pcs MOQ.',
-        intro: 'No matter the milestone or event, ShineleeBox possesses the structural expertise to design compliant, luxury packaging. From annual company galas and boutique product launch PR kits to long-tail holidays, our Guangzhou paper packaging engineers translate your artwork into tangible unboxing magic.',
-        filter: p => true // Catch-all showing versatile high-end packages
+        title: 'Custom Special Occasion Packaging | ShineleeBox',
+        desc: 'Bespoke packaging for all of life’s unique celebrations. Custom rigid boxes for religious events, cultural festivals, corporate milestones, and bespoke gifting.',
+        h1: 'Special Occasion Packaging',
+        heroSub: 'From cultural festivals to corporate milestones, we provide custom high-end packaging solutions for every unique event in your calendar.',
+        intro: 'Every celebration is an unboxing opportunity. Our "Other Occasions" collection serves the unique, the cultural, and the corporate. Whether it’s a regional festival or a high-end corporate PR reveal, our structural engineering team builds the perfect stage for your unique event.',
+        filter: p => p['Product ID'].startsWith('RG-') || p['Product ID'].startsWith('LM-'),
+        thumbnail: 'https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=800&q=80'
     }
 ];
 
@@ -571,7 +579,7 @@ function buildSubdirectoryIndices() {
             <div class="bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg transition-all flex flex-col justify-between">
                 <div>
                     <div class="h-48 overflow-hidden bg-slate-100">
-                        <img src="https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=800&q=80" alt="${h.name}" class="w-full h-full object-cover">
+                        <img src="${h.thumbnail || 'https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=800&q=80'}" alt="${h.name}" class="w-full h-full object-cover">
                     </div>
                     <div class="p-5">
                         <h3 class="font-serif text-lg font-bold text-brandGreen mb-2">${h.name}</h3>
