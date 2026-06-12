@@ -165,7 +165,41 @@ if (fs.existsSync(lmCsvPath)) {
     });
 }
 
-const products = originalProducts.concat(interactiveProducts).concat(lmProducts);
+// Load and parse religious products
+const rgCsvPath = path.join(__dirname, 'Accio_Religious_Product_Upload.csv');
+let rgProducts = [];
+if (fs.existsSync(rgCsvPath)) {
+    const rgContent = fs.readFileSync(rgCsvPath, 'utf8');
+    const parsedRg = parseCSV(rgContent);
+    rgProducts = parsedRg.map(p => {
+        const id = p['Product ID'];
+        return {
+            'Product ID': id,
+            'Product Name': p['Product Name EN'],
+            'URL Slug': p['URL Slug'],
+            'Main Category': 'Religious Gift Packaging',
+            'Subcategory': p['Product Subcategory'] || '',
+            'Application Tags': p['Application Tags'] || '',
+            'Holiday Tags': p['Holiday / Occasion Tags'] || '',
+            'Gift Set': 'No',
+            'SEO Title': p['SEO Title'] || '',
+            'Meta Description': p['Meta Description'] || '',
+            'H1': p['Product Name EN'],
+            'Short Description': p['Main Selling Point'] || '',
+            'Description': p['Meta Description'] || '',
+            'Key Features': p['Key Features'] || '',
+            'Best For': '',
+            'Custom Options': p['Custom Options'] || '',
+            'Manufacturing Support': '',
+            'CTA': '',
+            'Image Folder': resolveImageFolder(id),
+            'Main Image': p['Main Image Filename'] || '',
+            'Video': ''
+        };
+    });
+}
+
+const products = originalProducts.concat(interactiveProducts).concat(lmProducts).concat(rgProducts);
 
 // Ensure directories exist
 const productsDir = path.join(__dirname, 'products');
@@ -270,7 +304,7 @@ const categories = [
         h1: 'Custom Religious Gift Packaging',
         heroSub: 'Bespoke Ramadan & Eid drawer calendars, luxury Quran boxes, and high-quality Islamic pattern rigid packaging with gold foil accents.',
         intro: 'Respect religious tradition with beautifully crafted, culturally compliant custom religious gift packaging. ShineleeBox specializes in designing intricate geometric patterns, multi-layer drawer calendars for the 30 days of Ramadan, and robust keepsake boxes for Quran storage, Eid sweets, and Tayammum pad kits.',
-        filter: p => p['Main Category'] === 'Religious Gift Packaging' || p['Subcategory'].toLowerCase().includes('ramadan') || p['Subcategory'].toLowerCase().includes('eid') || p['Application Tags'].toLowerCase().includes('religious') || p['Product Name'].toLowerCase().includes('ramadan') || p['Product Name'].toLowerCase().includes('eid') || p['Product Name'].toLowerCase().includes('islamic') || p['Product Name'].toLowerCase().includes('tayammum')
+        filter: p => p['Main Category'] === 'Religious Gift Packaging' || p['Product ID'].startsWith('RG-') || p['Subcategory'].toLowerCase().includes('ramadan') || p['Subcategory'].toLowerCase().includes('eid') || p['Application Tags'].toLowerCase().includes('religious') || p['Product Name'].toLowerCase().includes('ramadan') || p['Product Name'].toLowerCase().includes('eid') || p['Product Name'].toLowerCase().includes('islamic') || p['Product Name'].toLowerCase().includes('tayammum') || p['Product Name'].toLowerCase().includes('wudu') || p['Product Name'].toLowerCase().includes('miswak')
     },
 
     // --- APPLICATIONS (applications/) ---
