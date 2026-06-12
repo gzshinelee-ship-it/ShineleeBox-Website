@@ -199,7 +199,41 @@ if (fs.existsSync(rgCsvPath)) {
     });
 }
 
-const products = originalProducts.concat(interactiveProducts).concat(lmProducts).concat(rgProducts);
+// Load and parse greeting card products
+const gcCsvPath = path.join(__dirname, 'Accio_Greeting_Cards_Upload.csv');
+let gcProducts = [];
+if (fs.existsSync(gcCsvPath)) {
+    const gcContent = fs.readFileSync(gcCsvPath, 'utf8');
+    const parsedGc = parseCSV(gcContent);
+    gcProducts = parsedGc.map(p => {
+        const id = p['Product ID'];
+        return {
+            'Product ID': id,
+            'Product Name': p['Product Name EN'],
+            'URL Slug': p['URL Slug'],
+            'Main Category': 'Greeting Cards',
+            'Subcategory': p['Product Subcategory'] || '',
+            'Application Tags': p['Application Tags'] || '',
+            'Holiday Tags': p['Holiday / Occasion Tags'] || '',
+            'Gift Set': 'No',
+            'SEO Title': p['SEO Title'] || '',
+            'Meta Description': p['Meta Description'] || '',
+            'H1': p['Product Name EN'],
+            'Short Description': p['Main Selling Point'] || '',
+            'Description': p['Meta Description'] || '',
+            'Key Features': p['Key Features'] || '',
+            'Best For': '',
+            'Custom Options': p['Custom Options'] || '',
+            'Manufacturing Support': '',
+            'CTA': '',
+            'Image Folder': resolveImageFolder(id),
+            'Main Image': p['Main Image Filename'] || '',
+            'Video': ''
+        };
+    });
+}
+
+const products = originalProducts.concat(interactiveProducts).concat(lmProducts).concat(rgProducts).concat(gcProducts);
 
 // Ensure directories exist
 const productsDir = path.join(__dirname, 'products');
@@ -293,7 +327,7 @@ const categories = [
         h1: 'Custom Luxury Greeting Cards',
         heroSub: 'Custom pop-up cards, electronic music greeting cards, and LCD video invitation mailers with hot foil stamping and premium envelopes.',
         intro: 'Complement your product packaging or launch custom mailing campaigns with our bespoke luxury greeting cards. ShineleeBox manufactures premium hot foil-stamped cards, intricate 3D pop-up structural cards, and high-tech greeting cards with embedded music chips and video displays for corporate announcements and VIP invitations.',
-        filter: p => p['Product Name'].toLowerCase().includes('card') || p['Subcategory'].toLowerCase().includes('card') || p['Product ID'] === 'IP-004' || p['Product ID'] === 'IP-005'
+        filter: p => p['Main Category'] === 'Greeting Cards' || p['Product ID'].startsWith('GC-') || p['Product Name'].toLowerCase().includes('card') || p['Subcategory'].toLowerCase().includes('card') || p['Product ID'] === 'IP-004' || p['Product ID'] === 'IP-005'
     },
     {
         dir: 'products',
