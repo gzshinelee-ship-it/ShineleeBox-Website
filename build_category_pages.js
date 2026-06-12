@@ -248,7 +248,7 @@ const categories = [
         h1: 'Custom Keepsake Boxes',
         heroSub: 'Bespoke, long-lasting rigid memory and keepsake packaging with premium ribbon closures and velvet-touch drawers.',
         intro: 'Some packaging is simply "Too Good To Throw Away." ShineleeBox designs and constructs heavy, high-durability custom keepsake boxes meant to be stored and cherished for years. These high-end memory containers are ideal for baby milestones, wedding invitations, graduations, and emotional commemorative campaigns.',
-        filter: p => p['Subcategory'].toLowerCase().includes('keepsake') || p['Application Tags'].toLowerCase().includes('keepsake') || p['Product Name'].toLowerCase().includes('keepsake') || p['Product Name'].toLowerCase().includes('memorial') || p['Product ID'] === 'IP-006' || p['Product ID'] === 'IP-007' || p['Product ID'] === 'AC-003' || p['Product ID'] === 'AC-015' || p['Product ID'] === 'AC-016'
+        filter: p => p['Main Category'] === 'Keepsake Boxes' || p['Product ID'].startsWith('LM-') || p['Subcategory'].toLowerCase().includes('keepsake') || p['Application Tags'].toLowerCase().includes('keepsake') || p['Product Name'].toLowerCase().includes('keepsake') || p['Product Name'].toLowerCase().includes('memorial') || p['Product ID'] === 'IP-006' || p['Product ID'] === 'IP-007' || p['Product ID'] === 'AC-003' || p['Product ID'] === 'AC-015' || p['Product ID'] === 'AC-016'
     },
     {
         dir: 'products',
