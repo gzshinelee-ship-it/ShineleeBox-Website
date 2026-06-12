@@ -653,17 +653,25 @@ function buildCategoryPages() {
                         .map(p => {
                             const id = p['Product ID'];
                             const name = p['Product Name'];
-                            const folderName = p['Image Folder'];
-                            const prefix = id.startsWith('IP-') ? 'ip' : 'ac';
-                            const idLower = id.toLowerCase().replace('ac-', '').replace('ip-', '');
+                            const folderName = p['Image Folder'] || resolveImageFolder(id);
+                            let prefix = 'ac';
+                            if (id.startsWith('IP-')) prefix = 'ip';
+                            if (id.startsWith('LM-')) prefix = 'lm';
+                            if (id.startsWith('RG-')) prefix = 'rg';
+                            if (id.startsWith('GC-')) prefix = 'gc';
+                            if (id.startsWith('SLF-')) prefix = 'ac';
+                            
+                            const idLower = id.toLowerCase().replace('ac-', '').replace('ip-', '').replace('lm-', '').replace('rg-', '').replace('gc-', '').replace('slf-', '');
                             
                             let imgPath = 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=800&q=80';
-                            const imageFolderPath = path.join(__dirname, 'images', 'products', folderName);
-                            if (fs.existsSync(imageFolderPath)) {
-                                const dirFiles = fs.readdirSync(imageFolderPath);
-                                const imgFiles = dirFiles.filter(f => /\.(jpg|jpeg|png|gif|webp)$/i.test(f)).sort();
-                                if (imgFiles.length > 0) {
-                                    imgPath = `../images/products/${folderName}/${imgFiles[0]}`;
+                            if (folderName) {
+                                const imageFolderPath = path.join(__dirname, 'images', 'products', folderName);
+                                if (fs.existsSync(imageFolderPath)) {
+                                    const dirFiles = fs.readdirSync(imageFolderPath);
+                                    const imgFiles = dirFiles.filter(f => /\.(jpg|jpeg|png|gif|webp)$/i.test(f)).sort();
+                                    if (imgFiles.length > 0) {
+                                        imgPath = `../images/products/${folderName}/${imgFiles[0]}`;
+                                    }
                                 }
                             }
 
