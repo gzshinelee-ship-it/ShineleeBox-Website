@@ -132,7 +132,40 @@ if (fs.existsSync(interactiveCsvPath)) {
     });
 }
 
-const products = originalProducts.concat(interactiveProducts);
+const lmCsvPath = path.join(__dirname, 'Accio_Life_Memory_Upload.csv');
+let lmProducts = [];
+if (fs.existsSync(lmCsvPath)) {
+    const lmContent = fs.readFileSync(lmCsvPath, 'utf8');
+    const parsedLm = parseCSV(lmContent);
+    lmProducts = parsedLm.map(p => {
+        const id = p['Product ID'];
+        return {
+            'Product ID': id,
+            'Product Name': p['Product Name EN'],
+            'URL Slug': p['URL Slug'],
+            'Main Category': 'Keepsake Boxes',
+            'Subcategory': p['Product Subcategory'] || '',
+            'Application Tags': p['Application Tags'] || '',
+            'Holiday Tags': p['Holiday / Occasion Tags'] || '',
+            'Gift Set': 'No',
+            'SEO Title': p['SEO Title'] || '',
+            'Meta Description': p['Meta Description'] || '',
+            'H1': p['Product Name EN'],
+            'Short Description': p['Main Selling Point'] || '',
+            'Description': p['Meta Description'] || '',
+            'Key Features': p['Key Features'] || '',
+            'Best For': '',
+            'Custom Options': p['Custom Options'] || '',
+            'Manufacturing Support': '',
+            'CTA': '',
+            'Image Folder': resolveImageFolder(id),
+            'Main Image': p['Main Image Filename'] || '',
+            'Video': ''
+        };
+    });
+}
+
+const products = originalProducts.concat(interactiveProducts).concat(lmProducts);
 
 // Ensure directories exist
 const productsDir = path.join(__dirname, 'products');
