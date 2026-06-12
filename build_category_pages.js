@@ -361,7 +361,7 @@ const categories = [
         h1: 'Religious & Cultural Gift Packaging',
         heroSub: 'Factory-direct high-end cultural gift packaging, Quran rigid storage boxes, and traditional Islamic pattern gold foiled boxes.',
         intro: 'Celebrate faith and cultural heritage with highly respectful, premium custom packaging. ShineleeBox creates religious and cultural gift packaging built with gold foil Islamic geometric lines, custom compartment boards for religious texts or prayer pads, and sweets boxes for major cultural festivals.',
-        filter: p => p['Application Tags'].toLowerCase().includes('religious') || p['Application Tags'].toLowerCase().includes('cultural') || p['Application Tags'].toLowerCase().includes('islamic') || p['Product Name'].toLowerCase().includes('ramadan') || p['Product Name'].toLowerCase().includes('eid') || p['Product Name'].toLowerCase().includes('islamic')
+        filter: p => p['Main Category'] === 'Religious Gift Packaging' || p['Product ID'].startsWith('RG-') || p['Application Tags'].toLowerCase().includes('religious') || p['Application Tags'].toLowerCase().includes('cultural') || p['Application Tags'].toLowerCase().includes('islamic') || p['Product Name'].toLowerCase().includes('ramadan') || p['Product Name'].toLowerCase().includes('eid') || p['Product Name'].toLowerCase().includes('islamic') || p['Product Name'].toLowerCase().includes('wudu') || p['Product Name'].toLowerCase().includes('miswak') || p['Product Name'].toLowerCase().includes('hajj')
     },
     {
         dir: 'applications',
