@@ -659,7 +659,7 @@ function buildCategoryPages() {
                             if (id.startsWith('LM-')) prefix = 'lm';
                             if (id.startsWith('RG-')) prefix = 'rg';
                             if (id.startsWith('GC-')) prefix = 'gc';
-                            if (id.startsWith('SLF-')) prefix = 'ac';
+                            if (id.startsWith('SLF-')) prefix = 'slf';
                             
                             const idLower = id.toLowerCase().replace('ac-', '').replace('ip-', '').replace('lm-', '').replace('rg-', '').replace('gc-', '').replace('slf-', '');
                             
