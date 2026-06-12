@@ -567,8 +567,11 @@ function buildCategoryPages() {
         
         let matchedProducts = products.filter(cat.filter);
         
-        // For Other Occasions or empty-match pages, fill with 8 high-quality items as reference
-        if (matchedProducts.length === 0 || cat.slug === 'other-occasions') {
+        // For Other Occasions or empty-match pages, fill with products starting with RG- or specific reference items
+        if (cat.slug === 'other-occasions') {
+            matchedProducts = products.filter(p => p['Product ID'].startsWith('RG-') || p['Product ID'].startsWith('LM-'));
+            if (matchedProducts.length === 0) matchedProducts = products.slice(0, 8);
+        } else if (matchedProducts.length === 0) {
             matchedProducts = products.slice(0, 8);
         }
 
