@@ -471,43 +471,58 @@
             }
         });
 
-        // Submit mock flow
+        // Submit to Formspree for real email notifications
         document.getElementById('inquiryForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Extract parameters for high-precision analytics
-            const productType = document.getElementById('productType').value;
-            const estimatedQuantity = document.getElementById('estimatedQuantity').value;
-            const pagePath = window.location.pathname;
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = "Sending Inquiring...";
 
-            console.log('Inquiry Form Submitted:', { productType, estimatedQuantity, pagePath });
+            // Prepare data
+            const formData = new FormData(this);
+            const data = {};
+            formData.forEach((value, key) => { data[key] = value });
+            data['page_path'] = window.location.pathname;
 
-            // Push to GTM dataLayer
+            // GA4 & GTM Tracking (Keep existing logic)
             if (window.dataLayer) {
                 window.dataLayer.push({
                     'event': 'form_submission',
                     'event_category': 'conversion',
-                    'event_label': 'Contact Form Submission',
-                    'product_type': productType,
-                    'estimated_quantity': estimatedQuantity,
-                    'page_path': pagePath
+                    'product_type': data['productType'],
+                    'estimated_quantity': data['estimatedQuantity']
                 });
             }
-
-            // Push directly to GA4 (lead generation event)
             if (typeof gtag === 'function') {
                 gtag('event', 'generate_lead', {
-                    'event_category': 'conversion',
-                    'event_label': 'Contact Form Submission',
-                    'product_type': productType,
-                    'estimated_quantity': estimatedQuantity,
-                    'page_path': pagePath
+                    'product_type': data['productType'],
+                    'estimated_quantity': data['estimatedQuantity']
                 });
             }
 
-            document.getElementById('successModal').style.display = 'flex';
-            this.reset();
-            document.getElementById('fileName').textContent = "No file selected";
+            // Real submission via Fetch API
+            fetch('https://formspree.io/f/mqakeaqe', {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    document.getElementById('successModal').style.display = 'flex';
+                    this.reset();
+                } else {
+                    alert("Ops! There was a problem submitting your inquiry. Please email info@slpack.net directly.");
+                }
+            }).catch(error => {
+                alert("Network error. Please try again or contact via WhatsApp.");
+            }).finally(() => {
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+            });
         });
     </script>
     
