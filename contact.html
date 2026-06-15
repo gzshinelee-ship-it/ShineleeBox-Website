@@ -440,11 +440,15 @@
             const productParam = urlParams.get('product');
             const categoryParam = urlParams.get('category');
             const subjectParam = urlParams.get('subject');
+            const dielineParam = urlParams.get('dieline');
 
             const productTypeSelect = document.getElementById('productType');
             const customReqs = document.getElementById('customRequirements');
 
-            if (productParam) {
+            if (dielineParam === 'true') {
+                customReqs.value = "I am interested in your FREE 2026 Advent Calendar Dieline Service. Please contact me regarding the structural specifications and my product dimensions.";
+                productTypeSelect.value = "Advent Calendar Box";
+            } else if (productParam) {
                 customReqs.value = "Inquiry details regarding Product ID: " + productParam + ". Please provide standard pricing options, template dielines, and sampling lead times.";
                 // Try selecting matching category
                 if (productParam.startsWith('IP-')) {
@@ -503,7 +507,7 @@
             }
 
             // Real submission via Fetch API
-            fetch('https://formspree.io/f/mqakeaqe', {
+            fetch('https://formspree.io/f/mwvjypbe', {
                 method: 'POST',
                 body: JSON.stringify(data),
                 headers: {
