@@ -256,12 +256,12 @@ const categories = [
         dir: 'products',
         slug: 'advent-calendar-boxes',
         name: 'Advent Calendar Boxes',
-        title: 'Custom Advent Calendar Boxes Manufacturer | ShineleeBox',
-        desc: 'ShineleeBox is a leading custom advent calendar boxes manufacturer in Guangzhou, China. We supply bespoke 12, 24, and 25-day rigid card drawer boxes for beauty, perfume, cosmetics, jewelry, chocolate, and retail brands.',
+        title: 'Custom Advent Calendar Boxes Manufacturer | 300k sets per 60 days',
+        desc: 'Bespoke advent calendar box manufacturer. Proven capacity: 300,000 sets delivered in 60 days for Douglas. Luxury 12, 24, and 30-day countdown boxes wholesale.',
         h1: 'Custom Advent Calendar Boxes',
-        heroSub: 'Guangzhou factory-direct manufacturing of premium book-style, sliding drawer, rotating tower, and custom-shaped advent calendars with low 50 pcs MOQ.',
-        intro: 'Elevate your holiday marketing campaigns with high-end, custom-made advent calendar packaging. Our Guangzhou-based engineering team specializes in designing intricate, multi-compartment rigid board structures that provide a premium unboxing experience and drive organic social sharing.',
-        filter: p => p['Main Category'] === 'Advent Calendar Boxes' || p['Subcategory'].toLowerCase().includes('advent') || p['Product Name'].toLowerCase().includes('advent')
+        heroSub: 'The ultimate unboxing authority. We manufacture 300k+ set campaigns for global retailers and bespoke limited editions for niche brands.',
+        intro: 'Unlock massive sales with high-engagement packaging. ShineleeBox is the manufacturing partner for high-volume retailers like Douglas (Europe), for whom we fulfilled 300,000 double-door sets in just 2 months. Whether you need 50,000 premium rigid boxes (Just Case) or 300,000 retail-ready units, we deliver the quality, speed, and FSC-certified sustainability required for global B2B excellence.',
+        filter: p => p['Main Category'] === 'Advent Calendar Boxes' || p['Subcategory'].toLowerCase().includes('advent') || p['Application Tags'].toLowerCase().includes('advent') || p['Product Name'].toLowerCase().includes('advent')
     },
     {
         dir: 'products',
@@ -414,11 +414,11 @@ const categories = [
         dir: 'holiday-occasions',
         slug: 'christmas-packaging',
         name: 'Christmas & Holiday Packaging',
-        title: 'Custom Christmas Advent Calendar Boxes | Holiday Gift Packaging',
-        desc: 'Direct-factory custom Christmas packaging. Specialized in luxury 12 and 24-day advent calendar boxes, holiday gift set packaging, and festive rigid boxes with premium finishes.',
+        title: 'Custom Christmas Advent Calendar Boxes | 300k Sets Fast Capacity',
+        desc: 'Direct-factory Christmas packaging. Fulfilled 300,000 sets in 60 days for Douglas. Specialized in luxury 12/24-day advent calendars with premium finishes.',
         h1: 'Christmas & Holiday Packaging',
-        heroSub: 'Elevate your seasonal campaigns with bespoke luxury advent calendars and festive gift boxes manufactured to your exact brand specifications.',
-        intro: 'Christmas is the peak unboxing season. ShineleeBox manufactures premium holiday packaging that turns products into festive experiences. From classic 24-drawer advent calendars to book-style countdown boxes, we help brands create viral unboxing moments with high-density boards, vibrant festive prints, and luxury foils.',
+        heroSub: 'Trusted by European retail giants for 300k+ set campaigns. Bespoke luxury advent calendars and festive gift boxes manufactured at scale.',
+        intro: 'Proven scale for global brands. ShineleeBox is a B2B manufacturing authority that recently delivered 300,000 custom advent calendar sets in just 60 days for Douglas (2000+ stores). We combine massive production capacity with artisanal rigid box craftsmanship, helping high-volume retailers dominate the unboxing season with FSC-certified, retail-ready festive packaging.',
         filter: p => p['Holiday Tags'].toLowerCase().includes('christmas') || p['Holiday Tags'].toLowerCase().includes('holiday') || p['Main Category'] === 'Advent Calendar Boxes',
         thumbnail: 'https://images.unsplash.com/photo-1543589077-47d81606c1bf?auto=format&fit=crop&w=800&q=80'
     },
