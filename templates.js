@@ -8,8 +8,8 @@ const path = require('path');
 
 // Analytics & Conversion Tracking Configuration
 // Change these IDs to your real Google Analytics / GTM IDs when ready.
-const GA4_MEASUREMENT_ID = 'G-XXXXXXXXXX'; // Replace with your Google Analytics 4 Measurement ID, e.g. 'G-E59XLSB1L5'
-const GTM_CONTAINER_ID = 'GTM-XXXXXXX';   // Replace with your Google Tag Manager Container ID, e.g. 'GTM-N6LCS37'
+const GA4_MEASUREMENT_ID = 'G-SDR60B17Y6'; // Replace with your Google Analytics 4 Measurement ID, e.g. 'G-E59XLSB1L5'
+const GTM_CONTAINER_ID = 'GTM-T82P7C8W';   // Replace with your Google Tag Manager Container ID, e.g. 'GTM-N6LCS37'
 
 // Custom CSS / Header / Footer Template
 const headTemplate = (title, description, relativePath = '') => `
