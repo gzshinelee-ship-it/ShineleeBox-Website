@@ -605,7 +605,16 @@ function buildSubdirectoryIndices() {
 
 function buildCategoryPages() {
     categories.forEach(cat => {
-        let html = headTemplate(cat.title, cat.desc, '../') + headerTemplate('../');
+        const categoryDir = path.join(__dirname, cat.dir);
+        ensureDir(categoryDir);
+
+        // --- ENHANCED B2B SEO META DATA ---
+        const marketSuffix = " | FSC Certified Manufacturer for USA & Middle East";
+        const customTitle = `[Wholesale] ${cat.title}${marketSuffix}`;
+        const customDesc = `${cat.desc} Disney FAMA & BSCI certified factory. Supporting 5-7 days fast sampling, free dielines, and USA DDP shipping. Specialist in Middle East luxury cultural packaging.`;
+        // ----------------------------------
+
+        let html = headTemplate(customTitle, customDesc, '../') + headerTemplate('../');
         
         let matchedProducts = products.filter(cat.filter);
         
@@ -671,6 +680,12 @@ function buildCategoryPages() {
                             
                             const idLower = id.toLowerCase().replace('ac-', '').replace('ip-', '').replace('lm-', '').replace('rg-', '').replace('gc-', '').replace('slf-', '');
                             
+                            // --- ENHANCED B2B SEO META DATA ---
+                            const marketSuffix = " | FSC Certified Manufacturer for USA & Middle East";
+                            const seoTitle = `[Wholesale] ${cat.title}${marketSuffix}`;
+                            const seoDesc = `${cat.desc} Disney FAMA & BSCI certified. Supporting 5-7 days fast sampling, free dielines, and USA DDP shipping. Specialist in Middle East luxury cultural packaging.`;
+                            // ----------------------------------
+
                             let imgPath = 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=800&q=80';
                             if (folderName) {
                                 const imageFolderPath = path.join(__dirname, 'images', 'products', folderName);
