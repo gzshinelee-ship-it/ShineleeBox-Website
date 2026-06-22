@@ -81,14 +81,16 @@ function parseCSV(content) {
 function loadAllProductsSimple() {
     const allProducts = [];
 
-    // 1. AC series
-    const acCsvPath = path.join(__dirname, '07_AC001_to_AC020_Product_Cards_SEO.csv');
+    // 1. AC & SLF series
+    const acCsvPath = path.join(__dirname, 'Accio_Product_Upload_First20.csv');
     if (fs.existsSync(acCsvPath)) {
         const content = fs.readFileSync(acCsvPath, 'utf8');
         const rows = parseCSV(content);
         rows.forEach(r => {
+            const id = r['Product ID'];
+            if (!id || id.length > 20) return;
             allProducts.push({
-                'Product ID': r['Product ID'],
+                'Product ID': id,
                 'Product Name': r['Product Name'],
                 'Main Category': r['Main Category'] || r['Category'] || 'Advent Calendar Boxes',
                 'Subcategory': r['Subcategory'] || '',
