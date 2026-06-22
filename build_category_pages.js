@@ -19,40 +19,46 @@ function escapeHtml(unsafe) {
         .replace(/'/g, "&#039;");
 }
 
-function resolveImageFolder(id) {
-    const productsImagesDir = path.join(__dirname, 'images', 'products');
-    if (!fs.existsSync(productsImagesDir)) return '';
-    const folders = fs.readdirSync(productsImagesDir);
-    const matched = folders.find(f => f.startsWith(id + '_') || f === id);
-    if (matched) return matched;
-    return '';
-}
-
 function parseCSV(content) {
     content = content.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
-    const lines = content.split('\n');
+    const lines = [];
+    let currentLine = '';
+    let inQuotes = false;
+    
+    for (let i = 0; i < content.length; i++) {
+        const char = content[i];
+        if (char === '"') inQuotes = !inQuotes;
+        if (char === '\n' && !inQuotes) {
+            lines.push(currentLine);
+            currentLine = '';
+        } else {
+            currentLine += char;
+        }
+    }
+    if (currentLine) lines.push(currentLine);
+
     if (lines.length === 0) return [];
     
     const headerRow = lines[0].replace(/^\uFEFF/, '').trim();
     const headers = [];
-    let currentHeader = '';
-    let inQuotes = false;
+    let cell = '';
+    inQuotes = false;
     for (let j = 0; j < headerRow.length; j++) {
         const char = headerRow[j];
         if (char === '"') inQuotes = !inQuotes;
         else if (char === ',' && !inQuotes) {
-            headers.push(currentHeader.trim());
-            currentHeader = '';
-        } else currentHeader += char;
+            headers.push(cell.trim());
+            cell = '';
+        } else cell += char;
     }
-    headers.push(currentHeader.trim());
+    headers.push(cell.trim());
 
     const records = [];
     for (let i = 1; i < lines.length; i++) {
         const line = lines[i];
         if (!line.trim()) continue;
         const record = {};
-        let cell = '';
+        let cellContent = '';
         inQuotes = false;
         let headerIndex = 0;
         for (let j = 0; j < line.length; j++) {
@@ -60,14 +66,15 @@ function parseCSV(content) {
             if (char === '"') inQuotes = !inQuotes;
             else if (char === ',' && !inQuotes) {
                 const colName = headers[headerIndex];
-                if (colName) record[colName] = cell.trim();
-                cell = '';
+                if (colName) record[colName] = cellContent.trim();
+                cellContent = '';
                 headerIndex++;
-            } else cell += char;
+            } else cellContent += char;
         }
         const lastColName = headers[headerIndex];
-        if (lastColName) record[lastColName] = cell.trim();
+        if (lastColName) record[lastColName] = cellContent.trim();
         
+        // Final cleanup for quotes
         Object.keys(record).forEach(k => {
             if (record[k].startsWith('"') && record[k].endsWith('"')) {
                 record[k] = record[k].substring(1, record[k].length - 1).trim();
@@ -76,6 +83,15 @@ function parseCSV(content) {
         records.push(record);
     }
     return records;
+}
+
+function resolveImageFolder(id) {
+    const productsImagesDir = path.join(__dirname, 'images', 'products');
+    if (!fs.existsSync(productsImagesDir)) return '';
+    const dirs = fs.readdirSync(productsImagesDir);
+    const matched = dirs.find(d => d.startsWith(id + '_') || d === id);
+    if (matched) return matched;
+    return '';
 }
 
 function loadAllProductsSimple() {
@@ -88,7 +104,7 @@ function loadAllProductsSimple() {
         const rows = parseCSV(content);
         rows.forEach(r => {
             const id = r['Product ID'];
-            if (!id || id.length > 20) return;
+            if (!id || id.length > 20 || !id.includes('-')) return; // Extra strict validation
             allProducts.push({
                 'Product ID': id,
                 'Product Name': r['Product Name'],
@@ -97,7 +113,7 @@ function loadAllProductsSimple() {
                 'Application Tags': r['Application Tags'] || '',
                 'Holiday Tags': r['Holiday Tags'] || '',
                 'Custom Options': r['Custom Options'] || '',
-                'Image Folder': r['Image Folder'] || resolveImageFolder(r['Product ID'])
+                'Image Folder': r['Image Folder'] || resolveImageFolder(id)
             });
         });
     }
@@ -108,15 +124,17 @@ function loadAllProductsSimple() {
         const content = fs.readFileSync(ipCsvPath, 'utf8');
         const rows = parseCSV(content);
         rows.forEach(r => {
+            const id = r['Product ID'];
+            if (!id || id.length > 20) return;
             allProducts.push({
-                'Product ID': r['Product ID'],
+                'Product ID': id,
                 'Product Name': r['Product Name EN'],
                 'Main Category': 'Interactive Packaging',
                 'Subcategory': r['Product Subcategory'] || '',
                 'Application Tags': r['Application Tags'] || '',
                 'Holiday Tags': r['Holiday / Occasion Tags'] || '',
                 'Custom Options': r['Custom Options'] || '',
-                'Image Folder': r['Image Folder'] || resolveImageFolder(r['Product ID'])
+                'Image Folder': r['Image Folder'] || resolveImageFolder(id)
             });
         });
     }
@@ -127,15 +145,17 @@ function loadAllProductsSimple() {
         const content = fs.readFileSync(lmCsvPath, 'utf8');
         const rows = parseCSV(content);
         rows.forEach(r => {
+            const id = r['Product ID'];
+            if (!id || id.length > 20) return;
             allProducts.push({
-                'Product ID': r['Product ID'],
+                'Product ID': id,
                 'Product Name': r['Product Name EN'],
                 'Main Category': 'Keepsake Boxes',
                 'Subcategory': r['Product Subcategory'] || '',
                 'Application Tags': r['Application Tags'] || '',
                 'Holiday Tags': r['Holiday / Occasion Tags'] || '',
                 'Custom Options': r['Custom Options'] || '',
-                'Image Folder': resolveImageFolder(r['Product ID'])
+                'Image Folder': resolveImageFolder(id)
             });
         });
     }
@@ -146,15 +166,17 @@ function loadAllProductsSimple() {
         const content = fs.readFileSync(rgCsvPath, 'utf8');
         const rows = parseCSV(content);
         rows.forEach(r => {
+            const id = r['Product ID'];
+            if (!id || id.length > 20) return;
             allProducts.push({
-                'Product ID': r['Product ID'],
+                'Product ID': id,
                 'Product Name': r['Product Name EN'],
                 'Main Category': 'Religious Gift Packaging',
                 'Subcategory': r['Product Subcategory'] || '',
                 'Application Tags': r['Application Tags'] || '',
                 'Holiday Tags': r['Holiday / Occasion Tags'] || '',
                 'Custom Options': r['Custom Options'] || '',
-                'Image Folder': resolveImageFolder(r['Product ID'])
+                'Image Folder': resolveImageFolder(id)
             });
         });
     }
@@ -165,15 +187,17 @@ function loadAllProductsSimple() {
         const content = fs.readFileSync(gcCsvPath, 'utf8');
         const rows = parseCSV(content);
         rows.forEach(r => {
+            const id = r['Product ID'];
+            if (!id || id.length > 20) return;
             allProducts.push({
-                'Product ID': r['Product ID'],
+                'Product ID': id,
                 'Product Name': r['Product Name EN'],
                 'Main Category': 'Greeting Cards',
                 'Subcategory': r['Product Subcategory'] || '',
                 'Application Tags': r['Application Tags'] || '',
                 'Holiday Tags': r['Holiday / Occasion Tags'] || '',
                 'Custom Options': r['Custom Options'] || '',
-                'Image Folder': resolveImageFolder(r['Product ID'])
+                'Image Folder': resolveImageFolder(id)
             });
         });
     }
@@ -184,15 +208,17 @@ function loadAllProductsSimple() {
         const content = fs.readFileSync(cpCsvPath, 'utf8');
         const rows = parseCSV(content);
         rows.forEach(r => {
+            const id = r['Product ID'];
+            if (!id || id.length > 20) return;
             allProducts.push({
-                'Product ID': r['Product ID'],
+                'Product ID': id,
                 'Product Name': r['Product Name EN'],
                 'Main Category': 'Beauty & Perfume Packaging',
                 'Subcategory': r['Product Subcategory'] || '',
                 'Application Tags': r['Application Tags'] || '',
                 'Holiday Tags': r['Holiday / Occasion Tags'] || '',
                 'Custom Options': r['Custom Options'] || '',
-                'Image Folder': resolveImageFolder(r['Product ID'])
+                'Image Folder': resolveImageFolder(id)
             });
         });
     }
@@ -203,15 +229,17 @@ function loadAllProductsSimple() {
         const content = fs.readFileSync(cfpCsvPath, 'utf8');
         const rows = parseCSV(content);
         rows.forEach(r => {
+            const id = r['Product ID'];
+            if (!id || id.length > 20) return;
             allProducts.push({
-                'Product ID': r['Product ID'],
+                'Product ID': id,
                 'Product Name': r['Product Name'],
                 'Main Category': r['Products Directory'] || 'Chocolate & Food Packaging',
                 'Subcategory': r['Box Type'] || '',
                 'Application Tags': r['Application Tags'] || '',
                 'Holiday Tags': r['Holiday Tags'] || '',
                 'Custom Options': r['Custom Options'] || '',
-                'Image Folder': resolveImageFolder(r['Product ID'])
+                'Image Folder': resolveImageFolder(id)
             });
         });
     }
@@ -615,7 +643,6 @@ function buildCategoryPages() {
 
         if (cat.slug === 'other-occasions') {
             matchedProducts = products.filter(p => p['Product ID'].startsWith('RG-') || p['Product ID'].startsWith('LM-') || p['Main Category'] === 'Mooncake Boxes');
-            if (matchedProducts.length === 0) matchedProducts = products.slice(0, 8);
         } else if (matchedProducts.length === 0) {
             matchedProducts = products.slice(0, 8);
         }
@@ -660,17 +687,18 @@ function buildCategoryPages() {
             ${matchedProducts
                         .map(p => {
                             const id = p['Product ID'];
+                            const idUpper = id.toUpperCase();
                             const name = p['Product Name'];
                             const folderName = p['Image Folder'] || resolveImageFolder(id);
                             let prefix = 'ac';
-                            if (id.startsWith('IP-')) prefix = 'ip';
-                            else if (id.startsWith('LM-')) prefix = 'lm';
-                            else if (id.startsWith('RG-')) prefix = 'rg';
-                            else if (id.startsWith('GC-')) prefix = 'gc';
-                            else if (id.startsWith('SLF-')) prefix = 'slf';
-                            else if (id.startsWith('PP-')) prefix = 'pp';
-                            else if (id.startsWith('CP-')) prefix = 'cp';
-                            else if (id.startsWith('CFP-')) prefix = 'cfp';
+                            if (idUpper.startsWith('IP-')) prefix = 'ip';
+                            else if (idUpper.startsWith('LM-')) prefix = 'lm';
+                            else if (idUpper.startsWith('RG-')) prefix = 'rg';
+                            else if (idUpper.startsWith('GC-')) prefix = 'gc';
+                            else if (idUpper.startsWith('SLF-')) prefix = 'slf';
+                            else if (idUpper.startsWith('PP-')) prefix = 'pp';
+                            else if (idUpper.startsWith('CP-')) prefix = 'cp';
+                            else if (idUpper.startsWith('CFP-')) prefix = 'cfp';
                             
                             const idLower = id.toLowerCase().replace('ac-', '').replace('ip-', '').replace('lm-', '').replace('rg-', '').replace('gc-', '').replace('slf-', '').replace('pp-', '').replace('cp-', '').replace('cfp-', '');
                             
