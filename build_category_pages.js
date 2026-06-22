@@ -268,11 +268,11 @@ const categories = [
         dir: 'products',
         slug: 'advent-calendar-boxes',
         name: 'Advent Calendar Boxes',
-        title: 'Custom Advent Calendar Boxes Manufacturer | 300k sets per 60 days',
-        desc: 'Bespoke advent calendar box manufacturer. Proven capacity: 300,000 sets delivered in 60 days for Douglas. Luxury 12, 24, and 30-day countdown boxes wholesale.',
-        h1: 'Custom Advent Calendar Boxes',
-        heroSub: 'The ultimate unboxing authority. We manufacture 300k+ set campaigns for global retailers and bespoke limited editions for niche brands.',
-        intro: 'Unlock massive sales with high-engagement packaging. ShineleeBox is the manufacturing partner for high-volume retailers like Douglas (Europe), for whom we fulfilled 300,000 double-door sets in just 2 months. Whether you need 50,000 premium rigid boxes (Just Case) or 300,000 retail-ready units, we deliver the quality, speed, and FSC-certified sustainability required for global B2B excellence.',
+        title: 'Custom Advent Calendar Boxes Manufacturer | Wholesale 12 & 24 Day Empty Boxes',
+        desc: 'Direct factory for custom advent calendar boxes. 300,000 sets delivered in 60 days. Providing free 2026 dielines, USA DDP logistics, and luxury finishes. MOQ 50 pcs.',
+        h1: 'Custom Advent Calendar Boxes Manufacturer',
+        heroSub: 'The Global Unboxing Authority. 300k+ Set Campaigns Delivered. FSC & Disney FAMA Certified.',
+        intro: 'Dominating the holiday unboxing season requires both artisanal quality and industrial scale. ShineleeBox is the partner behind European retail giants like Douglas, fulfilling 300,000 double-door calendars in just 2 months. We offer **100% Free 2026 Dieline Services**, rapid 5-7 days sampling, and seamless USA DDP shipping to ensure your brand lands first and stays best.',
         filter: p => p['Main Category'] === 'Advent Calendar Boxes' || (p['Subcategory'] || '').toLowerCase().includes('advent') || (p['Application Tags'] || '').toLowerCase().includes('advent') || (p['Product Name'] || '').toLowerCase().includes('advent')
     },
     {
