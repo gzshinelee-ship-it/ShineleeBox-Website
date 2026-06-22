@@ -1,0 +1,122 @@
+
+  Available toolkits:
+
+  accio (3 tools)
+    services: skills
+  accio-buyer (14 tools)
+    services: alibaba-com-buyer-assistant-server, icbu-alibaba-aimode-agent-mcp-server, icbu-alibaba-trade-buyer
+  ahrefs (14 tools)
+    services: auth, keywords_explorer, serp_overview, site_explorer
+  airtable (13 tools)
+    services: auth, bases, comments, records, user
+  ali1688 (28 tools)
+    services: ali1688-mcp-server
+  alibaba (138 tools)
+    services: accio-icbu-brand-data-report, accio-work-create-website, ai-minisite-accio-work-server, ali-logistics-mcp-server, data-advisor-server, icbu-ad-brand-rec-keyword, icbu-ads-ai-support, icbu-ai-image-agent, icbu-ai-video-agent, icbu-cco-mcpserver, icbu-im-server, icbu-logistics-customs-calculate-tariff-tool-for-accio, icbu-logistics-expression-accio-mcp-server, icbu-open-api-product-server, icbu-product-agent, icbu-reception-mcp-service, icbu-smart-assistant-framework, icbumember, logistics-soluton-query-mcp, product-selection-server, risk-for-accio, seller-logisitics-order-list-query, supplier-verification-report, tradelist, xianfumcp
+  alibaba_middleware (1 tools)
+    services: oss
+  alibaba-ggs (44 tools)
+    services: euro-pro-sku, ggs-agent-mcp-server
+  apollo (10 tools)
+    services: auth, contacts, crm, enrichment, research, sequences
+  asana (9 tools)
+    services: auth, projects, tasks, teams, users
+  atlassian-rovo (58 tools)
+    services: auth, confluence, jira, user
+  auth (5 tools)
+    services: admin, ali1688, alibaba
+  biorender (4 tools)
+    services: auth, diagnostic, icons, templates
+  cj (2 tools)
+    services: auth
+  clickup (11 tools)
+    services: auth, member, task, workspace
+  cloudflare (10 tools)
+    services: auth, cache, dns, zone
+  cloudinary (13 tools)
+    services: account, auth, delivery, media
+  composio (5 tools)
+    services: admin, instagram
+  creatify (12 tools)
+    services: account, auth, avatar, script, status, tts, video
+  distribution (19 tools)
+    services: icbu-distribution-mcp-tool
+  exa (4 tools)
+    services: exa
+  figma (18 tools)
+    services: auth, design
+  fireflies (12 tools)
+    services: auth, channels, meetings, soundbites, transcripts, user, users
+  generic (13 tools)
+    services: accio-inquiry, cogito-deep-research-submit, icbu-ai-image-agent-material
+  github (18 tools)
+    services: auth, repos
+  google (15 tools)
+    services: auth, gmail
+  granola (6 tools)
+    services: auth, folders, notes
+  higgsfield (7 tools)
+    services: auth, higgsfield
+  huggingface (23 tools)
+    services: auth, billing, discussions, hub, inference, jobs, webhooks
+  instantly (13 tools)
+    services: auth, campaigns, lead_lists, leads
+  jungle_scout (6 tools)
+    services: jungle_scout
+  klaviyo (137 tools)
+    services: accounts, auth, campaigns, catalog-categories, catalog-variants, catalogs, composer, coupon-codes, coupons, custom-objects, data-privacy, events, flows, forms, images, lists, metrics, profiles, reporting, reviews, segments, subscriptions, tag-groups, tags, templates, tracking-settings, translations, web-feeds
+  linear (14 tools)
+    services: auth, project_management
+  linkedin (5 tools)
+    services: auth, consumer
+  mailchimp (38 tools)
+    services: account, audiences, auth, campaigns, members, reports, segments, templates
+  microsoft365 (57 tools)
+    services: auth, calendar, contacts, drive, mail, onenote, profile, teams
+  neon (11 tools)
+    services: auth, branches, projects
+  netlify (13 tools)
+    services: auth, deploys, forms, sites, user
+  notion (16 tools)
+    services: auth, workspace
+  odoo (16 tools)
+    services: auth, erp, wms
+  okki (1 tools)
+    services: auth
+  pipedream (243 tools)
+    services: auth, docusign, dropbox, flodesk, google_ads, google_ads_auth, google_analytics, google_calendar, google_docs, google_drive, google_sheets, google_slides, google_slides_auth, hubspot, monday, monday_auth, printify, printify_auth, squarespace, xero_accounting_api, zendesk, zoom
+  pipedrive (70 tools)
+    services: activities, auth, contacts, deal_products, deals, fields, followers, organizations, pipelines, products, search
+  pipedrive_pipedream (22 tools)
+    services: auth, pipedrive
+  semrush (23 tools)
+    services: auth, backlink_analytics, domain_analytics, keyword_analytics, subdomain_analytics, subfolder_analytics, trends, url_analytics
+  sentry (14 tools)
+    services: auth, issues, projects
+  shippo (20 tools)
+    services: addresses, auth, carriers, customs, operations, shipping, tracking
+  shopline (4 tools)
+    services: auth
+  square (21 tools)
+    services: auth, catalog, customers, inventory, locations, orders, payments
+  streak (17 tools)
+    services: auth, crm
+  twilio (15 tools)
+    services: account, auth, messaging, numbers, verify, voice
+  twitter (24 tools)
+    services: auth, twitter
+  typeform (10 tools)
+    services: auth, typeform
+  vercel (8 tools)
+    services: auth, deployments, projects, user
+  visable (8 tools)
+    services: auth, visable-data-server
+  wordpress (30 tools)
+    services: auth, comments, media, pages, posts, sites, stats, taxonomies
+  yuque (18 tools)
+    services: auth, books, search, user
+  zoho (42 tools)
+    services: auth, books, crm, desk, people, projects
+
+  58 toolkits, 1455 tools total
+

@@ -233,7 +233,41 @@ if (fs.existsSync(gcCsvPath)) {
     });
 }
 
-const products = originalProducts.concat(interactiveProducts).concat(lmProducts).concat(rgProducts).concat(gcProducts);
+// Load and parse cosmetic & perfume products
+const cpCsvPath = path.join(__dirname, 'Accio_Cosmetic_Perfume_Final.csv');
+let cpProducts = [];
+if (fs.existsSync(cpCsvPath)) {
+    const cpContent = fs.readFileSync(cpCsvPath, 'utf8');
+    const parsedCp = parseCSV(cpContent);
+    cpProducts = parsedCp.map(p => {
+        const id = p['Product ID'];
+        return {
+            'Product ID': id,
+            'Product Name': p['Product Name EN'],
+            'URL Slug': p['URL Slug'],
+            'Main Category': 'Beauty & Perfume Packaging',
+            'Subcategory': p['Product Subcategory'] || '',
+            'Application Tags': p['Application Tags'] || '',
+            'Holiday Tags': p['Holiday / Occasion Tags'] || '',
+            'Gift Set': 'No',
+            'SEO Title': p['SEO Title'] || '',
+            'Meta Description': p['Meta Description'] || '',
+            'H1': p['Product Name EN'],
+            'Short Description': p['Main Selling Point'] || '',
+            'Description': p['Meta Description'] || '',
+            'Key Features': p['Key Features'] || '',
+            'Best For': '',
+            'Custom Options': p['Custom Options'] || '',
+            'Manufacturing Support': '',
+            'CTA': '',
+            'Image Folder': resolveImageFolder(id),
+            'Main Image': p['Main Image Filename'] || '',
+            'Video': ''
+        };
+    });
+}
+
+const products = originalProducts.concat(interactiveProducts).concat(lmProducts).concat(rgProducts).concat(gcProducts).concat(cpProducts);
 
 // Ensure directories exist
 const productsDir = path.join(__dirname, 'products');

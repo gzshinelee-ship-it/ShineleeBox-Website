@@ -1,0 +1,2164 @@
+
+  "alibaba" → toolkits: alibaba_middleware, alibaba, alibaba-ggs, services: alibaba, icbu-alibaba-aimode-agent-mcp-server, alibaba-com-buyer-assistant-server, icbu-alibaba-trade-buyer
+
+  start_alibaba_com_auth
+    Generate an Alibaba second-party authorization login URL.
+    
+    This tool generates a login URL that users can visit to authorize their
+    Alibaba account. After successful authentication, the user will be
+    redirected to the configured callback URL with an access token.
+    
+    The authorization flow:
+    1. User visits the generated login URL
+    2. User authenticates with Alibaba
+    3. User is redirected to callback with access_token
+    4. Backend validates token via RLAB two-step exchange and stores credential
+    
+    Args:
+        lang: Language preference for the callback page ('en' or 'zh').
+              Defaults to 'en'.
+    
+    Returns:
+        JSON string containing:
+        - login_url: The complete login URL for user to visit
+        - callback_url: The callback URL that will receive the access token
+        - note: Instructions or notes about the login process
+    meta: toolkit=auth, toolkit_service=alibaba
+      - lang (string)
+
+  exchange_alibaba_connector_token
+    Exchange and store Alibaba OAuth access_token from local callback via MCP.
+    
+    This tool is used by Phoenix PC SDK when the OAuth callback is handled locally
+    (instead of by MCP server). The MCP server will:
+      1. Exchange access_token via RLAB two-step (accessToken → token → aliId)
+      2. Store the resulting token + aliId in Redis
+    
+    Args:
+        access_token: OAuth access_token from Alibaba callback.
+        state: Optional opaque state passed through from the login flow.
+    
+    Returns:
+        JSON string containing:
+        - ok: Whether the exchange succeeded
+        - provider: Always "alibaba"
+        - accio_id: The accio_id this credential belongs to
+        - ali_id: The Alibaba user ID
+        - email: The Alibaba account email when returned by RLAB
+        - error_message: Error message if failed
+    meta: toolkit=auth, toolkit_service=alibaba
+      - access_token (string) (required)
+      - state (string)
+
+  oss_upload_file
+    Upload file content to an Alibaba Cloud OSS bucket and return the access URL.
+    
+    Uses normandy-credential-sdk to obtain credentials for the given bucket.
+    The returned URL is either a CDN URL (if configured) or a signed OSS URL.
+    
+    Args:
+        bucket_name: Target OSS bucket name.
+        file_content: File content. By default (is_base64=True) must be base64-encoded,
+                      so binary files (e.g. images) can be passed safely; if is_base64
+                      is False, treated as UTF-8 text.
+        filename: Optional original filename (used for object key). When provided with
+                  a known extension (e.g. .html, .png, .json), content_type is inferred
+                  from it when content_type is not set.
+        content_type: Optional MIME type. When not set, inferred from filename extension
+                      or falls back to application/octet-stream.
+        path_prefix: Optional path prefix in the bucket (default from config).
+        endpoint: Optional OSS endpoint (e.g. oss-cn-hangzhou.aliyuncs.com).
+                  Defaults to oss-us-east-1.aliyuncs.com when not set.
+        is_base64: If True (default), file_content is base64-encoded; if False, UTF-8 text.
+    
+    Returns:
+        JSON string with "url" (access URL) and "bucket" (bucket name).
+    meta: toolkit=alibaba_middleware, toolkit_service=oss
+      - bucket_name (string) (required)
+      - file_content (string) (required)
+      - filename (string)
+      - content_type (string)
+      - path_prefix (string)
+      - endpoint (string)
+      - is_base64 (boolean)
+
+  global_hot_selling_products
+    Search for hot-selling products on e-commerce platforms via Alibaba.
+    
+    Use this tool to discover trending and best-selling products across platforms
+    like Amazon. Supports filtering by region and sorting by different criteria.
+    
+    Args:
+        query: Search query describing the products to find (e.g. "best selling car detailing products 2026 UAE Saudi Arabia").
+        platform: E-commerce platform to search (default "amazon").
+        region: Target region/marketplace code (default "US").
+        sorting_rule: How to sort results — "sales", "price", etc. (default "sales").
+        type: Query type (default "hot_selling").
+    
+    Returns:
+        JSON with hot-selling product results from the specified platform.
+    meta: toolkit=alibaba, toolkit_service=product-selection-server
+      - query (string) (required)
+      - platform (string)
+      - region (string)
+      - sorting_rule (string)
+      - type (string)
+
+  supplier_verification_recall
+    Recall (search) supplier candidates by name/URL for a verification report.
+    
+    STEP 1 of 2 in the supplier verification flow. Use this tool when the user
+    wants to generate a supplier verification report. Call this FIRST, then pass
+    the returned company_id values to `supplier_verification_detail`.
+    
+    Difference from `supplier_verification_detail`:
+      - This tool (recall) INPUT is a fuzzy company name or storefront URL and
+        OUTPUT is a LIST of candidate suppliers (each with a company_id) for the
+        user to pick from. It performs a search/match and has no report detail.
+      - `supplier_verification_detail` INPUT is exact company_id(s) obtained from
+        this tool and OUTPUT is the full verification report detail for them.
+    
+    Args:
+        supplier_name: The supplier/company name or Alibaba storefront URL to look up.
+                       Example: "Qingdao Etrip Smart Home Co., Ltd." or
+                       "https://cnetriphome.en.alibaba.com/contactinfo.html".
+                       URLs are automatically normalized to extract the company token.
+        top_k: Max number of candidates to recall (default 50, range 1-100).
+    
+    Returns:
+        JSON with payload.candidates (list of matched suppliers with company_id,
+        company_name_en, company_name_cn, company_minisite_url, seller_score).
+        Use company_id from candidates to call supplier_verification_detail.
+    meta: toolkit=alibaba, toolkit_service=supplier-verification-report
+      - supplier_name (string) — The supplier/company name or Alibaba storefront URL to look up. Example: "Qingdao Etrip Smart Home Co., Ltd." or "https://cnetriphome.en.alibaba.com/contactinfo.html". URLs are automatically normalized to extract the company token.
+      - top_k (integer) — Max number of candidate suppliers to recall. Range 1-100, default 50. Example: 10.
+
+  supplier_verification_detail
+    Fetch the full supplier verification report detail by company_id list.
+    
+    STEP 2 of 2 in the supplier verification flow. This tool maps to RLab app
+    `ICBU_P0715_314218C67`.
+    
+    Difference from `supplier_verification_recall`:
+      - `supplier_verification_recall` INPUT is a fuzzy company name/URL and
+        OUTPUT is a LIST of candidate suppliers to search/choose from.
+      - This tool (detail) INPUT is exact company_id(s) returned by recall and
+        OUTPUT is the detailed verification report for those specific suppliers.
+    
+    Args:
+        comp_id_list: Supplier company_id list (e.g. ["231465246"]), obtained
+                      from supplier_verification_recall candidates. A single id
+                      string or JSON-encoded array string is also tolerated.
+        company_id: Optional single-id alias; merged into comp_id_list.
+    
+    Returns:
+        JSON string including filtered `payload.res` fields only.
+    meta: toolkit=alibaba, toolkit_service=supplier-verification-report
+      - comp_id_list (string[]) — List of supplier company_id strings to fetch detail for. Each item is a company_id obtained from supplier_verification_recall candidates. Example: ["231465246", "987654321"]. Required, non-empty. A single id string is also accepted and will be wrapped automatically.
+      - company_id (string) — Alias for a single company_id, accepted for convenience. Example: "231465246". Prefer comp_id_list for multiple ids.
+
+  accio_brand_comp_effect
+    查询公司效果
+    meta: toolkit=alibaba, toolkit_service=accio-icbu-brand-data-report
+      - fieldName_0 (object) (required) — 查询参数对象
+          - adProductId (number) — 广告产品线ID，可选。不传时由productIdList的第一个元素自动映射
+          - allProductId (boolean) — 是否查询所有产品线汇总，可选。true时汇总所有产品线数据
+          - cateLv2Id (number) — 主营二级类目ID，可选。同行对比时必填，用于匹配同行数据
+          - endStatDate (string) (required) — 结束统计日期，格式yyyymmdd，必填
+          - granularity (string) — 数据粒度，可选。day-按日返回明细（默认），all-返回时间范围汇总
+          - orderBy (object) — 排序条件，可选。不传时按默认排序
+              - field (string) (required) — 排序字段，需传英文字段名（如statDate、clkCnt等）
+              - order (string) (required) — 排序方向，asc或desc
+          - pageParam (object) — 分页参数，可选。不传时返回默认分页（第1页，limit=10）
+              - limit (number) (required) — 每页条数
+              - pageIndex (number) (required) — 页码，从0开始
+              - skip (number) (required) — 跳过条数，与pageIndex配合使用
+          - productIdList (number[]) (required) — 广告产品线ID列表，必填。底层取第一个元素映射为adProductId
+          - startStatDate (string) (required) — 开始统计日期，格式yyyymmdd，必填
+
+  accio_brand_find_prod_effect
+    查询品效果
+    meta: toolkit=alibaba, toolkit_service=accio-icbu-brand-data-report
+      - fieldName_0 (object) (required) — 查询参数对象
+          - cateLv3Id (number) — 三级类目ID，可选。用于筛选特定类目商品，无明确需求时不传
+          - endDate (string) (required) — 结束日期，格式yyyymmdd，必填
+          - granularity (string) (required) — 数据粒度，必填。day-按日返回明细，all-返回时间范围汇总
+          - language (string) — 语言，可选。如zh_CN，无明确需求时不传
+          - orderBy (object) — 排序条件，可选。不传时按默认排序
+              - field (string) (required) — 排序字段，需传英文字段名（如clkCnt、statDate等）
+              - order (string) (required) — 排序方向，asc或desc
+          - pageParam (object) — 分页参数，可选。不传时返回默认分页
+              - limit (number) (required) — 每页条数
+              - pageIndex (number) (required) — 页码，从0开始
+              - skip (number) (required) — 跳过条数
+          - prodId (number) — 商品ID，可选。按商品ID精确匹配，无明确需求时不传（不传则查全部商品）
+          - prodLevel (number) — 商品等级，可选。用于筛选爆品/优品/普通品，无明确需求时不传
+          - prodNameLike (string) — 商品名称模糊匹配，可选。支持按商品名称关键词搜索，无明确需求时不传
+          - productIdList (number[]) (required) — 广告产品线ID列表，必填。底层取第一个元素映射
+          - resourceLockIdList (number[]) — 资源锁ID列表，可选。按资源位筛选，无明确需求时不传
+          - startDate (string) (required) — 开始日期，格式yyyymmdd，必填
+
+  accio_brand_package_word_effect
+    查询聚量搜索词效果
+    meta: toolkit=alibaba, toolkit_service=accio-icbu-brand-data-report
+      - fieldName_0 (object) (required) — 查询参数对象
+          - adProductId (number) — 广告产品线ID，可选。不传时由productIdList的第一个元素自动映射
+          - endStatDate (string) (required) — 结束统计日期，格式yyyymmdd，必填
+          - granularity (string) (required) — 数据粒度，必填。day-按日返回明细，all-返回时间范围汇总
+          - isGroupByKw (boolean) — 是否按关键词分组，可选。false-查聚量包整体效果（默认），true-下钻到包内关键词明细
+          - kw (string) — 关键词精确匹配，可选。按特定关键词筛选
+          - kwLike (string) — 关键词模糊匹配，可选。按关键词片段搜索
+          - orderBy (object) — 排序条件，可选。不传时按默认排序
+              - field (string) (required) — 排序字段，需传英文字段名
+              - order (string) (required) — 排序方向，asc或desc
+          - pageParam (object) — 分页参数，可选。不传时返回默认分页
+              - limit (number) (required) — 每页条数
+              - pageIndex (number) (required) — 页码，从0开始
+              - skip (number) (required) — 跳过条数
+          - productIdList (number[]) (required) — 广告产品线ID列表，必填。底层取第一个元素映射
+          - resourceLockId (number) — 资源锁ID，可选。按资源位精确筛选，与resourceLockIdList二选一
+          - resourceLockIdList (number[]) — 资源锁ID列表，可选。按资源位批量筛选，与resourceLockId二选一
+          - startStatDate (string) (required) — 开始统计日期，格式yyyymmdd，必填
+
+  accio_brand_stat_date
+    查询品牌数据产出时间
+    meta: toolkit=alibaba, toolkit_service=accio-icbu-brand-data-report
+
+  accio_find_achieve_rate
+    查询达标率
+    meta: toolkit=alibaba, toolkit_service=accio-icbu-brand-data-report
+      - fieldName_0 (object) (required) — 达标率查询参数
+          - adProductId (number) — 广告产品线ID，可选，如 110102001(问鼎)、110102016(问鼎聚量) 等，不传则查所有产品线
+          - pageParam (object) — 分页参数，可选
+              - limit (number) (required) — 每页条数
+              - skip (number) (required) — 跳过条数（偏移量），从0开始
+          - resourceLockIdList (number[]) — 售卖计划ID列表，可选，不传则查询全部
+          - statDate (string) (required) — 统计日期，格式 yyyyMMdd，如 20260515
+
+  accio_find_keyword_effect
+    查询词效果
+    meta: toolkit=alibaba, toolkit_service=accio-icbu-brand-data-report
+      - fieldName_0 (object) (required) — 查询参数对象
+          - adProductId (number) — 广告产品线ID，可选。不传时由productIdList的第一个元素自动映射
+          - endStatDate (string) (required) — 结束统计日期，格式yyyymmdd，必填
+          - granularity (string) (required) — 数据粒度，必填。day-按日返回明细，all-返回时间范围汇总
+          - kwStatus (string) — 关键词投放状态，可选。不传则查全部状态。2-投放中，-2-投放结束，-1-挂起
+          - orderBy (object) — 排序条件，可选。不传时按默认排序
+              - field (string) (required) — 排序字段，需传英文字段名（如clkCnt、statDate等）
+              - order (string) (required) — 排序方向，asc或desc
+          - pageParam (object) — 分页参数，可选。不传时返回默认分页
+              - limit (number) (required) — 每页条数
+              - pageIndex (number) (required) — 页码，从0开始
+              - skip (number) (required) — 跳过条数
+          - productIdList (number[]) (required) — 广告产品线ID列表，必填。底层取第一个元素映射
+          - resourceLockId (number) — 资源锁ID，可选。按资源位精确筛选，与resourceLockIdList二选一
+          - resourceLockIdList (number[]) — 资源锁ID列表，可选。按资源位批量筛选，与resourceLockId二选一
+          - startStatDate (string) (required) — 开始统计日期，格式yyyymmdd，必填
+          - terminalType (string) — 终端类型，可选。不传则查全部终端。PC-电脑端，APP-移动端
+
+  accio_find_main_catelv2Id
+    查找主营二级类目
+    meta: toolkit=alibaba, toolkit_service=accio-icbu-brand-data-report
+
+  ai_image_generate_facade
+    AI图片生成统一门面，支持不同类型AI图片的生成
+    meta: toolkit=alibaba, toolkit_service=icbu-ai-image-agent
+      - abilityCode (string) (required) — AI能力Code
+      - information (string) (required) — AI生成请求参数负载
+
+  ai_minisite_acciowork_create_page
+    Ai旺铺acciowork创建页面主版本，如果超出最大版本数量，提示超出，适用场景：店铺创建页面场景。输入：页面名称。输出：创建完成的页面id。副作用：会创建多个装修页面，无副作用。
+    meta: toolkit=alibaba, toolkit_service=ai-minisite-accio-work-server
+      - request (object) (required) — 请求入参结构体，为DTO对象，需要强制转换，注意传入的入参是字符串时，请进行正确的转换，避免强转失败。「需具备 ICBU登录 权限，未登录不允许调用」
+          - pageName (string) (required) — 页面名称，表示要创建版本的页面
+
+  ai_minisite_acciowork_publish_page
+    Ai旺铺acciowork创建历史版本，并发布页面。适用场景：店铺页面发布场景，会创建一个备份的历史版本，并发布。输入：主页面的id。输出：发布成功状态，创建完成的版本信息。副作用：会创建多个历史备份，无副作用。
+    meta: toolkit=alibaba, toolkit_service=ai-minisite-accio-work-server
+      - request (object) (required) — 请求入参结构体，为DTO对象，需要强制转换，注意传入的入参是字符串时，请进行正确的转换，避免强转失败。「需具备 ICBU账号登录 权限，未登录不允许调用」
+          - htmlData (string) (required) — 要发布的页面 HTML 内容
+          - pageId (number) — 目标页面的 ID，可通过 ai_minisite_acciowork_create_page 或 ai_minisite_get_acciowork_page_list 获取
+          - publishType (string) (required) — 发布类型
+          - sourceFileOssPath (string) (required) — 源文件在OSS上的路径
+
+  ai_minisite_get_acciowork_page_list
+    AI旺铺获取acciowork的页面版本，返回页面主版本和每个主版本下的历史子版本。适用场景：acciowork装修列表场景，展示出所有的acciowork的装修版本，可供商家查看和选择发布。 触发条件：商家点击装修版本的下拉列表。 期望产出：列出可用的装修版本以及备份列表。
+    meta: toolkit=alibaba, toolkit_service=ai-minisite-accio-work-server
+      - request (object) (required) — 请求入参结构体，为DTO对象，需要强制转换，注意传入的入参是字符串时，请进行正确的转换，避免强转失败
+
+  ai_minisite_get_company_info
+    Ai旺铺-收集公司信息，根据商家的aliId、数据类型、语种，获取对应的信息，返回为json结构。适用场景：商家店铺装修获取商家信息，用于填充装修内容。 触发条件：用户在对话中开启装修对话的第一个收集素材步骤中。 期望产出：收集所有可用于装修的公司信息。
+    meta: toolkit=alibaba, toolkit_service=ai-minisite-accio-work-server
+      - request (object) (required) — 请求入参结构体，为DTO对象，需要强制转换，注意传入的入参是字符串时，请进行正确的转换，避免强转失败
+          - dataType (string) (required) — 数据类型，如果为空，这里可以默认为all
+          - language (string) (required) — 语言
+
+  ai_minisite_get_template_info
+    Ai旺铺根据模版版本获取模版列表，或者可以根据模版id获取具体模版信息。适用场景：店铺装修商家选择想要使用的模版时，列出所有模版。触发条件：用户打开acciowork装修承接主页面。 期望产出：查询出所有可用的模版。
+    meta: toolkit=alibaba, toolkit_service=ai-minisite-accio-work-server
+      - request (object) (required) — 请求入参结构体，为DTO对象，需要强制转换，注意传入的入参是字符串时，请进行正确的转换，避免强转失败
+          - action (string) (required) — 操作类型标识。可选值：getTemplateList（模版列表）、 getTemplateDecoration（装修模版信息）、getIndustryList（获取行业列表）
+          - industryId (string) — 行业ID
+          - language (string) (required) — 语言
+          - styleTagId (string) — 风格标签 ID，用于按视觉风格筛选模板
+          - templateId (string) — 指定模板的唯一 ID。当 action 为 getTemplateDecoration 时必填，用于获取该模板的完整详情
+          - typeId (string) — 类型ID
+          - version (number) (required) — 版本号，用于区分装修模版的版本批次
+
+  ali_logistics_util
+    物流域业务工具集合，提供给Accio Work
+    meta: toolkit=alibaba, toolkit_service=ali-logistics-mcp-server
+      - apiName (string) (required) — 业务api名称
+      - params (string) — 序列化入参
+
+  alibaba_icbu_im_tradeagent_whitelist
+    accio 采购插件trade-agent白名单
+    meta: toolkit=accio-buyer, toolkit_service=icbu-alibaba-aimode-agent-mcp-server
+
+  apply_governance
+    编辑商品
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+      - after (object) — 优化后的商品快照，数据结构同before
+          - category (object)
+              - categoryId (number)
+              - categoryPath (string)
+          - currencyCode (string)
+          - description (string)
+          - hsCodeList (object[])
+              - hsCode (string)
+              - targetCountry (string)
+          - images (string[])
+          - inventory (string) — 库存信息（JSON 对象字符串：发货地 dispatchLocation → 可售数量）
+          - keywords (string) — 关键词，**必须为 JSON 数组格式的字符串**
+          - leadTime (object[])
+              - leadTime (number)
+              - quantity (number)
+          - moq (number)
+          - pis (number)
+          - price (object)
+              - currency (string) — 币种，USD
+              - fixedPrice (string)
+              - ladderPrices (object[])
+                  - minQuantity (number)
+                  - price (number)
+              - maxPrice (number)
+              - minPrice (number)
+              - priceType (string) — 枚举值：sku / ladder / tiered / range / fixed
+              - skuPrices (object[])
+                  - price (number)
+                  - skuId (number)
+                  - skuName (string)
+          - properties (object[])
+              - attributeId (number)
+              - attributeName (string)
+              - attributeValue (string)
+              - attributeValueId (number)
+          - shippingTemplate (object)
+              - id (number)
+              - name (string)
+          - title (string)
+          - unitSize (string)
+          - unitWeight (number)
+      - before (object) — 优化前的商品快照
+          - category (object)
+              - categoryId (number)
+              - categoryPath (string)
+          - currencyCode (string)
+          - description (string)
+          - hsCodeList (object[])
+              - hsCode (string)
+              - targetCountry (string)
+          - images (string[])
+          - inventory (string) — 库存信息（JSON 对象字符串：发货地 dispatchLocation → 可售数量）
+          - keywords (string) — 关键词，**必须为 JSON 数组格式的字符串**
+          - leadTime (object[])
+              - leadTime (number)
+              - quantity (number)
+          - moq (number)
+          - pis (number)
+          - price (object)
+              - currency (string) — 币种，USD
+              - fixedPrice (string)
+              - ladderPrices (object[])
+                  - minQuantity (number)
+                  - price (number)
+              - maxPrice (number)
+              - minPrice (number)
+              - priceType (string) — 枚举值：sku / ladder / tiered / range / fixed
+              - skuPrices (object[])
+                  - price (number)
+                  - skuId (number)
+                  - skuName (string)
+          - properties (object[])
+              - attributeId (number)
+              - attributeName (string)
+              - attributeValue (string)
+              - attributeValueId (number)
+          - shippingTemplate (object)
+              - id (number)
+              - name (string)
+          - title (string)
+          - unitSize (string)
+          - unitWeight (number)
+      - productId (string) — 商品id
+
+  aw_create_complete_website_cloud
+    Generate a complete, production-ready website from an approved preview. The cloud service automatically fetches the existing preview results and produces a fully optimized website with responsive design, SEO metadata, performance optimization, and accessibility features. This is an async task that requires polling.
+    meta: toolkit=alibaba, toolkit_service=accio-work-create-website
+      - instruction (string) (required) — instruction for create website
+
+  aw_create_website_preview_cloud
+    Generate a website preview for user review. Creates a preview version of a website page with core layout and key visual elements based on the provided instruction and optional text assets. This is an async task that requires polling.
+    meta: toolkit=alibaba, toolkit_service=accio-work-create-website
+      - instruction (string) (required) — intruction for creating website
+      - text_zip_url (string) — text zip oss url
+
+  aw_edit_website_cloud
+    Process file editing requests for an existing website project remotely. The tool handles edit logic on the cloud side and returns an async task for polling.
+    meta: toolkit=alibaba, toolkit_service=accio-work-create-website
+      - changelog_oss_url (string) — changelog oss url
+      - instruction (string) — 网页修改命令
+
+  aw_get_auth_token
+    Obtain an authentication token required for subsequent file upload operations (e.g., uploading text.zip to OSS via asset_collection.sh). This token is used as a prerequisite in the website preview generation workflow.
+    meta: toolkit=alibaba, toolkit_service=accio-work-create-website
+
+  aw_get_task_status
+    Poll the status of an asynchronous task submitted by website generation or editing tools (e.g., aw_create_website_preview_cloud, aw_create_complete_website_cloud, aw_edit_website_cloud). Returns the current task execution status and, upon completion, the response URL containing the generated results.
+    meta: toolkit=alibaba, toolkit_service=accio-work-create-website
+      - task_id (string) (required) — task id
+
+  aw_page_info_list
+    AI旺铺-AW-获取网页信息-云端
+    meta: toolkit=alibaba, toolkit_service=accio-work-create-website
+
+  aw_publish_website_cloud
+    AI旺铺 accio work 发布网页预览云端版本
+    meta: toolkit=alibaba, toolkit_service=accio-work-create-website
+      - filemap_oss_url (string) (required) — filemap oss url
+      - page_id (number) — page id to be published, optional
+      - publish_type (string) (required) — publish_type must be one of desktop, wireless, all
+
+  aw_publish_website_gui
+    AI旺铺 accio work GUI网站发布
+    meta: toolkit=alibaba, toolkit_service=accio-work-create-website
+      - filemap_data (string) (required) — filemap data
+      - page_id (number) — page id to be published, optional
+      - publish_type (string) (required) — publish_type must be one of desktop, wireless, all
+
+  aw_version_fetch_cloud
+    Fetch a specific version or the latest version of a website from the remote server. Returns a response.json OSS URL containing the website HTML, page type, and associated asset files. This is a synchronous call that returns results directly (no task polling required).
+    meta: toolkit=alibaba, toolkit_service=accio-work-create-website
+      - page_id (number) — page id to be fetched, optional
+
+  batchReserveKeywords
+    用于批量预定品牌广告关键词
+    meta: toolkit=alibaba, toolkit_service=icbu-ad-brand-rec-keyword
+      - query (object) (required) — 查询参数
+          - productId (number) (required) — 品牌广告业务线
+          - resourceList (object[]) (required)
+              - channel (string) (required) — 投放渠道，仅支持PC或APP俩种渠道
+              - keyword (string) (required) — 品牌广告关键词
+
+  batch_edit_optimize
+    基于用户提交的类目、图片、标题、卖点信息，生成优化后的标题、卖点内容
+    meta: toolkit=alibaba, toolkit_service=icbu-product-agent
+      - cateId (number) (required) — 类目ID
+      - mainImageURL (string) (required) — 主图URL
+      - sellingPoint (string) — 卖点
+      - title (string) — 标题
+
+  batch_edit_product
+    批量修改商品，仅支持编辑标题、价格、卖点、属性信息。其他信息不支持修改。
+    meta: toolkit=alibaba, toolkit_service=icbu-product-agent
+      - editList (object[]) (required)
+          - attr (object[])
+              - attrName (string) — pname
+              - attrNameId (integer) — pid
+              - attrValue (string) — v值
+              - attrValueId (integer) — vid
+          - priceCalcParam (object) — 价格编辑参数
+              - multiplyValue (object) — 乘值
+              - operateType (string) — 操作类型
+              - priceValue (object) — 加减值
+          - productId (number) (required) — 商品ID
+          - productSellingPoint (string) — 卖点
+          - productTitle (string) — 商品标题
+
+  chargebackMaterialWithAIForAliid
+    适用场景：用于阿里巴巴国际站（Alibaba.com）跨境订单的拒付（Chargeback）申诉处理，帮助商家查询某笔订单的拒付详情并获取 AI 智能生成的抗辩申诉材料，支撑商家完成从信息核对到正式申诉的全流程。
+    触发条件：当用户输入包含具体订单号且涉及拒付申诉意图时调用，例如「订单 292734439001028893 需要拒付申诉」「帮我为订单 123456 提交抗辩」「订单 123456 的拒付处理得怎么样了」。入参为字符串格式的 orderId（订单号必须以 string 传入，不可用数字格式）。
+    期望产出：返回该订单的拒付核心信息，包括拒付单编号（chargebackProcessId）、卖家总结（sellerSummarize）、AVS 验证结果（avsResult）、物流面单 / 物流轨迹截图 / 物流送达证明等文件列表，以及 AI 自动撰写的抗辩信下载链接（chargebackMaterialAi.url），供商家直接提交或微调后用于拒付申诉。
+    meta: toolkit=alibaba, toolkit_service=risk-for-accio
+      - orderId (string) — orderId
+
+  command_video_generate
+    指令视频生成
+    meta: toolkit=alibaba, toolkit_service=icbu-ai-video-agent
+      - inputImgUrls (string[])
+      - ratio (string) (required) — 视频长宽比例
+      - storyboardList (object[]) (required)
+          - seconds (string) (required) — 秒数
+          - storyboard (string) (required) — 分镜提示词
+
+  command_video_generate_storyboard
+    指令视频生成分镜
+    meta: toolkit=alibaba, toolkit_service=icbu-ai-video-agent
+      - inputImgUrls (string[])
+      - userInput (string) (required) — 用户输入提示词
+
+  command_video_prompt_recommend
+    指令视频获取推荐提示词
+    meta: toolkit=alibaba, toolkit_service=icbu-ai-video-agent
+      - inputImgUrls (string[])
+      - userInput (string) — 用户输入提示词
+
+  consume_ipoint
+    根据本次请求消耗的token，执行i豆权益的扣费
+    meta: toolkit=alibaba, toolkit_service=icbu-smart-assistant-framework
+      - request (object) (required) — request
+          - abilityCode (string) — abilityCode
+          - chargeAmount (number) — chargeAmount
+          - conversationId (string) — conversationId
+          - conversationName (string) — 会话名称
+          - inputTokens (number) — inputTokens
+          - outputTokens (number) — outputTokens
+          - recordId (string) — recordId
+          - recordInfo (string) — recordInfo
+          - recordName (string) — recordName
+          - recordType (string) — recordType
+          - requestId (string) (required) — requestId
+          - scene (string)
+          - sceneCode (string) — sceneCode
+          - smartAssistanceIntent (string) — 表示是否来源于生意助手非query标签
+          - tenantId (string)
+          - userId (string)
+
+  create_ggs_batch_optimize_main_task
+    创建GGS批量优化主任务，创建完成后需要调用submit_ggs_batch_optimize_detail工具分批次提交批量优化的商品
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+      - actions (object[])
+          - field (string) — 要优化哪个字段，15个枚举： 15 个： TITLE、PRICE、LEAD_TIME、MOQ、WEIGHT、DIMENSION、LOGISTICS_TEMPLATE、CATEGORY、DESCRIPTION、CPV、IMAGE、INVENTORY、KEYWORD、TRANSLATE、PRICE_EXCHANGE
+          - strategy (string) — 用什么策略优化，AI_SUGGEST：让 AI 自己判断要改成什么；USER_PROMPT：你明确告诉 AI 要怎么改（如"把 Place of Origin 改成 CN"）
+          - value (string) — 每一个字段项的优化自然语言指令
+      - taskFileId (string) — 任务文件 ID（可选）
+      - total (number) — 待优化商品总数
+      - userPrompt (string) —  用户的自然语言优化指令（纯文本字符串）
+
+  data_advisor_account_summary
+    查询店铺不同员工的经营效果数据，包含产品、询盘、下单等数据
+    meta: toolkit=alibaba, toolkit_service=data-advisor-server
+      - accountQueryParam (object) (required) — 店铺员工分数查询对象，参数必须包裹在 accountQueryParam 对象内
+          - endDate (string) — 查询截止时间，yyyy-mm-dd格式
+          - startDate (string) — 查询起始时间，yyyy-mm-dd格式
+          - statisticsType (string) — 统计周期，可选值为day、week、month，分别表示日、周、月
+
+  data_advisor_category_infer
+    根据自然语言描述的类目预测对应的类目id，支持中英文描述
+    meta: toolkit=alibaba, toolkit_service=product-selection-server
+      - categoryDesc (string) (required) — 类目描述
+
+  data_advisor_category_prediction
+    根据自然语言描述的类目预测对应的类目id，支持中英文描述
+    meta: toolkit=alibaba, toolkit_service=product-selection-server
+      - categoryParam (object) (required) — 查询参数，JSON格式，不要传入JSON STRING
+          - categoryDesc (string) — 类目描述
+
+  data_advisor_industry_cate_rank
+    查询某行业下的子行业排行榜数据，返回热门子行业的需求、供给数据
+    meta: toolkit=alibaba, toolkit_service=product-selection-server
+      - industryRankQueryParam (object) (required) — 行业国家排行榜查询参数对象，参数必须包裹在 industryRankQueryParam 对象内
+          - cateId (number) — 类目id，必须是数字格式。如果是自然语言类目，需要调用类目预测服务获取类目数字id
+          - orderBy (string) — 排序字段，可选值为abCnt（按市场规模排序）、abCntYoy（按市场规模增速排序）、supplyDemandRate（按市场供需排序）、dAbRate（按市场转化排序）
+          - orderModel (string) — 排序方式，可选值为asc（升序）、desc（降序）
+          - rankType (string) — 榜单类型，可选值为1/2/3/4，1表示人气榜，2表示飙升榜，3表示蓝海榜，4表示效果榜
+
+  data_advisor_industry_country_rank
+    查询某行业下的国家排行榜数据，返回热门国家的需求、供给数据
+    meta: toolkit=alibaba, toolkit_service=product-selection-server
+      - industryRankQueryParam (object) (required) — 行业国家排行榜查询参数对象，参数必须包裹在 industryRankQueryParam 对象内
+          - cateId (number) — 类目id，必须是数字格式。如果是自然语言类目，需要调用类目预测服务获取类目数字id
+          - orderBy (string) — 排序字段，可选值为abCnt（按市场规模排序）、abCntYoy（按市场规模增速排序）、supplyDemandRate（按市场供需排序）、dAbRate（按市场转化排序）
+          - orderModel (string) — 排序方式，可选值为asc（升序）、desc（降序）
+          - rankType (string) — 榜单类型，可选值为1/2/3/4，1表示人气榜，2表示飙升榜，3表示蓝海榜，4表示效果榜
+
+  data_advisor_opportunity_discovery
+    查询特定行业下的热门细分市场数据，包含细分市场名称、需求指数、供给指数等数据
+    meta: toolkit=alibaba, toolkit_service=product-selection-server
+      - sceneTermQueryParam (object) (required) — 产品机会发现查询参数对象，参数必须包裹在 sceneTermQueryParam 对象内
+          - cateId (number) — 类目id，必须是数字格式。如果是自然语言类目，需要调用类目预测服务获取类目数字id
+          - countryId (string) — 国家编码，2位大小英文字母
+          - currentPage (number) — 页号，从1开始
+          - pageSize (number) — 每页数量，默认 5，最大 10
+          - sceneName (string) — 搜索关键词
+          - statCycle (string) — 统计周期，可选值为30d、90d。分别表示最近30天和最近90天
+          - terminalType (string) — 终端类型，可选值为PC、APP、WAP、TOTAL，分别表示PC端、APP端、WAP端、全部
+
+  data_advisor_product_selection
+    根据条件（类目、AB、实收GMV等条件筛选）查询特定行业的热门商品，包含商品id、标题、主图等字段
+    meta: toolkit=alibaba, toolkit_service=product-selection-server
+      - productSelectionParam (object) (required) — 查询参数，JSON格式，不要传入JSON STRING
+          - abCntMax (number) — ab人数上限
+          - abCntMin (number) — ab人数下限
+          - cateId (number) — 类目id
+          - countryId (string) — 国家编码
+          - moqMax (number) — 最小起订量moq上限
+          - moqMin (number) — 最小起订量moq下限
+          - moqPriceMax (object) — 价格上限
+          - moqPriceMin (object) — 价格下限
+          - order (string) — 排序类型，升序时传入asc，降序时传入desc
+          - orderBy (string) — 排序列，如果需要按挂帐订单量排序，传入prepay_ord_cnt；如果需要按询盘量排序，传入ab_cnt；如果需要按实收GMV排序，传入rec_ord_amt；如果需要按Detail UV排序，传入uv_detail
+          - prepayOrdCntMax (number) — 挂账订单数上限
+          - prepayOrdCntMin (number) — 挂账订单数下限
+          - recOrdAmtMax (object) — gmv上限
+          - recOrdAmtMin (object) — gmv下限
+          - statisticsType (string) — 时间周期，可选值为1d（日）、7d（7天汇总）、30d（30天汇总）
+          - uvDetailMax (number) — 访问UV上限
+          - uvDetailMin (number) — 访问UV下限
+
+  data_advisor_shop_channel
+    查询店铺不同渠道（店内、站外、导购等）下的流量效果数据
+    meta: toolkit=alibaba, toolkit_service=data-advisor-server
+      - channelQueryParam (object) (required) — 店铺流量来源查询参数对象，参数必须包裹在 channelQueryParam 对象内
+          - endDate (string) — 时间范围查询时的结束时间，yyyy-MM-dd格式
+          - startDate (string) — 时间范围查询时的开始时间，yyyy-MM-dd格式
+          - statisticsType (string) — 时间周期，可选值为day（日）、week（周）、month（月）
+          - terminalType (string) — 终端类型，可选值为PC、WS、TOTAL，分别表示PC端、无线端、全部
+
+  data_advisor_shop_flow
+    查询店铺的搜索流量、场景流量、互动流量、自增流量的效果数据
+    meta: toolkit=alibaba, toolkit_service=data-advisor-server
+      - channelQueryParam (object) (required) — 店铺流量详情查询参数对象，参数必须包裹在 channelQueryParam 对象内
+          - endDate (string) — 时间范围查询时的结束时间，yyyy-MM-dd格式
+          - startDate (string) — 时间范围查询时的开始时间，yyyy-MM-dd格式
+          - terminalType (string) — 终端类型，可选值为PC、APP、WAP、TOTAL，分别表示PC端、APP端、WAP端、全部
+
+  data_advisor_shop_flow_profile
+    查询店铺的流量画像数据，包含地域偏好、类目偏好、流量渠道场景偏好三种画像数据
+    meta: toolkit=alibaba, toolkit_service=data-advisor-server
+      - flowProfileQueryParam (object) (required) — 店铺流量画像查询参数对象，参数必须包裹在 flowProfileQueryParam 对象内
+          - endDate (string) — 时间范围查询时的结束时间，yyyy-MM-dd格式
+          - indexName (string) — 指标类型，当查询地域偏好时，传入visitor_country。当查询类目偏好时，传入cate_total。当查询流量渠道场景偏好时，传入channel_total
+          - sourceType (string) — 流量类型，如果询问全部流量，则值为total_traffic，如果询问搜索流量，则值为search_traffic，如果询问场景流量，则值为scenario_traffic，如果询问互动流量，则值为interaction_traffic，如果询问自增（自然）流量，则值为increase_traffic
+          - startDate (string) — 时间范围查询时的开始时间，yyyy-MM-dd格式
+          - terminalType (string) — 终端类型，可选值为PC、APP、WAP、TOTAL，分别表示PC端、APP端、WAP端、全部
+
+  data_advisor_shop_product
+    查询店铺下商品维度的效果数据，返回商品曝光、点击、询盘等效果指标
+    meta: toolkit=alibaba, toolkit_service=data-advisor-server
+      - shopProductQueryParam (object) (required) — 店铺商品查询参数对象，参数必须包裹在 shopProductQueryParam 对象内
+          - aliId (number) — 账号aliId
+          - bizProd (string) — 筛选商机品，参数值只包含“Y”。如果不需要筛选，该参数置空
+          - directProd (string) — 筛选行业定向品，参数值只包含“Y”。如果不需要筛选，该参数置空
+          - hasEffect (string) — 筛选有效果品，参数值只包含“Y”。如果不需要筛选，该参数置空
+          - intlBwProd (string) — 筛选顶展商品，参数值只包含“Y”。如果不需要筛选，该参数置空
+          - maxClickRate (number) — 点击率百分数上限，整数。如果需要查询点击率大于0.12的品，该参数值为12
+          - maxClicks (number) — 搜索点击上限，整数
+          - maxInquiries (number) — 询盘上限，整数
+          - maxViews (number) — 搜索曝光上限
+          - minClickRate (number) — 点击率百分数下限，整数。如果需要查询点击率大于0.12的品，该参数值为12
+          - minClicks (number) — 搜索点击下限，整数
+          - minInquiries (number) — 询盘下限，整数
+          - minViews (number) — 搜索曝光下限
+          - orderBy (string) — 排序字段，可选值为 views（搜索曝光次数）、sumProdShowNumCoc（搜索曝光次数同环比）、clicks（搜索点击次数）、sumProdClickNumCoc（搜索点击次数同环比）、clicksRates（搜索点击率）、visitors（访问人数）、sumProdVisitorCntCoc（访问人数同环比）、inquiries（询盘个数）、atmFbUv（TM咨询人数）、inquiriesRates（询盘率）、mcFbUv（询盘人数）、crtOrd（起草订单数）、rtsOnlineAmt（信保实收金额）、fav（收藏人数）、share（分享人数）、cmp（对比人数）、byrCntOnlineRts（RTS线上买家数）、addCartCnt（加购次数）、addCartByrCnt（加购买家数）、totalClkCnt（全店点击次数）、totalImpsCnt（全店曝光次数）、qztImpsCnt（全站推曝光次数）、adClkCnt（营销点击次数）、p4pImpsCnt（标准推广曝光次数）、p4pClkCnt（标准曝光次数）、adImpsCnt（营销曝光次数）、qztClkCnt（全站推点击次数），非必传参数
+          - orderModel (string) — 排序方向，枚举值：ASC(升序)、DESC(降序)，默认 DESC
+          - p4pProd (string) — 筛选p4p商品，参数值只包含“Y”。如果不需要筛选，该参数置空
+          - pageNo (number) — 页码，从 1 开始，默认 1
+          - pageSize (number) — 每页数量，默认 10，最大 20
+          - prodLevel (string) — 产品分层，包含“低质品”、“普通品”、“潜力优品”、“优品”、“爆品”5个值。如果不需要过滤产品分层，该参数置空
+          - productName (string) — 产品名称或产品id
+          - semiMgtProd (string) — 筛选半托管品，参数值只包含“Y”。如果不需要筛选，该参数置空
+          - starMkProd (string) — 筛选营销产品，参数值只包含“Y”。如果不需要筛选，该参数置空
+          - statDate (string) — 查询的日期，格式：yyyy-MM-dd，必须在近90天内。如果statisticsType为day，statDate为对应的查询日期；如果statisticsType为week，忽略statDate；如果statisticsType为month，statDate为对应查询月份的1号，比如2023-02-01
+          - statisticsType (string) — 时间周期类型，枚举值：day(自然日)、week(自然周)、month(自然月)
+          - tradeProd (string) — 筛选交易品，参数值只包含“Y”。如果不需要筛选，该参数置空
+          - videoProd (string) — 筛选视频产品，参数值只包含“Y”。如果不需要筛选，该参数置空
+          - wendingProd (string) — 筛选问鼎产品，参数值只包含“Y”。如果不需要筛选，该参数置空
+          - winProd (string) — 筛选橱窗品，参数值只包含“Y”。如果不需要筛选，该参数置空
+
+  data_advisor_shop_region
+    查询店铺不同地域的流量效果数据，返回不同国家地区的效果数据
+    meta: toolkit=alibaba, toolkit_service=data-advisor-server
+      - regionQueryParam (object) (required) — 查询参数，JSON格式，不要传入JSON STRING
+          - dimensionType (string) — 指标维度，如果询问店铺搜索曝光的国家或大洲分布，则值为comp_imps_cnt，如果询问店铺搜索点击的国家或大洲分布，则值为comp_clk_cnt，如果询问店铺访客的国家或大洲分布，则值为shop_uv，如果询问店铺TM咨询的国家或大洲分布，则值为comp_atm_uv，如果询问店铺全站曝光的国家或大洲分布，则值为total_imps_cnt，如果询问店铺全站点击的国家或大洲分布，则值为total_clk_cnt，如果询问店铺全站商机的国家或大洲分布，则值为total_bus_cnt，如果询问店铺询盘人数的国家或大洲分布，则值为comp_fb_uv，如果询问店铺询盘个数的国家或大洲分布，则值为comp_fb_cnt，如果询问店铺半托管曝光的国家或大洲分布，则值为semi_mgt_imps_cnt
+          - endDate (string) — 时间范围查询时的结束时间，yyyy-MM-dd格式。一次调用最长只支持3个月时间范围查询
+          - startDate (string) — 时间范围查询时的开始时间，yyyy-MM-dd格式。一次调用最长只支持3个月时间范围查询
+          - statisticsType (string) — 时间周期，可选值为day（日）、week（周）、month（月）
+          - terminalType (string) — 终端类型，可选值为PC（PC端）、WS（无线端）、TOTAL（全端型）
+
+  data_advisor_shop_summary
+    查询店铺的经营大盘数据，包含曝光、点击、询盘、下单等链路数据
+    meta: toolkit=alibaba, toolkit_service=data-advisor-server
+      - advisorQueryParam (object) (required) — 查询参数，JSON格式，不要传入JSON STRING
+          - endDate (string) — 时间范围查询时的结束时间，yyyy-MM-dd格式
+          - startDate (string) — 时间范围查询时的开始时间，yyyy-MM-dd格式
+          - statisticsType (string) — 时间周期，可选值为day（日）、7d（7天汇总）、30d（30天汇总）
+
+  data_advisor_to_product
+    查询访问过店铺的买家又访问哪些其他商品，返回商品标题、图片等数据
+    meta: toolkit=alibaba, toolkit_service=data-advisor-server
+      - flowProductQueryParam (object) (required) — 店铺流量去向产品查询参数对象，参数必须包裹在 flowProductQueryParam 对象内
+          - endDate (string) — 时间范围查询时的结束时间，yyyy-MM-dd格式
+          - sourceType (string) — 流量类型，如果询问全部流量，则值为total_traffic，如果询问搜索流量，则值为search_traffic，如果询问场景流量，则值为scenario_traffic，如果询问互动流量，则值为interaction_traffic，如果询问自增（自然）流量，则值为increase_traffic
+          - startDate (string) — 时间范围查询时的开始时间，yyyy-MM-dd格式
+          - terminalType (string) — 终端类型，可选值为PC、WS、TOTAL，分别表示PC端、无线端、全部
+
+  data_advisor_visitor_detail
+    查询一段时间内访问店铺的访客列表，返回访客id、访客国家等数据
+    meta: toolkit=alibaba, toolkit_service=data-advisor-server
+      - visitorQueryParam (object) (required) — 店铺访客列表查询对象，参数必须包裹在 visitorQueryParam 对象内
+          - buyerCountry (string) — 买家国家，传入国家名称。比如"Burkina Faso"、"France"
+          - buyerRegion (string) — 买家大洲，传入大洲名称。比如"Africa"、"Asia"、"Europe"、"Middle East"、"North America"、"Oceania"、"South America"
+          - endDate (string) (required) — 查询的截止时间，格式为yyyy-mm-dd，必传，默认最近7天的截止时间
+          - hasRemarks (boolean) — 查询有备注访客
+          - isAtmFb (boolean) — 如果需要过滤出有TM咨询访客，传入true。否则传入false
+          - isMcFb (boolean) — 如果需要过滤出有询盘访客，传入true。否则传入false
+          - orderBy (string) — 排序列，如果按访客id排序，传入sortIndex。如果按买家国家排序，传入buyerCountry。如果按浏览次数排序，传入visitPv。如果按停留时长排序，传入staySecond
+          - orderModel (string) — 升降序，如果升序排列，传入asc。如果降序排列，传入desc
+          - pageNO (number) — 页码，从1开始
+          - pageSize (number) — 查询页大小
+          - searchKeyword (string) — 访客偏好关键词
+          - startDate (string) (required) — 查询的起始时间，格式为yyyy-mm-dd，必传，默认最近7天的起始时间
+          - subMemberSeq (string) — 产品负责人账号id，accountId
+
+  digital_pitcher_feedback_submit
+    提交数字投手(省心版/AI智投)广告的用户反馈。仅适用于 campaignType=51的计划。风险等级: medium，提交前需确认反馈内容。本工具为写操作，提交反馈后不可撤回。需要写操作权限，需用户明确授权。
+    meta: toolkit=alibaba, toolkit_service=icbu-ads-ai-support
+      - campaignId (integer) — 反馈针对的计划id
+      - feedbackText (string) (required) — Customer feedback text. Submit feedback signal only; do not include execution payload.
+      - feedbackType (string) (required) — Optional feedback type, default CUSTOMER_FEEDBACK.
+      - occurredAt (string) — Optional ISO-8601 datetime when feedback occurred.
+
+  draft_judge_and_search
+    判断是否为草稿品，如果是草稿品，则查询草稿品数据
+    meta: toolkit=alibaba, toolkit_service=icbu-product-agent
+      - productId (number) (required) — 商品id
+
+  euro_get_sku_detail
+    根据product_id查找sku详情信息
+    meta: toolkit=alibaba-ggs, toolkit_service=euro-pro-sku
+      - fieldName_1 (object) — 用于传入服务key
+          - key (string) — 指定服务key，固定ICBU_H1425_95682FCB-8E8D-4F2F-BFDD-86CD0FE87DD4C71不变
+      - fieldName_2 (object) — 无需传入
+      - fieldName_3 (object) — 用于传入服务入参
+          - payload (object) — 传入json，唯一参数product_id为int，指定商品id，示例{"product_id": 1600390823156}
+
+  euro_list_products
+    根据商品ID、商品名称等查询商品结构化信息，包含主图、类目、结构化详描、属性等字段
+    meta: toolkit=alibaba-ggs, toolkit_service=euro-pro-sku
+      - queryDTO (object) (required) — 查询商品条件DTO
+          - productId (number) — 商品ID
+          - productName (string) — 商品名称
+
+  fetch_product_info
+    根据product_id获取商品详细信息
+    meta: toolkit=accio-buyer, toolkit_service=alibaba-com-buyer-assistant-server
+      - fieldName_3 (object) — 用于传入服务入参
+          - payload (object) — 包含 product_list 的 JSON 对象。该列表包含多个商品条目，每个条目由 productId（唯一商品 ID）和 dataSource（来源平台，如 "Alibaba.com", "aliexpress.com", "1688.com", "Global"）组成。  示例输入： {"product_list": [{"productId": "1601592964230", "dataSource": "Alibaba.com"}]}
+
+  fetch_supplier_info
+    根据supplier_id获取商家详细信息
+    meta: toolkit=accio-buyer, toolkit_service=alibaba-com-buyer-assistant-server
+      - fieldName_3 (object) — 用于传入服务入参
+          - payload (object) — 传入json供应商关联产品清单，结构定义：supplier_list (Array): 供应商信息数组。 supplierId (String): 供应商唯一识别码。 dataSource (String): 数据来源平台（如 Alibaba.com）。 productIds (Array): 该供应商关联的商品 ID 列表。示例：{   "supplier_list": [     {       "supplierId": "200689113",       "dataSource": "Alibaba.com",       "productIds": ["1601592964230", "1601492123123"]     },     {       "supplierId": "274363396",       "dataSource": "Alibaba.com",       "productIds": ["1600546565441"]     }   ] }
+
+  findCustomerShopInfo
+    查询客户店铺基础信息和高关联信息（包括店铺名称、主营行业、橱窗商品信息、近期店铺高询盘词、高p4p消耗词和高引流词）
+    meta: toolkit=alibaba, toolkit_service=icbu-ad-brand-rec-keyword
+
+  getAllBehaviorsSemanticForKeywordRec
+    查询阿里巴巴国际站客户在站内的行为序列数据
+    meta: toolkit=alibaba, toolkit_service=icbu-ad-brand-rec-keyword
+
+  get_attr_info
+    查询该类目下的属性信息（输入类目id）
+    meta: toolkit=alibaba, toolkit_service=icbu-product-agent
+      - categoryId (number) (required) — 类目id
+
+  get_attr_list
+    根据用户query推断商品类目，并返回相关的属性列表。
+    meta: toolkit=accio-buyer, toolkit_service=alibaba-com-buyer-assistant-server
+      - fieldName_2 (object) — 无需传入
+      - fieldName_3 (object) — 传入服务入参
+          - payload (object) — 传入的json，唯一参数query为string格式，示例{"query":"wireless keyboard"}
+
+  get_buyer_basic_info
+    当商家在沟通前或沟通中需要了解买家背景时调用此工具。适用于售前客户分析、买家资质评估、沟通策略制定等场景。当需要判断买家等级、了解买家所在国家、查看买家画像标签或历史浏览行为时触发。返回买家层级、国家代码、买家画像标签及历史浏览数据等基本信息，帮助商家快速掌握买家背景以辅助沟通决策。
+    meta: toolkit=alibaba, toolkit_service=icbu-reception-mcp-service
+      - contactAliId (long) (required) — 买家id（要查询的买家aliId）
+      - prod_id (string) — 当前沟通的商品id（可选）
+
+  get_oss_pre_upload_url
+    获取 OSS 直传预签名 URL。用于上传oss文件时候获取，依赖用户登录态
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+      - fileName (string) — 文件名称
+
+  get_product_detail
+    查询商品详情信息，获取商品商详知识
+    meta: toolkit=alibaba, toolkit_service=icbu-reception-mcp-service
+      - buyer_country_code (string) (required) — 买家国家代码，缺失时默认US
+      - prod_id (string) (required) — 当前沟通的商品id
+
+  get_product_score_detail
+    查询商品质量分(根据商品id)
+    meta: toolkit=alibaba, toolkit_service=icbu-product-agent
+      - productId (number) (required) — 商品ID
+
+  get_seller_basic_info
+    查询商家基本信息，包括商家基本知识、主营类目、最近发送的消息等
+    meta: toolkit=alibaba, toolkit_service=icbu-reception-mcp-service
+
+  get_sku_detail
+    根据product_id查找sku详情信息
+    meta: toolkit=accio-buyer, toolkit_service=alibaba-com-buyer-assistant-server
+      - fieldName_1 (object) — 用于传入服务key
+          - key (string) — 指定服务key，固定ICBU_H1425_95682FCB-8E8D-4F2F-BFDD-86CD0FE87DD4C71不变
+      - fieldName_2 (object) — 无需传入
+      - fieldName_3 (object) — 用于传入服务入参
+          - payload (object) — 传入json，唯一参数product_id为int，指定商品id，示例{"product_id": 1600390823156}
+
+  ggs_XDataLogger_log
+    ggs接口打点记录
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+      - action (string) (required) — 打点类型记录
+      - params (object) (required) — 打点参数
+      - result (object) (required) — 业务结果记录
+
+  ggs_ai_assistant_ability_check_point
+    校验GGS用户生意助手权益点数是否充足
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+      - ability (string) (required) — 扣点能力code
+      - number (number) (required) — 校验次数
+
+  ggs_cancel_migration_task
+    根据搬品任务id(taskId)取消搬品任务
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+      - taskId (number) — 搬品任务ID
+
+  ggs_category_query
+    GGS根据关键词查询类目
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+      - keyword (string) (required) — 关键词
+
+  ggs_high_demand_product_topic
+    根据图片或关键词等信息查询定招主题
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+      - categoryId (number) — 类目id
+      - imageUrl (string) — 图片url检索主题
+      - page (number) (required) — 页码
+      - pageSize (number) (required) — 每页个数
+      - sortField (string) (required) — 结果排序方式
+      - titleSearch (string) — 主题关键词检索主题
+      - tradeType (string) (required) — rts（可交易品）/ customization（询盘品）
+
+  ggs_image_post_task_result
+    获取图片发品优化任务结果
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+      - taskId (string) (required) — 图片发品sse任务id
+
+  ggs_image_post_task_start
+    生成通过图片和类目预测商品信息的任务
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+      - request (object) (required)
+          - cateId (number) (required) — 类目 ID
+          - enableImageOptimization (boolean) — 是否开启图片优化
+          - imageUrls (string[]) (required)
+          - productWords (string) — 生成描述说明
+
+  ggs_image_predict_category
+    GGS图片预测类目
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+      - imageUrl (string) (required) — 图片url
+
+  ggs_image_quality_check
+    GGS图片质量分检测
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+      - imageUrl (string) (required) — 图片url
+
+  ggs_migration_pre_check
+    GGS搬品预检查，检查photobank容量，草稿箱容量
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+      - productCount (number) — 搬品的商品数量
+
+  ggs_product_ai_image_color_change
+    对图片使用主体换色，通过输入原始图片URL、prompt, 色卡，发起一次AI图片创作请求
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+      - hexColor (string) (required) —  色卡值
+      - imageUrl (string) (required) — 原始图片url
+      - prompt (string) (required) — AI图片创作prompt
+
+  ggs_product_ai_image_generate
+    发起AI图片创作，通过输入原始图片URL,prompt,不同AI能力对应的AbilityCode,发起一次AI图片创作请求
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+      - abilityCode (string) — AI能力Code
+      - imageUrl (string) — 原始图片url
+      - prompt (string) — AI图片创作prompt
+
+  ggs_product_ai_image_generate_result
+    根据图片创作请求唯一key(requestKey),查询AI图片创作的结果
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+      - requestKey (string) (required) — AI 图片创作请求的唯一标识 key，由创作请求接口返回
+
+  icbu_ads_account_diagnosis
+    对广告账户做整体诊断，返回账户概览(overviewSummary)、诊断结论(diagnosisConclusions)和问题计划列表(problemCampaigns)。问题计划包含 campaignId 供后续用 campaign_diagnosis 下钻。时间区间必须恰好7天（闭区间）。与 campaign_diagnosis 的区别：本工具做账户级整体诊断，campaign_diagnosis 做单个计划深度诊断。本工具为只读，不执行任何修改操作。
+    meta: toolkit=alibaba, toolkit_service=icbu-ads-ai-support
+      - endDate (string) (required) — 诊断分析结束日期，格式为YYYY-MM-DD
+      - startDate (string) (required) — 诊断分析开始日期，格式为YYYY-MM-DD，必须为endDate-6d
+
+  icbu_ads_campaign_diagnosis
+    对单个广告计划做深度诊断，返回诊断全文(diagnosisConclusion)和优化建议(optimizationSuggestions)。campaignId 优先从 account_diagnosis 返回的 problemCampaigns 获取。与 account_diagnosis 的区别：本工具做单个计划的深度归因分析，account_diagnosis 做账户整体健康评估。本工具为只读，不执行任何修改操作。
+    meta: toolkit=alibaba, toolkit_service=icbu-ads-ai-support
+      - campaignId (integer) (required) — 广告计划的唯一标识ID
+      - endDate (string) (required) — 诊断结束日期，格式为YYYY-MM-DD
+      - question (string) (required) — 需要解答的具体问题或关注点
+      - sessionId (string) — 会话标识符，用于跟踪和关联请求
+      - startDate (string) (required) — 诊断开始日期，格式为YYYY-MM-DD
+
+  icbu_ads_entity
+    查询广告实体列表（计划/商品/标签三类通用）。通过 entityType 区分查询对象：campaign（计划列表）、campaign_product（计划下商品列表）、campaign_targeting_tag（计划下定向标签列表）、campaign_keyword（计划下关键词，标准推才有）。本工具仅用于列表查询，不返回计划全貌（出价策略/自动选品等字段需用 icbu_ads_entity_detail）。写操作前必须先调本工具校验 campaignType/subType 白名单。
+    meta: toolkit=alibaba, toolkit_service=icbu-ads-ai-support
+      - entityType (string) (required) — 实体类型：campaign-计划，campaign_product-计划下商品，campaign_keyword-计划下关键词，campaign_targeting_tag-计划定向标签
+      - filters (object) (required) — 筛选条件
+      - pageIndex (integer) (required) — 页号，从1开始
+      - pageSize (integer) (required) — 页大小，建议20
+
+  icbu_ads_entity_campaign_delete
+    永久删除指定的推广计划，操作不可逆。风险等级: critical，执行前必须复述计划名、ID、商品数量，并要求用户精确复述完整 campaignId 后才能调用。仅支持 campaignType=47 白名单 subType，一次只能删1个计划。调用前需有写操作权限，需用户明确授权。
+    meta: toolkit=alibaba, toolkit_service=icbu-ads-ai-support
+      - entityWriteRequest (object) (required) — 操作负荷
+          - id (integer) (required) — 操作计划id
+
+  icbu_ads_entity_campaign_pause
+    暂停指定的全站推广计划（将 onlineStatus 设为0）。仅支持 campaignType=47 且 subType 在白名单内的计划。风险等级: medium，执行前需复述计划信息并获得用户确认。与 campaign_resume 的区别：pause 将计划置为暂停状态，resume 将计划恢复投放。调用前需通过 icbu_ads_entity 查询确认计划存在且满足白名单条件。
+    meta: toolkit=alibaba, toolkit_service=icbu-ads-ai-support
+      - entityWriteRequest (object) (required) — 操作负荷
+          - id (integer) (required) — 操作计划id
+
+  icbu_ads_entity_campaign_product_create
+    向全站推广计划中添加推广商品。productIdList 中的商品ID需从 icbu_ads_recommend_product 推荐结果获取，禁止编造。单次最多200个商品。风险等级: medium，需用户确认。与 campaign_product_delete 的区别：create 添加商品到计划，delete 从计划移除商品（且 delete 用 adgroupId 而非 productId）。需要写操作权限。
+    meta: toolkit=alibaba, toolkit_service=icbu-ads-ai-support
+      - entityType (string) (required) — 实体操作类型：只允许campaign_product
+      - entityWriteRequest (object) (required) — 实体操作请求
+          - campaignId (integer) (required) — 操作计划id
+          - campaignType (integer) (required) — 操作计划类型：只允许47，从要操作的计划实体获取
+          - productIdList (integer[]) (required)
+          - subType (string) (required) — 操作计划子类型：只允许whole_store_hot_product、whole_store_product、whole_store_new_product。从要操作的计划实体获取
+
+  icbu_ads_entity_campaign_product_delete
+    从全站推广计划中移除推广商品。注意：删品使用 adgroupId（商品在计划中的实例ID），不是 productId。adgroupId 需从 icbu_ads_entity 列表查询或 product_create 返回值获取。与 campaign_product_create 的区别：delete 从计划移除商品，create 向计划添加商品。需要写操作权限。
+    meta: toolkit=alibaba, toolkit_service=icbu-ads-ai-support
+      - entityType (string) (required) — 实体操作类型：只允许campaign_product
+      - entityWriteRequest (object) (required) — 实体操作请求
+          - adgroupIdList (integer[]) (required)
+          - campaignId (integer) (required) — 操作计划id
+          - campaignType (integer) (required) — 操作计划类型：只允许47，从要操作的计划实体获取
+          - subType (string) (required) — 操作计划子类型：只允许whole_store_hot_product、whole_store_product、whole_store_new_product。从要操作的计划实体获取
+
+  icbu_ads_entity_campaign_product_pause
+    暂停全站推广计划下的指定商品（onlineStatus 置为0）。使用 adGroupOperationList 传入待暂停商品的 adgroupId，注意数组元素的键名是 id（不是 adGroupId）。与 campaign_product_resume 的区别：pause 暂停商品推广，resume 恢复商品推广。与 campaign_pause 的区别：本工具操作计划下的单个商品，campaign_pause 操作整个计划。需要写操作权限。
+    meta: toolkit=alibaba, toolkit_service=icbu-ads-ai-support
+      - entityWriteRequest (object) (required) — 操作负荷
+          - adGroupOperationList (object[]) (required)
+              - id (integer) (required) — adgroupId(必须先 entity list 取,禁用 productId 替代)
+          - campaignId (integer) (required) — 操作计划id
+
+  icbu_ads_entity_campaign_product_resume
+    恢复全站推广计划下已暂停的商品（onlineStatus 置为1）。风险等级: low，告知用户后直接执行。入参结构与 campaign_product_pause 相同。与 campaign_product_pause 的区别：resume 恢复商品推广，pause 暂停商品推广。与 campaign_resume 的区别：本工具操作单个商品，campaign_resume 操作整个计划。
+    meta: toolkit=alibaba, toolkit_service=icbu-ads-ai-support
+      - entityWriteRequest (object) (required) — 操作负荷
+          - adGroupOperationList (object[]) (required)
+              - id (integer) (required) — adgroupId(必须先 entity list 取,禁用 productId 替代)
+          - campaignId (integer) (required) — 操作计划id
+
+  icbu_ads_entity_campaign_resume
+    恢复已暂停的全站推广计划（将 onlineStatus 设为1）。仅支持 campaignType=47 且 subType 在白名单内的计划。风险等级: medium，执行前需复述计划信息并获得用户确认。与 campaign_pause 的区别：resume 将暂停的计划恢复投放，pause 将投放中的计划暂停。入参结构与 pause 相同。
+    meta: toolkit=alibaba, toolkit_service=icbu-ads-ai-support
+      - entityWriteRequest (object) (required) — 操作负荷
+          - id (integer) (required) — 操作计划id
+
+  icbu_ads_entity_campaign_set_auto_select_product
+    开启或关闭全站推广计划的商品自动更新功能（系统自动加品/换品）。风险等级: medium，执行前需复述操作内容并获得确认。查询当前开关状态需用 icbu_ads_entity_detail 的 autoSelectEnabled 字段。仅支持 campaignType=47 白名单计划。需要写操作权限。
+    meta: toolkit=alibaba, toolkit_service=icbu-ads-ai-support
+      - entityWriteRequest (object) (required) — 操作负荷
+          - enabled (boolean) (required) — 自动选品开关
+          - id (integer) (required) — 操作计划id
+
+  icbu_ads_entity_campaign_set_pricing
+    修改全站推广计划的出价(maxPrice)、日预算(budget)、投放目标(optimizeTarget)、出价策略(bidType)，至少传一个字段。金额单位为本币元（广告客户币种唯一）。风险等级: high，修改立即生效影响实时花费，执行前必须复述现值→新值及变化幅度并获得确认。调用前必须先用 entity_detail 查当前 bidType/optimizeTarget 组合，不同组合对 maxPrice 的必填/禁传规则不同。与其他计划写工具的区别：本工具专门修改出价和预算参数，不影响计划的上下线状态。需要写操作权限。
+    meta: toolkit=alibaba, toolkit_service=icbu-ads-ai-support
+      - entityWriteRequest (object) (required) — 操作负荷
+          - bidType (integer) — 出价类型，enum: 4（TARGET_BID 商机成本）/1（INTELLIGENT 获取更多商机）；不传 fallback 现有计划值
+          - budget (string) — 日预算(元字符串，默认本币)
+          - id (integer) (required) — 操作计划id
+          - maxPrice (string) — 最大出价(元字符串，默认本币，如5.00)，最大出价（元字符串）。bidType=4 必传；bidType=1 禁传；不传 bidType 时可选
+          - optimizeTarget (string) — 投放目标，enum: whole_site_fb / whole_site_effect_fb /   whole_site_ab_pro / max_feedback;不传 fallback   现有计划值
+
+  icbu_ads_entity_campaign_targeting_tag_create
+    为全站推广计划添加定向溢价标签（人群/端）。tagOperationList 中每项使用 optionValue（从 icbu_ads_recommend_targeting_tag 推荐结果获取，禁止编造）。溢价系数固定120，不需传入。scope 仅支持 crowd（人群）和 terminal（端）。与 targeting_tag_delete 的区别：create 使用 optionValue 添加标签，delete 使用 tagId 删除标签，两者用不同的标识符。需要写操作权限。
+    meta: toolkit=alibaba, toolkit_service=icbu-ads-ai-support
+      - entityWriteRequest (object) (required) — 操作负荷
+          - campaignId (integer) (required) — 操作计划id
+          - scope (string) (required) — 定向类型，仅支持<"crowd", "region", "terminal">
+          - tagOperationList (object[]) (required)
+              - optionValue (string) (required) — 标签枚举值,如 `star_buyer_leads`
+
+  icbu_ads_entity_campaign_targeting_tag_delete
+    从全站推广计划中删除定向溢价标签。tagOperationList 中每项必须使用 tagId（从 icbu_ads_entity 查 campaign_targeting_tag 列表获取），禁止使用 optionValue（会被静默忽略导致假成功）。与 targeting_tag_create 的区别：delete 用 tagId 删除已有标签，create 用 optionValue 添加新标签。需要写操作权限。
+    meta: toolkit=alibaba, toolkit_service=icbu-ads-ai-support
+      - entityWriteRequest (object) (required) — 操作负荷
+          - campaignId (integer) (required) — 操作计划id
+          - scope (string) (required) — 定向类型，仅支持<"crowd", "region", "terminal">
+          - tagOperationList (object[]) (required)
+              - tagId (integer) (required) — 标签tagId
+
+  icbu_ads_entity_detail
+    查询单个推广计划的完整配置详情，返回 bidType（出价策略）、optimizeTarget（投放目标）、autoSelectEnabled（商品自动更新开关）等 icbu_ads_entity 列表不包含的字段。在执行 set_pricing 改价/改投放目标前必须先调本工具查当前组合。与 icbu_ads_entity 的区别：entity 返回计划列表（多条概览），entity_detail 返回单条计划全貌。
+    meta: toolkit=alibaba, toolkit_service=icbu-ads-ai-support
+      - campaignId (integer) — 计划id
+      - entityType (string) (required) — 实体类型：campaign-计划
+
+  icbu_ads_recommend_product
+    "按全站推广计划子类型从账户在售商品中筛选适合推广的候选商品，支持分页。返回 productId/subject/imageUrl 列表。加品(campaign_product_create)前必须先调本工具获取候选 productId，禁止编造。仅支持 campaignType=47 白名单 subType。本工具为只读查询，不执行写操作。
+    meta: toolkit=alibaba, toolkit_service=icbu-ads-ai-support
+      - campaignType (integer) (required) — 计划类型：全站推-47，其他暂不支持
+      - pageIndex (integer) (required) — 分页号，从1开始
+      - pageSize (integer) (required) — 分页大小，推荐20
+      - subType (string) (required) — 计划子类型：全站推优品助推-whole_store_hot_product; 全站推潜力成长-whole_store_product; 全站推新品成长-whole_store_new_product
+
+  icbu_ads_recommend_targeting_tag
+    查询指定全站推广计划当前可添加的合法定向标签清单（已过滤已采纳/已下线/行业不匹配的标签）。返回每个标签的 optionValue 和 name，optionValue 直接用于 targeting_tag_create 的入参。scope 支持 crowd（人群，约20个）和 terminal（端，APP/PC 共2个）。仅支持 campaignType=47 白名单计划。本工具为只读查询，不执行写操作。
+    meta: toolkit=alibaba, toolkit_service=icbu-ads-ai-support
+      - campaignId (integer) (required) — 要推荐标签的计划id
+      - campaignType (integer) (required) — 计划类型：全站推-47，其他暂不支持
+      - scope (string) (required) — 定向类型(crowd / terminal)
+      - subType (string) (required) — 计划子类型：全站推优品助推-whole_store_hot_product; 全站推潜力成长-whole_store_product; 全站推新品成长-whole_store_new_product。
+
+  icbu_ads_report_execute_sql
+    在 load_datasource 创建的临时表上执行 SQL 查询，支持同时传入多条 SQL (SQL-92) 并发执行。必须先成功调用 load_datasource 创建临时表后才能调用本工具。列名以中文展示名为准（需双引号包裹），非英文逻辑名。禁止使用 UNION/JOIN。与 load_datasource 的区别：本工具执行查询，load_datasource 创建数据表。本工具为只读查询。
+    meta: toolkit=alibaba, toolkit_service=icbu-ads-ai-support
+      - sqlQueries (string[]) (required)
+
+  icbu_ads_report_load_datasource
+    将指定时间段和粒度的广告效果数据源加载到临时工作表，返回该表的 Schema（字段名、类型）。后续 SQL 查询(execute_sql)必须基于此临时表。与 execute_sql 的区别：load_datasource 创建临时表并加载数据，execute_sql 在已创建的临时表上执行 SQL 查询，两者必须按顺序调用。本工具为只读查询。
+    meta: toolkit=alibaba, toolkit_service=icbu-ads-ai-support
+      - beginDateTime (string) (required) — 加载数据起始时间，格式为yyyy-MM-dd HH:mm:ss
+      - datasource (string) (required) — 待加载数据源，必须从以下合法值选择：`company`、`campaign`、`hour`、`product`、`region`、`keyword`、`target_tag`。禁止传入未自定义值。
+      - endDateTime (string) (required) — 加载数据终止时间，格式为yyyy-MM-dd HH:mm:ss
+      - filters (object) — 加载时筛选条件
+      - granularity (string) — 加载数据时间维度，all-所有时间聚合, day-分日，默认all
+      - tempTableName (string) (required) — 存储加载数据的临时表表名
+
+  icbu_alibaba_buyer_consignee_address_list
+    查询阿里国际站买家收件地址列表
+    meta: toolkit=accio-buyer, toolkit_service=icbu-alibaba-trade-buyer
+      - fieldName_0 (object) (required) — 列表查询参数
+          - countryCode (string) — 筛选地址的国家，不传返回所有
+          - filterValidAddress (boolean) — 是否仅返回校验通过的地址，不传则不限制
+          - limit (number) — 限制返回的数据条数，不传返回所有
+          - locale (string) — 当前用户语种，用于报错信息的多语言文案
+          - scene (string) — 场景码，accio_work_trade和accio_work会进行严格的地址校验
+
+  icbu_alibaba_buynow_trade_create_service
+    阿里巴巴BuyNow订单创建服务
+    meta: toolkit=accio-buyer, toolkit_service=icbu-alibaba-trade-buyer
+      - request (object) (required) — 订单对象体
+          - addressId (string) — 地址id
+          - freightCarrierCode (string) — 选中的物流承运商code
+          - language (string) — 语种,类似 en_us
+          - scene (string) — 场景
+          - tradeAgentProductDtoList (object[]) (required)
+              - productId (number) (required) — 商品id
+              - quantity (number) (required) — 商品数量
+              - skuId (number) — skuId
+
+  icbu_alibaba_trade_agent_guide
+    阿里国际站订单引导工具。检查买家下单前的准备状态（地址、合同条款等），引导完成下单流程。
+    前置条件：买卖双方必须已通过 IM 代聊（proxy chat）发起过商机，否则调用会返回 channelReferId not found。
+    输入 productId（商品ID，数字类型），返回订单引导结果（缺失信息维度列表）
+    meta: toolkit=accio-buyer, toolkit_service=icbu-alibaba-trade-buyer
+      - request (object) (required) — 请求
+          - language (string) — 多语言
+          - limit (number) — 查询地址的数量限制
+          - productId (number) (required) — 商品id
+
+  icbu_alibaba_trade_agent_preview
+    阿里国际站订单预览MCP工具
+    meta: toolkit=accio-buyer, toolkit_service=icbu-alibaba-trade-buyer
+      - request (object) (required) — 请求
+          - addressId (string) — 地址id
+          - freightCarrierCode (string) — 选中的物流承运商code
+          - language (string) — 语种,类似 en_us
+          - scene (string) — 场景
+          - tradeAgentProductDtoList (object[]) (required)
+              - productId (number) (required) — 商品id
+              - quantity (number) (required) — 商品数量
+              - skuId (number) — skuId
+
+  icbu_alibaba_trade_create_service
+    阿里巴巴订单创建服务,信保下单，创建
+    meta: toolkit=accio-buyer, toolkit_service=icbu-alibaba-trade-buyer
+      - fieldName_1 (object) (required) — 订单对象体
+          - language (string) — 语种
+          - negotiationId (string) (required) — negotiationId 协商合同id
+          - remark (string) — 订单备注
+
+  icbu_alibaba_trade_order_detail_query
+    阿里巴巴订单详情查询服务
+    meta: toolkit=accio-buyer, toolkit_service=icbu-alibaba-trade-buyer
+      - fieldName_0 (object) (required) — json object
+          - language (string) — language,default is en_US
+          - tradeId (string) (required) — tradeId
+
+  icbu_alibaba_trade_order_draft_view
+    阿里巴巴订单草稿预览服务
+    meta: toolkit=accio-buyer, toolkit_service=icbu-alibaba-trade-buyer
+      - fieldName_1 (object) (required) — json object
+          - language (string) — language,default is en_US
+          - productId (string) (required) — product id
+
+  icbu_alibaba_trade_order_query_list_buyer
+    阿里巴巴订单列表查询服务
+    meta: toolkit=accio-buyer, toolkit_service=icbu-alibaba-trade-buyer
+      - fieldName_0 (object) (required) — 请求对象封装体
+          - currentPage (number) — 当前起始页码，默认1
+          - filter (object) — 筛选对象参数
+              - createDateFilter (object) —  创建时间范围筛选条件
+                  - from (string) — 创建时间范围筛选起始日期，例如:"2026-05-16"
+                  - to (string) — 创建时间范围筛选结束日期，例如:"2026-05-19"
+              - fuzzySearchValue (string) — 模糊搜索值
+              - orderIds (string[])
+              - simpleFilter (string) — 订单简易筛选条件，传筛选项的 value 值，不能传中文标签。支持：simpleFilter@all（全部）、simpleFilter@confirm（待确认）、simpleFilter@pay（待支付）、simpleFilter@shipment（待发货）、simpleFilter@confirmShipment（待收货）、simpleFilter@dispute（售后/退款）、simpleFilter@finish（已完成/已关闭）、simpleFilter@success（已完成）、simpleFilter@closed（已关闭）。未指定时默认使用 simpleFilter@all
+          - locale (string) — 语言区域字符串，格式遵循 Java 的 java.util.Locale.toString() 结果，使用下划线 _ 分隔，例如：zh、zh_CN、en、en_US。不要传 zh-CN、en-US 这类带中划线的值。中文优先传 zh_CN，英文优先传 en_US。
+
+  icbu_faq_knowledge_chunk
+    从国际站知识库检索业务切片。适用场景包括：国际站后台配置、全球市场准入、跨境物流与结算等问题。通过此工具获取专业、结构化的知识内容，以支持回复的准确性和权威性。
+    meta: toolkit=alibaba, toolkit_service=icbu-cco-mcpserver
+      - query (string) (required) — 查询query
+
+  icbu_logistics_customs_calculate_tariff_tool
+    此为全球关税计算工具，可根据用户提供的商品信息归类出目的国海关编码以及计算出准确关税
+    meta: toolkit=alibaba, toolkit_service=icbu-logistics-customs-calculate-tariff-tool-for-accio
+      - fieldName_0 (object) (required) — 请求入参
+          - destinationCountryCode (string) (required) — 出口目的国,可填写默认值:US
+          - originCountryCode (string) (required) — 出口起始国,可填写默认值:CN
+          - productId (integer) (required) — 用户提供的商品ID
+          - productSource (string) (required) — 商品来源平台，可填写默认值:ICBU
+          - source (string) (required) — 接口请求来源，可填写默认值:ACCIO_WORK
+
+  icbu_logistics_expression_product_detail_freight
+    ICBU国际站商品物流运费查询，基于商品id查询此商品运送到某一个国家的运费
+    meta: toolkit=alibaba, toolkit_service=icbu-logistics-expression-accio-mcp-server
+      - listFreightCostForDetailParam (object) (required) — 商品查询参数
+          - country (string) (required) — 目的国
+          - destinationZipCode (string) — 目的国邮编
+          - dispatchLocation (string) (required) — 发货地，默认CN
+          - pid (number) (required) — 商品ID
+          - quantity (number) — 商品数量
+          - userDeviceId (string) (required) — 设备ID
+
+  icbu_price_center_product_detail_freight
+    ICBU国际站商品物流运费查询，基于商品id查询此商品运送到某一个国家的运费
+    meta: toolkit=alibaba, toolkit_service=icbu-logistics-expression-accio-mcp-server
+      - queryRequest4ProductDetail (object) (required) — 运费计算参数
+          - buyerInfoDTOList (object[]) (required)
+              - shipToCountry (string) (required) — 目的国
+              - shipToZipCode (string) — 邮编
+          - environmentDTO (object) (required) — 环境参数
+              - currencyCode (string) (required) — 币种
+              - deviceId (string) (required) — 设备ID
+          - priceSubjectMatterRequestList (object[]) (required)
+              - class (string) (required) — 价格主题类型
+              - id (string) (required) — id， 按照这个格式拼接“PRODUCT@商品id”
+              - orderId (string) — 订单id
+              - productId (string) — 商品id
+              - quantity (integer) — 商品数据
+              - settlementCurrencyCode (string) — 订单结算金额
+              - subjectMatterType (string) (required) — 类型
+          - sellerInfoDTOList (object[])
+              - shipFromCountry (string) — 发货地/发货国
+              - shipFromWareHouse (string) — 发货仓库
+
+  icbu_seller_query_lg_solution
+    商家输入包裹重量和目的国后可查询国际站物流线路（精选返回推荐最多3条线路）
+    meta: toolkit=alibaba, toolkit_service=logistics-soluton-query-mcp
+      - querySolutionDTO (object) (required) — 查价入参对象
+          - destinationCountryCode (string) (required) — 查运费目的国，必填
+          - destinationZipCode (string) — 目的地邮件，选填
+          - originCountryCode (string) — 发货地国家，默认CN
+          - originZipCode (string) — 发货地邮编，可选
+          - packageHeight (number) — 包裹的高度，默认值是1
+          - packageLength (number) — 包裹长度，选填，默认值1
+          - packageWeight (number) (required) — 包裹重量，必填
+          - packageWidth (number) — 包裹长度，选填，默认值1
+          - quantity (number) — 包裹数量，默认值1
+
+  list_products
+    根据商品ID、商品名称等查询商品结构化信息，包含主图、类目、结构化详描、属性等字段
+    meta: toolkit=alibaba, toolkit_service=icbu-product-agent
+      - queryDTO (object) (required) — 查询商品条件DTO
+          - productId (number) — 商品ID
+          - productName (string) — 商品名称
+
+  list_products_by_id
+    根据商品ID查询商品信息，包含主图、类目、结构化详描、属性等字段
+    meta: toolkit=alibaba, toolkit_service=icbu-product-agent
+      - productId (number) (required) — 商品ID
+
+  list_products_by_name
+    根据商品名称等查询商品结构化信息，包含主图、类目、结构化详描、属性等字段
+    meta: toolkit=alibaba, toolkit_service=icbu-product-agent
+      - productName (string) (required) — 商品名称
+
+  list_products_by_score
+    根据质量分条件查询对应的商品列表信息，包含主图、类目、结构化详描、属性等字段
+    meta: toolkit=alibaba, toolkit_service=icbu-product-agent
+      - maxScore (number) — 高分
+      - minScore (number) — 低分
+      - page (number) — 页码
+
+  list_risk_brand_name
+    用于在特定业务类目下进行风险排查时，依据传入的类目ID检索并返回该系统内归属于该类目的所有风险品牌词列表
+    meta: toolkit=alibaba, toolkit_service=icbu-product-agent
+      - catIdList (number[]) (required)
+
+  material_analysis
+    根据用户提供的原始素材内容解析商品出发布商品所需的内容。智能解析结果包含标准化的商品字段（如属性、主图、价格、交期、详情等），返回结构化的JSON数据。
+    meta: toolkit=alibaba, toolkit_service=icbu-product-agent
+      - material (string) (required) — 用户提供素材
+      - uniqueRequestId (string) (required) — 当前请求的唯一标识，没有的话就传null
+
+  merge_material
+    将用户修改的商品内容与原始商品内容进行合并，返回结构化的商品JSON数据。
+    meta: toolkit=alibaba, toolkit_service=icbu-product-agent
+      - fixedMaterial (string) (required) — 用户修改的商品内容（可以修改标题、图片、价格等信息）
+      - materialIndex (number) (required) — 修改商品的序号（比如第 1 个商品，materialIndex=1）
+      - materialTairKey (string) (required) — 原始商品内容对应的tairkey
+
+  page_query_migration_task_info_product_info
+    获取GGS搬品任务数据详情
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+      - pageNo (number)
+      - pageSize (number)
+      - taskId (number)
+
+  precheck_url_product_generate
+    URL发品- 当用户准备通过外部商品链接（URL）进行发布前，调用此工具对目标URL进行预检, 预检内容包括剩余点数、图片银行容量等
+    meta: toolkit=alibaba, toolkit_service=icbu-product-agent
+      - source (string) — 调用场景
+      - totalCount (number) (required) — 需要发品的URL数量
+
+  product_ai_image_color_change
+    对图片使用主体换色，通过输入原始图片的URL、prompt, 色卡，发起一次AI图片创作请求
+    meta: toolkit=alibaba, toolkit_service=icbu-ai-image-agent
+      - hexColor (string) (required) —  色卡值
+      - imageUrl (string) (required) — 原始图片url
+      - prompt (string) (required) — AI图片创作prompt
+
+  product_ai_image_custom_logo
+    AI创作Logo图，通过输入原始图片URL、logo图片URL、prompt,，发起一次Logo图片创作请求
+    meta: toolkit=alibaba, toolkit_service=icbu-ai-image-agent
+      - imageUrl (string) (required) — 主体图片URL
+      - logoImageUrl (string) (required) — Logo图片URL
+      - prompt (string) (required) — AI图片创作prompt
+
+  product_ai_image_generate
+    发起 AI 图片创作任务（异步），返回 taskId；后续用product_ai_image_generate_result 拉结果。
+    
+    when_to_use: 已有商品 imageUrl（公网可访问的 https URL）；prompt 描述具体风格意图。
+    
+    when_not_to_use: imageUrl 必须是公网可达 URL（不要传 base64、本地路径、内网 OSS 直链）；本接口不支持 inpaint 局部重绘。
+    
+    side_effect_summary: 写操作（创建任务），扣费在结果出来后；同 imageUrl + abilityCode 短时间重复提交不会去重，会产生多次任务。
+    meta: toolkit=alibaba, toolkit_service=icbu-ai-image-agent
+      - abilityCode (string) (required) — AI 图像能力 code，必填。   当前服务端接受的取值：     - imageGenerate(场景图)     - imageExtraction(白底图)     - imageColorChange(图片换色)     - imageOptimize(图片擦除)     - imageCustomLogo(图片自定义logo)     - imageHighDefinition(高清图)     - imageDetails(细节图)     - imageModelGenerate(模特图)     - commandGeneratePic(指令生图)     - textCommandGeneratePic(文本指令生图)     - imageTrans(图片翻译)     - marketingSellPoint(营销卖点图生产)     - wholeHouseCustomization(全屋定制图生产)     - productionProcess(生产流程图生产)     - textEdit(文字编辑)     - imageReEdit(图片二次编辑)     - imageResize(改尺寸)   传非以上值会返回 errCode=20010006 abilityCode is invalid。   不确定时请向用户确认意图，不要凭字面猜测 enum 名。
+      - imageUrl (string) (required) — 原始图片url
+      - prompt (string) — AI图片创作prompt
+
+  product_ai_image_generate_result
+    根据图片创作请求唯一key(requestKey),查询AI图片创作的结果
+    meta: toolkit=alibaba, toolkit_service=icbu-ai-image-agent
+      - requestKey (string) (required) — AI 图片创作请求的唯一标识 key，由创作请求接口返回
+
+  product_ai_image_model_generate
+    AI创作模特图，通过输入主体图片URL、模特图片URL、prompt,，发起一次模特图片创作请求
+    meta: toolkit=alibaba, toolkit_service=icbu-ai-image-agent
+      - imageUrl (string) (required) — 主体图片URL
+      - modelImageUrl (string) — 模特图片URL
+      - prompt (string) (required) — AI图片创作prompt
+
+  product_ai_image_translate
+    AI图片翻译，通过输入主体图片URL、目标语言，发起一次图片翻译创作请求
+    meta: toolkit=alibaba, toolkit_service=icbu-ai-image-agent
+      - imageUrl (string) (required) — 原始图片URL
+      - targetLang (string) (required) — 目标语言
+
+  product_ai_video_generate_result
+    创意工坊视频结果查询
+    meta: toolkit=alibaba, toolkit_service=icbu-ai-video-agent
+      - requestKey (string) (required) — requestKey
+
+  product_delete_draft
+    用于删除指定的阿里国际站产品草稿。当用户需要清理冗余草稿、废弃不再需要的编辑任务或重置发布进度时使用。调用时需传入目标草稿 ID，执行后系统将永久移除对应草稿数据，并返回操作成功状态，请谨慎操作。需具备商品发布权限。
+    meta: toolkit=alibaba, toolkit_service=icbu-open-api-product-server
+      - agentDeleteDraftDTO (object) (required) — 删除草稿请求参数对象。
+          - productId (integer) — 商品ID
+
+  product_edit_draft_basic_info
+    编辑商品草稿的基础信息模块，包括商品标题、关键词、商品属性、主副图。适用于 Agent 需要优化商品标题 SEO、调整关键词、修改商品属性值、替换或新增主副图等场景。仅负责基础信息范围内的字段编辑，不负责价格/物流/详情等字段的编辑。编辑数据将保存到草稿，不会直接影响线上商品。本接口幂等，相同参数多次调用结果一致（以最后一次提交的数据为准）。未知异常可直接重试；参数格式错误应修正后重试；业务规则校验拦截（如标题违规词检测）重试无效，需调整内容。需具备商品发布权限。
+    meta: toolkit=alibaba, toolkit_service=icbu-open-api-product-server
+      - productId (integer) (required) — 商品ID
+      - productTitle (string) — 商品标题
+      - productKeywords (string) — 关键词
+      - attr (object[]) — 商品属性列表，按 attrName 匹配替换或新增
+          - operationType (string) — 操作类型
+          - attrNameId (integer) — 属性ID（系统属性必填，自定义属性可选）
+          - attrName (string) — 属性名
+          - attrValueId (integer) — 系统预定义的属性值ID
+          - attrValue (string) — 用户自定义的属性值文本
+          - imageUrl (string) — 销售属性值的图片URL
+      - images (object[]) — 主副图编辑列表
+          - operationType (string) — 操作类型：ADD / EDIT / DELETE / REPLACE。- ADD：新增图片，需要传入newImageUrl，imageIndex - EDIT：修改图片，需要传入originalImageUrl，imageIndex - REPLACE：替换图片，需要传入originalImageUrl，newImageUrl - DELETE：删除图片，需要传入originalImageUrl
+          - imageIndex (integer) — 图片位置索引（新增、编辑调整顺序时使用）
+          - originalImageUrl (string) — 图片URL（编辑、删除时传入原始图片URL）
+          - newImageUrl (string) — 图片URL（新增、编辑替换时传入新的图片URL）
+
+  product_edit_draft_certificate
+    编辑商品草稿的证书信息模块，支持关联或取消关联商品证书。适用于 Agent 需要为商品绑定已有的资质证书（如 CE、FDA 等）或移除不再适用的证书关联等场景。仅负责证书关联关系的编辑，不涉及证书本身的创建与管理（证书需在证书管理模块中预先创建）。编辑数据将保存到草稿，不会直接影响线上商品。本接口幂等，相同参数多次调用结果一致。需具备商品发布权限。
+    meta: toolkit=alibaba, toolkit_service=icbu-open-api-product-server
+      - productId (integer) (required) — 商品ID
+      - certificates (object[]) — 证书列表
+          - operationType (string) — 操作类型
+          - id (string) — 证书ID
+
+  product_edit_draft_customization
+    编辑商品草稿的定制服务模块，包括轻定制和深度定制两种类型。适用于 Agent 需要为商品配置定制化服务选项，如设置定制项名称、定制值、加价金额、起订量等场景。仅负责定制服务相关字段的编辑，不涉及样品/质保等其他服务模块。注意：轻定制不支持新增"logo/图文定制工艺"类型。编辑数据将保存到草稿，不会直接影响线上商品。本接口幂等，相同参数多次调用结果一致。
+    meta: toolkit=alibaba, toolkit_service=icbu-open-api-product-server
+      - productId (integer) (required) — 商品ID
+      - lightCustomizations (object[]) —  轻定制服务编辑列表
+          - operationType (string) — 操作类型：ADD / EDIT / DELETE
+          - customizationItemId (integer) — 定制项ID 
+          - customizationItemName (string) — 定制项名称
+          - customizationValueId (integer) — 定制值ID  
+          - customizationValue (string) — 定制值
+          - customizationImageUrl (string) — 定制图片URL  
+          - additionalPrice (number) — 加价金额（美元） 
+          - minOrderQuantity (integer) — 起订量 
+      - deepCustomizations (object[]) — 深度定制服务编辑列表
+          - operationType (string) —  操作类型：ADD / EDIT / DELETE
+          - customizationItemId (integer) — 定制项ID
+          - customizationItemName (string) — 定制项名称
+          - customizationValueId (integer) — 定制值 ID
+          - customizationValue (string) — 定制值 
+          - customizationImageUrl (string) — 定制图片URL
+          - additionalPrice (number) — 加价金额（美元）
+          - minOrderQuantity (integer) — 起订量
+
+  product_edit_draft_detail
+    编辑商品草稿的详情信息模块，包括商品卖点文本、结构化商详图片、公司图片、公司介绍文本、FAQ 问答等。适用于 Agent 需要优化商品详情页展示内容、更新商品卖点描述、调整商详图片顺序与内容、编辑公司介绍与常见问题等场景。仅负责详情展示相关字段的编辑，不涉及价格/物流/服务等模块。编辑数据将保存到草稿，不会直接影响线上商品。本接口幂等，相同参数多次调用结果一致，需具备商品发布权限。
+    meta: toolkit=alibaba, toolkit_service=icbu-open-api-product-server
+      - productId (integer) (required) — 商品ID
+      - productSellingPoint (string) — 商品卖点
+      - detailImage (object[]) — 结构化商详-商详图编辑列表
+          - operationType (string) — - ADD：新增图片，需要传入newImageUrl，imageIndex - EDIT：修改图片，需要传入originalImageUrl，imageIndex - REPLACE：替换图片，需要传入originalImageUrl，newImageUrl - DELETE：删除图片，需要传入originalImageUrl
+          - imageIndex (integer) — 排序序号（新增、编辑调整顺序时使用）
+          - originalImageUrl (string) — 图片URL（编辑、删除时传入原始图片URL）
+          - newImageUrl (string) — 图片URL（新增、编辑替换时传入新的图片URL）
+          - imageText (string) — 图片文本描述
+          - imageSetId (string) — 图集ID
+      - companyImage (object[]) — 结构化商详-公司图片编辑列表
+          - operationType (string) — - ADD：新增图片，需要传入newImageUrl，imageIndex - EDIT：修改图片，需要传入originalImageUrl，imageIndex - REPLACE：替换图片，需要传入originalImageUrl，newImageUrl - DELETE：删除图片，需要传入originalImageUrl
+          - imageIndex (integer) — 排序序号（新增、编辑调整顺序时使用）
+          - originalImageUrl (string) — 图片URL（编辑、删除时传入原始图片URL）
+          - newImageUrl (string) — 图片URL（新增、编辑替换时传入新的图片URL）
+          - imageText (string) — 图片文本描述
+          - imageSetId (string) — 图集ID
+      - companyDesc (string) — 结构化商详-公司介绍文本内容
+      - faqs (object[]) — 结构化商详-FAQ编辑列表
+          - operationType (string) — 操作类型：ADD / EDIT / DELETE 
+          - question (string) — FAQ 问题，ADD时question和answer必须都传
+          - answer (string) — FAQ 答案，ADD时question和answer必须都传
+          - sortOrder (integer) — 排序序号，EDIT / DELETE时必传，作为唯一定位主键
+
+  product_edit_draft_fulfillment
+    编辑商品草稿的履约信息模块，包括发货期、包裹重量与尺寸、物流属性、物流提供方式、运费模板、HS 编码等。适用于 Agent 需要调整发货周期承诺、更新包裹规格信息、切换物流方案、填入 HS 编码等场景。仅负责履约物流相关字段的编辑，不涉及价格/详情/服务等模块。编辑数据将保存到草稿，不会直接影响线上商品。本接口幂等，相同参数多次调用结果一致。需具备商品发布权限。
+    meta: toolkit=alibaba, toolkit_service=icbu-open-api-product-server
+      - productId (integer) (required) — 商品ID
+      - ladderPeriod (object[]) — 发货期列表
+          - operationType (string) — 操作类型：ADD / EDIT / DELETE
+          - ladderIndex (integer) — 阶梯序号（从0开始)
+          - quantity (integer) — 发货数量上限（如 ≤50）
+          - period (integer) — 预计发货天数
+      - pkgWeight (number) — 毛重（KG/件）
+      - pkgLength (number) — 包装长度（CM/件），与pkgWidth、pkgHeight构成一个整体，要么都填，要么都不填
+      - pkgWidth (number) — 包装宽度（CM/件），与pkgLength、pkgHeight构成一个整体，要么都填，要么都不填
+      - pkgHeight (number) — 包装高度（CM/件），与pkgLength、pkgWidth构成一个整体，要么都填，要么都不填
+      - logisticsProperty (string[]) —  物流属性编码列表（例如 battery_0_0）
+      - shippingTemplateId (integer) — 物流模版ID。
+
+  product_edit_draft_sample
+    编辑商品草稿的样品服务模块，包括整体样品服务配置和 SKU 维度的样品服务配置。适用于 Agent 需要为商品开启或关闭样品服务、设置样品价格与最大样品量、为特定 SKU 配置独立样品价格等场景。仅负责样品服务相关字段的编辑，不涉及定制/质保等其他服务模块。编辑数据将保存到草稿，不会直接影响线上商品。本接口幂等，相同参数多次调用结果一致。需具备商品发布权限。
+    meta: toolkit=alibaba, toolkit_service=icbu-open-api-product-server
+      - productId (integer) (required) — 商品ID
+      - supportSample (boolean) — 是否支持拿样：true=开启 / false=关闭 / null=不显式指定
+      - maxSampleQuantity (integer) — 最大样品量
+      - samplePrice (number) — 样品价格，币种是美元
+      - skuSampleServices (object[]) — SKU样品服务编辑列表
+          - operationType (string) —  操作类型：ADD / DELETE
+          - skuId (integer) — skuId
+          - samplePrice (number) — 样品价格，币种是美元
+
+  product_edit_draft_specialService
+    编辑商品草稿的特殊服务模块，包括质保服务、售后服务、样品间服务、私域品（客群管理）、一件代发、出图出样服务等。适用于 Agent 需要为商品开启或关闭各类增值服务、配置服务模板、设置私域品买家白名单等场景。仅负责特殊服务相关字段的编辑，不涉及价格/物流/详情等核心商品信息模块。各服务之间相互独立，可按需只传部分字段。编辑数据将保存到草稿，不会直接影响线上商品。本接口幂等，相同参数多次调用结果一致。需具备商品发布权限。
+    meta: toolkit=alibaba, toolkit_service=icbu-open-api-product-server
+      - productId (integer) (required) — 商品ID
+      - warrantyEnabled (boolean) — 是否支持质保服务
+      - afterSaleEnabled (boolean) — 是否支持本地售后
+      - afterSaleTemplateId (integer) — 售后模版ID，当 afterSaleEnabled=true 时必填
+      - privateProductEnabled (boolean) — 是否启用私域品
+      - buyerIds (string[]) — 当 privateProductEnabled=true 时必填且至少包含 1 项；privateProductEnabled=false 时禁止传入
+      - dropshippingEnabled (boolean) — 是否启用一件代发
+      - designEnabled (boolean) — 是否启用出图服务
+      - sampleEnabled (boolean) — 是否启用出样服务
+      - showroomEnabled (boolean) — 是否启用样品间服务
+      - showroomTemplateId (integer) — 样品间模版ID，当 showroomEnabled=true 时必填
+
+  product_edit_draft_trade
+    用于代理或系统编辑已有的商品交易信息。何时使用：商品管理后台或交易流程中对未完结订单/草稿进行修改。何时不使用：新建交易、已支付/已关闭的订单、仅支持读取的场景。输入：交易唯一标识及待修改内容配置。输出：操作执行结果、状态码、错误信息及完整业务响应数据。需具备商品发布权限。
+    meta: toolkit=alibaba, toolkit_service=icbu-open-api-product-server
+      - productId (integer) (required) — 关联的商品ID
+      - saleType (string) — 基础销售方式：normal（按件卖）/ batch（按批卖）
+      - priceUnit (integer) — 计量单位编码
+      - batchNum (integer) — 当 saleType=batch 时必填且 ≥1；saleType=normal 时禁止传入
+      - ladderPrices (object[]) — 阶梯价列表
+          - unitPrice (string) — 单价，币种是美元
+          - minQuantity (integer) — 最小数量
+          - maxQuantity (integer) — 最大数量
+          - ladderIndex (integer) — 阶梯索引
+          - operationType (string) — 操作类型
+      - sku (object[]) — 规格编辑列表（SKU 维度
+          - unitPrice (string) — sku价格，币种是美元
+          - skuAttributes (object[]) — sku属性
+              - attrValueId (integer) — 属性值ID
+              - imageUrl (string) — 销售属性图片URL
+              - attrValue (string) — 属性值文本
+              - attrName (string) — 属性名文本
+              - attrNameId (integer) — 属性名ID
+          - operationType (string) — 操作类型
+          - stock (integer) — 库存
+          - skuCode (string) — skuCode
+          - skuId (integer) — sku ID
+      - moq (integer) — 最小起订量
+      - inventory (integer) — 可售数量
+
+  product_generate_precheck
+    在素材包发品之前，调用该工具进行商品发布预检(校验 i 豆是否充足、图片银行空间是否充足)
+    meta: toolkit=alibaba, toolkit_service=icbu-product-agent
+      - abilityCode (string) (required) — 能力码
+      - totalCount (number) (required) — 商品数量
+
+  product_generate_query_task_list
+    发品任务查询-当客户在发起了发品任务之后，通过该工具获取指定发品任务下的子任务列表（包含子任务状态和结果）
+    meta: toolkit=alibaba, toolkit_service=icbu-product-agent
+      - taskId (number) (required) — 任务id
+
+  product_governance_ai_select
+    从店铺候选商品中按自然语言筛选（用户需要筛选特定条件的商品（如"低转化的 3C 商品"、"质量分低于 5 分的商品"） - 用户通过商品 ID 圈品（如"帮我优化商品 ID 为 123456 的商品"、"把这几个商品圈出来：123, 456, 789"）），生成沙盒 CSV 文件，返回 `filePath` 供 Agent 下载。
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+      - intentMetrics (string[])
+      - presetScenario (string) — 预设场景枚举：`UPGRADE_TO_TRADE`（转交易品）、`BOOST_PRICE_POWER`（提升价格力）、`BOOST_SERVICE_POWER`（提升服务力）、`BOOST_TREND_POWER`（提升趋势力）、`BOOST_QUALITY_SCORE`（提升质量分）、`OPTIMIZE_ZERO_EXPOSURE`（优化无曝光品）、`OPTIMIZE_IPV_ZERO_CONVERSION`（优化有 IPV 但 0 转化商品）
+      - strictMaxCandidateLimit (boolean) — 默认 true（严格模式）。超上限时返回 `AI_SELECT_TOTAL_COUNT_EXCEEDED` 及澄清表单；用户确认接受截断后传 false 重新调用
+      - userPrompt (string) — 自然语言圈品诉求，须已消除歧义。**只需提取用户关于"圈什么样的商品"的筛选意图**，不要混入优化指令。用户的一句话中可能同时包含圈品意图和优化指令（如"帮我把低转化的 3C 商品标题优化一下"），此时 `user_prompt` 只传圈品部分（如"低转化的 3C 商品"），优化指令留给批量优化工具的 `userPrompt`。示例：用户说"帮我找出价格力缺乏的电子产品" → `user_prompt` = "价格力缺乏的电子产品"；用户说"把质量分低于 3 分的商品圈出来优化标题" → `user_prompt` = "质量分低于 3 分的商品"。**⚠️ 圈品条件需要关联上下文，给出一个完整的圈品意图。不只是用户当前对话给出的圈品意图，如果无法确认的话，需要返回用户确认条件** 
+
+  product_query_information
+    统一查询商品信息接口，通过 queryType 参数区分查询版本。支持通过 componentList 按需查询指定组件，减少不必要的数据传输。若对应版本不存在（如从未发布过查正本、无草稿查草稿），调用将返回空数据。本接口幂等，多次调用返回相同结果。
+      - **trunk**（正本）—— 查询"已发布商品"的最新正式版数据。当用户问"线上商品现状"时使用，不可编辑。
+      - **copy**（副本）—— 查询正本对应的"工作副本"数据。仅用于查看最近一次提交发布的版本。
+      - **draft**（草稿）—— 查询"草稿态商品"数据。查询最近修改过但还未提交发布的商品信息，返回最新保存的数据版本。
+    meta: toolkit=alibaba, toolkit_service=icbu-open-api-product-server
+      - productId (integer) (required) — 商品ID  
+      - queryType (string) (required) — 查询类型：trunk（正本，查询已发布商品的最新正式版，不可编辑）/ copy（副本，查询最近一次提交发布的版本）/ draft（草稿，查询草稿态数据，查询最近修改过但还未提交发布的商品信息，返回最新保存的数据版本
+      - componentList (string[]) (required) — 需要查询的组件列表 
+
+  product_scene_video_generate_v2
+    根据提供的商品图片生成一个商品的动态场景展示视频。输入为一张商品图片和商品视频描述prompt，输出动态展示商品的视频路径。当用户需要生成商品视频时使用。
+    meta: toolkit=alibaba, toolkit_service=icbu-ai-video-agent
+      - aspectRatio (string) — aspectRatio
+      - categoryId (number) — categoryId
+      - duration (number) — duration
+      - image (string) (required) — image
+      - productId (number) — productId
+      - prompt (string) (required) — prompt
+      - reGenerate (boolean) — reGenerate
+
+  product_submit_draft
+    将已保存的商品草稿提交发布。适用于 Agent 完成所有字段编辑并确认草稿内容无误后，触发商品发布流程的场景。提交后草稿数据将进入审核或直接生效（取决于类目审核规则）。不适用于需要同时编辑并提交的场景——必须先通过各 edit 接口保存草稿，再调用本接口提交。注意：若草稿中存在必填字段未填写或数据不完整，提交将被拦截并返回校验错误信息。本接口幂等，重复提交同一草稿不会产生副作用。需具备商品发布权限，且商品状态不是审核中。
+    meta: toolkit=alibaba, toolkit_service=icbu-open-api-product-server
+      - productId (integer) (required) — 商品ID
+
+  publish_draft
+    当用户完成商品信息编辑并准备将处于草稿状态的商品发布至线上时，通过传入商品ID触发提交审核流程，将商品状态从‘草稿’变更为‘待审核’
+    meta: toolkit=alibaba, toolkit_service=icbu-product-agent
+      - productId (number) (required) — 草稿态商品id
+
+  publish_ggs_migration_product
+    发布或编辑GGS商品，根据请求参数携带的productId字段是否为空自动判断是发布还是编辑商品，分批限制：每批最多包含 5 个商品
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+      - publishAsDraft (boolean) — 是否发布为草稿品
+      - records (object[])
+          - absSummImageUrl (string) — 主图缩略图url
+          - after (object) — 修改后的商品
+              - category (object)
+                  - categoryId (number) — categoryId
+                  - categoryPath (string) — 类目路径
+              - currencyCode (string)
+              - description (string)
+              - images (string[])
+              - inventory (string) — JSON 字符串，分 SKU/SPU 两种类型 | 库存信息。SKU 类型含 `skuInventories` 数组（每项含 `skuId` 和 `items`）；SPU 类型含 `items` 数组。每个 item 含 `dispatchLocation`、`warehouseCode`（可选）、`quantity`
+              - keywords (string)
+              - leadTime (object[])
+                  - leadTime (number)
+                  - quantity (number)
+              - moq (number)
+              - pis (number) — 质量分
+              - price (object)
+                  - currency (string) — 币种，USD
+                  - fixedPrice (string) — fixedPrice
+                  - ladderPrices (object[])
+                      - minQuantity (number) — 最小阶梯
+                      - price (number) — price
+                  - maxPrice (number) — maxPrice
+                  - minPrice (number) — minPrice
+                  - priceType (string) — 枚举值：sku / ladder / tiered / range / fixed
+                  - skuPrices (object[])
+                      - price (number) — price
+                      - skuId (number) — skuId
+                      - skuName (string) — skuName
+              - properties (object[])
+                  - attributeId (number) — 属性id
+                  - attributeName (string) — 属性名称
+                  - attributeValue (string) — 属性值
+                  - attributeValueId (number) — 属性值id
+              - shippingTemplate (object)
+                  - id (number) — 物流模版id
+                  - name (string) — 物流模版名称
+              - title (string)
+              - unitSize (string)
+              - unitWeight (number)
+          - before (object) — 治理前商品快照
+              - category (object) — 类目
+                  - categoryId (number) — 类目id
+                  - categoryPath (string) — 类目路径
+              - currencyCode (string) — 币种
+              - description (string) — 商品描述
+              - images (string[])
+              - inventory (string) — JSON 字符串，分 SKU/SPU 两种类型 | 库存信息。SKU 类型含 `skuInventories` 数组（每项含 `skuId` 和 `items`）；SPU 类型含 `items` 数组。每个 item 含 `dispatchLocation`、`warehouseCode`（可选）、`quantity`
+              - keywords (string) — 关键词
+              - leadTime (object[])
+                  - leadTime (number) — 交期
+                  - quantity (number) — 阶梯交期
+              - moq (number) — 最小起订量
+              - pis (number) — 质量分
+              - price (object) — 商品价格（区分阶梯价/区间价/SKU价/固定价）
+                  - currency (string) — 币种，如 "USD"
+                  - fixedPrice (string) — 固定价格
+                  - ladderPrices (object[])
+                      - minQuantity (number) — 最小阶梯
+                      - price (number) — 价格
+                  - maxPrice (number) — 最大价格
+                  - minPrice (number) — 最小价格
+                  - priceType (string) — 价格类型：sku / ladder / tiered / range / fixed
+                  - skuPrices (object[])
+                      - price (number) — sku价格
+                      - skuId (number) — sku Id
+                      - skuName (string) — sku名称
+              - properties (object[])
+                  - attributeId (number) — 属性id
+                  - attributeName (string) — 属性名称
+                  - attributeValue (string) — 属性值
+                  - attributeValueId (number) — 属性值id
+              - shippingTemplate (object) — 物流模版
+                  - id (number) — 物流模版id
+                  - name (string) — 物流模版名称
+              - title (string) — 商品标题
+              - unitSize (string) — 体积
+              - unitWeight (number) — 单位重量
+          - generalProductId (string) — 搬品商品Id
+          - isExcluded (boolean) — 是否被排除（默认 false：命中圈品条件，纳入处理）
+          - productId (string) — 商品ID
+          - reason (string) — 错误原因（执行失败时记录具体原因）
+          - status (string) — 执行状态：PENDING(待执行), SUCCESS(成功), FAILED(失败)
+      - taskId (integer) — 搬品任务ID
+
+  publish_product
+    根据提供的商品素材内容发布商品，流程中包括发布检查、属性映射和商品发布三个核心动作。
+    meta: toolkit=alibaba, toolkit_service=icbu-product-agent
+      - extInfo (object) (required) — 扩展信息，暂时不使用
+      - material (string) (required) — 发布商品需要的素材内容
+      - publishType (string) (required) — 发布方式，包括发布到草稿和发布到正式两种类型
+
+  queryCustomerGoodsCateSummary
+    查询客户店铺商品所属行业
+    meta: toolkit=alibaba, toolkit_service=icbu-ad-brand-rec-keyword
+
+  queryGoodsInfoByGoodsIdList
+    基于商品id查询客户店铺商品详情
+    meta: toolkit=alibaba, toolkit_service=icbu-ad-brand-rec-keyword
+      - query (object) (required) — 商品查询条件
+          - goodsIdList (number[]) (required)
+
+  queryTradeListMcp
+    根据用户请求查询交易合同列表
+    meta: toolkit=alibaba, toolkit_service=tradelist
+      - fieldName_0 (object) (required) — 交易合同列表的查询条件，包含筛选、分页、排序等参数
+          - actions (string[])
+          - amountFrom (object) — 订单金额下限，订单总金额的最小值
+          - amountReceivedFrom (object) — 已收金额下限，卖家已收到的金额最小值
+          - amountReceivedTo (object) — 已收金额上限
+          - amountTo (object) — 订单金额上限
+          - businessType (string) — 订单类型
+          - buyerCountry (string[])
+          - buyerTodo (string) — 买家待办
+          - cacheExpiredTime (number) — 缓存过期时间
+          - carrier (string) — 承运商（单个）
+          - carrierCodeList (string[])
+          - channelType (string) — 渠道类型;  枚举值说明: 1. ORIGINAL - 原始渠道    含义: 最初的默认交易渠道  2. RFQ - Request For Quotation（询价）    含义: 通过询价流程创建的订单  3. INQUIRY - 询盘    含义: 通过询盘转化的订单  4. ONETOUCH - 一键下单    含义: 快速下单渠道  5. THIRD_PART - 第三方    含义: 第三方平台创建的订单  6. TAD_BUY_NOW - Trade Assurance 立即购买    含义: 通过 TA 立即购买功能创建的订单  7. ONEPAGE - 一页式下单（已废弃）    含义: ⚠️ 已废弃，请使用其他渠道类型  8. TA - Trade Assurance（已废弃）    含义: ⚠️ 已废弃，请使用 TAD_BUY_NOW 或其他类型  9. LC_TA - 信用证 Trade Assurance    含义: 结合信用证的 TA 订单  10. OA_TA - Online Agreement Trade Assurance     含义: 在线协议 TA 订单  11. QUOTATION - 报价单     含义: 通过报价单创建的订单  12. CRM - 客户关系管理系统     含义: 通过 CRM 系统创建的订单  13. DS_SAMPLE_SCENE - 样品场景     含义: 样品订单场景  14. PRODUCT_DETAIL - 产品详情页     含义: 从产品详情页直接下单  15. NEGOTIATION_CONTRACT - 协商合同     含义: 通过协商合同创建的订单  16. AUTOMATIC_RECEPTION - 自动接单     含义: 系统自动接单创建的订单  17. OPPORTUNITY_DETAIL - 商机详情     含义: 从商机详情转化的订单
+          - containBizCode (string[])
+          - containCurrency (string[])
+          - containFulfillmentChannelList (string[])
+          - containShippingCountryList (string[])
+          - contractNumber (string) — 合同号
+          - createDateFrom (object) — 创建时间起始，订单创建时间的开始范围
+          - createDateTo (object) — 创建时间结束，订单创建时间的结束范围
+          - createType (string) — 创建类型
+          - currency (string) — 订单币种
+          - customsQuantity (number) — 报关数量
+          - dispatchCountry (string) — 发货地址国家
+          - ecologyFulfillmentChannel (string) — 生态履约渠道，生态体系内的履约渠道标识
+          - exportServiceType (string) — 出口方式
+          - fillPrivacyField (boolean) — 是否填充隐私字段
+          - filterBizCode (string[])
+          - filterLcAll (boolean) — 是否过滤所有LC订单
+          - filterStatusList (string[])
+          - firstPayDateFrom (object) — 首次付款日期起始，买家首次付款时间的开始范围
+          - firstPayDateTo (object) — 首次付款日期结束，买家首次付款时间的结束范围
+          - fulfillmentChannel (string) — 履约渠道
+          - fuzzyValue (string) — 模糊搜索值，支持模糊匹配的搜索关键词
+          - itemStatus (string) — 列表记录状态
+          - limit (number) — 每页数量
+          - logisticsStatus (string) — 物流状态。可选值：not_shipped(未发货)、shipped(已发货)、in_transit(运输中)、delivered(已送达)
+          - masterId (number) — 主子订单的主单号
+          - modifiedFrom (object) — 修改时间起始，订单最后修改时间的开始范围
+          - modifiedTo (object) — 修改时间结束，订单最后修改时间的结束范围
+          - multiTag (array[])
+          - multiTagMatch (array[])
+          - orCondition (object) — 物流状态复合条件，复杂的物流状态查询条件，支持OR逻辑组合
+              - conditionPairs (object[])
+                  - key (string) — 条件名称
+                  - value (string) — 条件关键key
+              - name (string) — 条件名称
+          - orderBy (string) — 排序字段
+          - origin (string) — 订单来源，订单的创建来源
+          - otherParticipant (object) — 交易对方信息
+              - accountId (number) — 帐号
+              - adminAccountId (number) — 对应主帐号AccountId
+              - adminAliId (number) — 对应主帐号AliId
+              - aliId (number) — 国际站使用AliId
+              - companyName (string) — 公司名称
+              - country (string) — 国家
+              - email (string) — 邮箱
+              - id (number) — 参与方id
+              - isGuest (boolean) — 是否是guest用户
+              - loginId (string) — 登录id
+              - participantName (string) — 用户名字
+              - role (string) — 角色
+          - owner (object) — 所有者
+              - accountId (number) — 账号id
+              - adminAccountId (number) — 主账号AccountId
+              - adminAliId (number) — 主账号aliId
+              - aliId (number) — aliId
+              - id (number) — 参与者id
+              - isGuest (boolean) — 是否是guest用户
+              - role (string) — 用户角色
+          - paymentStatus (string) — 支付状态(仅线下订单可用)
+          - paymentStatusList (string[])
+          - poScoreFrom (object) — PO单成交预测分数下限
+          - poScoreTo (object) — PO单成交预测分数上限
+          - productIdList (number[])
+          - productName (string) — 产品名称搜索
+          - queryScene (string) — 查询场景
+          - remark (string) — 备注
+          - search (string) — 搜索关键词（已废弃，请使用fuzzyValue
+          - searchDraftOrder (boolean) — 是否搜索草稿订单
+          - searchLcOrder (boolean) — 是否搜索信用证订单(老的LC)
+          - sellerToShip (object) —  卖家待发货条件，卖家待发货的复合查询条件
+          - sellerTodo (string) — 卖家待办事项
+          - sellerTodoList (string[])
+          - shipmentDateFrom (object) — 发货日期起始
+          - shipmentDateTo (object) — 发货日期结束，订单发货时间的结束范围
+          - shipmentMethod (string) — 发货方式，物流运输方式
+          - shippingCountry (string) — 收货地址国家
+          - shippingStatusCompoundList (object) — 二进制组成的三位数，分别代表是否约定，是否已发货，是否逾期，X代表未知
+          - sortOrder (string) — 排序方式;可选值 ASC - 升序,DESC - 降序
+          - start (number) —  起始位置，分页查询的起始记录位置
+          - status (string) — 搜索状态
+          - statusList (string[])
+          - statusScriptSort (string[])
+          - tags (string[])
+          - taxNumber (string) — 税号
+          - taxType (string) — 税务类型，税务处理类型
+          - tenant (string) — 租户标识
+          - tradeGroupId (number) —  交易组ID
+          - tradeId (number) — 单个交易ID
+          - tradeIds (number[])
+          - tradeTerm (string) — 贸易条款
+
+  query_ai_select_result
+    查询圈品结果
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+      - fileId (string) — 圈品任务的唯一标识，由 `product_governance_ai_select` 返回
+
+  query_contact
+    获取用户的联系人列表信息
+    meta: toolkit=alibaba, toolkit_service=icbu-im-server
+      - startVersion (number) (required) — 增量拉取的起始版本号（Unix 时间戳，秒级），该时间戳之前更新的联系人
+      - type (number) (required) — 联系人类型 0：好友
+
+  query_conversation_msg
+    查询指定会话的消息列表，支持通过 limitTimeStamp 游标实现翻页，false表示从limitTimeStamp减小的方向查询，true表示从limitTimeStamp增大的方向查询。hasMore=true 时可继续用 nextTimeStamp 拉取更多。卡片类型消息（如订单卡片、产品卡片）的 content 会被替换为语义化的文本描述，便于 Agent 直接理解。 limitTimeStamp查询时间范围限制为最近30天，超出范围须调整 limitTimeStamp
+    meta: toolkit=alibaba, toolkit_service=icbu-im-server
+      - request (object) (required) — 请求参数
+          - conversationId (string) (required) — 会话id，目标会话的唯一标识，可通过 query_recent_conversation获取
+          - count (number) (required) — 查询消息条数
+          - domain (string) — 租户类型。默认icbu，可选项为icbu和accio，不确定时请勿填写
+          - forward (boolean) (required) — 消息查询方向,false表示向时间减小的方向查询,true表示时间增大的方向查询
+          - limitTimeStamp (number) (required) — 分页游标时间戳（Unix 毫秒），开始查询时间戳
+          - selfAliId (number) — 当前查询人的aliId
+
+  query_ggs_agent_detail
+    查询GGS数字人配置状态；agentType风控：risk_ai；商品：product_ai；沟通：message_ai / marketing_ai
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+      - agentType (string) — agentType
+
+  query_ggs_all_effective_eu_agent
+    查询GGS商家全量生效的欧盟负责人列表
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+
+  query_ggs_auto_follow_marketing_config
+    查询GGS自动跟进营销配置
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+
+  query_ggs_auto_quote_setting
+    查询 GGS RFQ 自动报价设置
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+
+  query_ggs_batch_optimize_result
+    用于轮询批量优化任务的结果
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+      - pageNo (number) — 页码，**从 1 开始**（第 1 页为 `pageNo=1`）
+      - pageSize (number) — 每页大小，**必须大于 0 且不超过 20** 
+      - taskId (string) — 任务 ID（由 `create_ggs_batch_optimize_main_task` 返回） 
+
+  query_ggs_contact_setting_info
+    GGS查询自动接待配置项，包括主子账号配置与生效时间
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+
+  query_ggs_eu_agent_plan_info
+    查询GGS欧盟代理人计划信息
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+
+  query_ggs_merchant_info
+    查询GGS商家基础信息，例如商家类型、主营类目、公司名称、星等级等
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+
+  query_ggs_merchant_shipping_template
+    查询GGS商家物流模版信息
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+
+  query_ggs_metrics_detail
+    查询GGS数字人优化指标详情
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+
+  query_ggs_migration_task_status
+    查询GGS商品搬品任务状态
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+      - taskId (number) — 任务ID
+
+  query_ggs_open_time_config
+    查询GGS自动接待开启时间配置
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+
+  query_ggs_risk_detected_stat
+    查询GGS风险诊断检测数据
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+
+  query_ggs_risk_effect_stat
+    GGS查询风控风险效果统计
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+      - days (string) — 查询天数范围（从今天往前推的天数），最小值 1，最大值 30，例如 7 表示最近 7 天
+
+  query_im_card_info
+    该工具用于查询沟通卡片描述信息，传入参数需要将 useAgentDescription设置为true
+    meta: toolkit=alibaba, toolkit_service=icbu-im-server
+      - appkey (number) (required) — app key
+      - baseRequest (object) (required) — 基础请求参数
+          - cardTypeValue (string) (required) — 卡片类型值
+          - chatToken (number) (required) — 双方聊天所需要的token，当前聊天会话的鉴权 token
+          - cna (object) (required) — 当前机器唯一标识
+          - fromAliId (number) (required) — 发送者aliId
+          - fromLoginId (string) — 发送者的loginId
+          - paramsMap (number) (required) — 卡片解析必要参数
+          - toAliId (number) — 接收者aliId
+          - toLoginId (string) (required) — 消息接收方的aliId
+          - useAgentDescription (string) — 是否返回卡片的描述信息，用于AI理解该卡片
+      - language (string) (required) — 当前用户的语言
+      - versionCode (string) — 版本编码
+
+  query_material_analysis_result
+    根据唯一key查询客户素材解析的结构化商品数据，包含标题、属性、价格等数据
+    meta: toolkit=alibaba, toolkit_service=icbu-product-agent
+      - uniqueRequestId (string) (required) — 素材解析结果的唯一标识
+
+  query_product_score
+    ggs查询商品质量分，仅查询使用，如果优化需要先找skill。返回结果包含当前的分数以及分数扣分的明细，详细定义请参考ggs-product-optimize skill里面tools-openapi.md中关于scoreDetails枚举说明
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+      - category (object)
+          - categoryId (number)
+          - categoryPath (string)
+      - currencyCode (string)
+      - description (string)
+      - hsCodeList (object[])
+          - hsCode (string)
+          - targetCountry (string)
+      - images (string[])
+      - inventory (string) — 库存信息（JSON 对象字符串：发货地 dispatchLocation → 可售数量）
+      - keywords (string) — 关键词，**必须为 JSON 数组格式的字符串**
+      - leadTime (object[])
+          - leadTime (number)
+          - quantity (number)
+      - moq (number)
+      - pis (number)
+      - price (object)
+          - currency (string) — 币种，USD
+          - fixedPrice (string)
+          - ladderPrices (object[])
+              - minQuantity (number)
+              - price (number)
+          - maxPrice (number)
+          - minPrice (number)
+          - priceType (string) — 枚举值：sku / ladder / tiered / range / fixed
+          - skuPrices (object[])
+              - price (number)
+              - skuId (number)
+              - skuName (string)
+      - productId (number)
+      - properties (object[])
+          - attributeId (number)
+          - attributeName (string)
+          - attributeValue (string)
+          - attributeValueId (number)
+      - shippingTemplate (object)
+          - id (number)
+          - name (string)
+      - title (string)
+      - unitSize (string)
+      - unitWeight (number)
+
+  query_recent_conversation
+    查询卖家最近的会话列表（分页拉取）。返回每个会话的基础信息（会话ID、类型、对方名称、未读数、更新时间）和最近一条消息的摘要。支持通过 limitTimeStamp 游标实现翻页，false表示从limitTimeStamp减小的方向查询，true表示从limitTimeStamp增大的方向查询。hasMore=true 时可继续用 nextTimeStamp 拉取更多。selfAliId 和 limitTimeStamp 均为可选，不传时分别自动取当前登录用户的 aliId 和当前时间
+    meta: toolkit=alibaba, toolkit_service=icbu-im-server
+      - request (object) (required) — 请求参数
+          - count (number) (required) — 单次查询数量
+          - domain (string) — 租户类型。默认icbu，可选项为icbu和accio，不确定时请勿填写
+          - limitTimeStamp (number) (required) — 必填，分页游标时间戳（Unix 毫秒），返回修改时间早于该时间戳的会话
+          - selfAliId (number) — 查询人aliId
+
+  query_remaining_ipoint
+    查询当前用户的剩余i豆权益数量
+    meta: toolkit=alibaba, toolkit_service=icbu-smart-assistant-framework
+      - request (object) (required) — request
+          - scene (string) (required) — 场景
+          - tenantId (string) (required) — 租户
+          - userId (string) (required) — 用户ali ID
+
+  query_seller_acct_dim_diag_data
+    查询账号维度的诊断数据，包括沟通买家数、沟通深度、回复率、服务评价等指标。
+    meta: toolkit=alibaba, toolkit_service=icbu-im-server
+      - buyerType (number) (required) — 买家类型：0-大盘买家；1-L1+ 买家
+      - dateType (number) (required) — 查询日期类型。0-按日查询，默认填写0
+      - queryDate (string) (required) — 查询日期（格式：yyyy-MM-dd）
+
+  query_seller_chat_quality_check_detail
+    查询商家聊天质检明细数据，获取一周内的沟通质检详情，包括买家已读未回、超时回复、重复回复等质检项。
+    meta: toolkit=alibaba, toolkit_service=icbu-im-server
+      - queryDate (string) (required) — 查询日期（格式：yyyy-MM-dd）
+
+  query_seller_knowledge
+    查询商家知识库信息，根据买家query检索匹配的知识库内容
+    meta: toolkit=alibaba, toolkit_service=icbu-reception-mcp-service
+      - query (string) (required) — 买家query（买家的问题或需求）
+      - prod_id (string) — 当前沟通的商品id（可选）
+
+  query_seller_shop_dim_diag_data
+    查询店铺维度的诊断数据，提供同行对比数据（行业平均、行业优秀），帮助商家了解在行业中的位置。
+    meta: toolkit=alibaba, toolkit_service=icbu-im-server
+      - buyerType (number) (required) — 买家类型：0-大盘买家；1-L1+ 买家
+      - dateType (number) (required) — 查询日期类型：0-按日查询；1-按周查询
+      - queryDate (string) (required) — 查询日期（格式：yyyy-MM-dd）
+
+  query_store_diagnosis_daily_odps
+    GGS商家诊断数据-日表查询
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+      - dailyScenarioCode (string) (required) — 场景请求Code
+
+  query_user_category
+    查询客户在国际站经营类目列表，即客户可以发布商品的类目信息（包含类目ID和类目名称）
+    meta: toolkit=alibaba, toolkit_service=icbu-product-agent
+      - locale (string) — 类目的语种信息
+
+  reply_buyer_over_30_days
+    仅当买家流失时间大于30天时可调用（最后一条消息距现在超过30天），生成跟进回复建议
+    meta: toolkit=alibaba, toolkit_service=icbu-reception-mcp-service
+      - contactAliId (long) (required) — 买家id（要查询的买家aliId）
+      - query (string) (required) — 买家最新一条消息内容
+      - timestamp (string) (required) — 买家最新一条消息的13位时间戳
+
+  save_or_update_ggs_auto_quote_setting
+    保存或更新GGS RFQ 自动报价设置
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+      - countryRuleList (object[]) (required)
+          - code (string) (required) — 国家code
+          - selected (number) (required) — 是否开启 1/0
+      - matchType (number) (required) — RFQ匹配模式
+      - quoteLimit (number) (required) — 报价数量限制
+      - rfqLevelList (object[]) (required)
+          - level (string) (required) — 等级
+          - selected (number) (required) — 是否开启 1/0
+
+  searchKeywordList
+    用于查询阿里巴巴国际站售卖的品牌广告关键词，支持多种查询参数。
+    meta: toolkit=alibaba, toolkit_service=icbu-ad-brand-rec-keyword
+      - query (object) (required) — 关键词搜索参数
+          - cateIdList (number[])
+          - channel (string) — 关键词投放渠道（非必填）：- 类型：String   - 枚举值：PC、APP
+          - goodsIdList (number[])
+          - keywordList (object[])
+              - channel (string) — （String，必填）：投放渠道，枚举值。可选值："PC" | "APP"
+              - keyword (string) — （String，必填）：用户想要搜索或投放的中心词/关键词
+          - productId (number) (required) — 品牌广告产品类型（必填参数）：- 类型：Integer   - 枚举值：110102001（问鼎）、110102004（顶展）
+          - purchaseType (number) — 购买类型（非必填，不设置则默认所有购买方式）：- 类型：Integer   - 枚举值：1：购买词；2：针对问鼎为可赠送可购买，针对顶展为赠送词   - 含义：用户描述示例及映射：     “我想要赠送词” → 2；     “推荐购买词”→ 1。  
+          - requestOrderProperty (object) — 分页排序参数（非必填）：- 类型：Object   - 元素结构：     - orderProperty（String）：排序属性       - 可选值：yearImps（全站搜索曝光指数）、yearClk（全站点击量）、yearCtr（全站搜索点击率）、busiRate（全站商机转化率）、relateProductNum（关联店铺商品数）     - orderDirection（String）：排序方向       - 可选值：asc（升序）、desc（降序）
+              - orderField (string) — 排序字段
+              - orderType (string) — 排序方向
+          - requestPage (object) — 分页排序参数
+              - pageIndex (number) — 分页位置，从1开始
+              - pageSize (number) — 分页大小，默认100
+          - sellStatus (number) — 关键词售卖状态（非必填，若不设置则搜索所有状态）：- 类型：Integer   - 枚举值：0：可预定；1：可打标竞价；2：不可预定   - 用户描述示例及映射：     “能预定的词”“可以提前锁定”“可预售” → 0；     “可以竞价的词”“支持出价” → 1；     “暂时不能预定的词”“不可预定” → 2。 
+
+  searchNextMonthAuctionResource
+    用于查询客户同行次月释放的可打标资源
+    meta: toolkit=alibaba, toolkit_service=icbu-ad-brand-rec-keyword
+      - query (object) (required) — 查询参数
+          - productId (number) (required) — 品牌广告产品业务线，取值为：110102001-问鼎，110102004-顶展
+          - sellNode (string) (required) — 推词资源类型，当前取值只有：nextFirstAuctionWord
+
+  seller_logistics_oder_list
+    阿里国际站商家物流订单查询工具
+    meta: toolkit=alibaba, toolkit_service=seller-logisitics-order-list-query
+      - queryDTO (object) (required) — 查询入参
+          - currentPage (number) — 当前页，默认1
+          - number (string) — ALS开头的物流订单号
+          - pageSize (number) — 分页大小，默认20
+          - statusList (string[])
+          - tradeBizId (string) — 信保单Id
+
+  send_msg
+    沟通场景根据双方id发送消息，需要指定domain
+    meta: toolkit=alibaba, toolkit_service=icbu-im-server
+      - sendRequest (object) (required) — 请求参数
+          - autoReply (boolean) — 是否是自动回复类消息
+          - bizCode (number) — 扩展场景,用于兼容旧系统消息,新的内部构建类消息不应该使用这个字段
+          - chatToken (string) (required) — 当前会话的鉴权 token，用于校验发送方的沟通权限
+          - chatTypeEnum (string) (required) — 会话类型。可选值：SINGLE（单聊，此时 receiverAliID 必填）、GROUP（群聊，此时需指定 conversationID）
+          - clearRedPoint (boolean) — 是否需要清除发送者会话红点,默认为true
+          - clientInfo (string) — 客户端信息,默认为服务端发送
+          - content (string) — 消息正文内容。当 messageType 为 CUSTOMER_TEXT 时传纯文本；当 messageType 为 CARD 时传结构化 JSON 字符串
+          - conversationID (string) — 会话ID,为空时系统自动创建
+          - delayTimeEnum (string) — 需要延迟发送消息时,消息延迟时间,为空时立即发送
+          - deviceParam (object) — 设备信息
+              - cna (string) — web cna
+              - ip (string) — 设备ip
+              - utdid (string) — 设备id
+          - entranceSource (string) (required) — 消息发送入口
+          - excludeAliID (number[])
+          - extParams (object) — 扩展参数
+          - ip (string) — 发送人IP地址
+          - messageScene (number) —  消息场景,为空时候默认与messageType值相同
+          - messageType (string) (required) — 消息类型(普通文本消息:CUSTOMER_TEXT)
+          - needReverseCheck (boolean) — 是否需要反向校验（访客营销消息发送需要特殊处理）
+          - operatorLoginId (string) — 代回复人loginId
+          - receiverAliID (number[]) (required)
+          - relatedName (string) — 已废弃，请改用 extParams 传递关联触发名称
+          - relatedType (string) — 消息关联类型标识，用于关联消息的分类
+          - requestFrom (string) — 请求来源，自动生成
+          - safeFilter (boolean) — 是否需要走风控流程,默认为true
+          - sendAppTypeEnum (string) — 消息发送端类型标识。可选值:server
+          - terminalType (string) — 端型
+          - visParam (object) — V公司消息参数
+              - firstMsg (boolean) — 是否是首条消息
+              - receiverSite (string) — 如果是v账号，需要传v账号站点
+              - senderSite (string) — 如果是v账号，需要传v账号站点
+
+  service_report_weekly_all_data_query
+    查询商家服务周报详细完整数据
+    meta: toolkit=alibaba, toolkit_service=xianfumcp
+      - qry (object) (required) — 入参数据
+          - encryptReportId (string) — 加密报告ID
+          - reportAllDataQry (object) (required) — 报告查询条件对象
+              - receipt (string) — 报告查询回执标识，用于定位具体的周报数据。可通过 store_diagnose_brief 返回的诊断结果获取
+              - reportPageCode (string[])
+
+  set_ggs_auto_follow_marketing_config
+    设置GGS自动跟进营销配置
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+      - newBuyerMarketingSetting (object) (required) — 新买家自动跟进的描述信息
+          - marketingContent (string[]) (required)
+          - marketingTiming (number) (required) — 开启时间
+          - status (boolean) (required) — 开启/关闭状态
+      - silenceBuyerMarketingSetting (object) (required) — 沉默买家自动跟进的描述信息
+          - marketingContent (string[]) (required)
+          - marketingTiming (number) (required) — 开启时间
+          - status (boolean) (required) — 开启/关闭状态
+
+  set_ggs_open_time_config
+    设置GGS自动接待开启时间配置（运营时间）
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+      - openType (string) (required) — 打开类型：定制化为'custom'
+      - weekdays (object) (required) — 工作日打开时间
+          - endTime (string) (required) — 工作日接待结束时间
+          - startTime (string) (required) — 工作日接待开始时间
+          - timeZone (string) (required) — 工作日接待时间时区
+      - weekends (object) (required) — 周末接待时间
+          - endTime (string) (required) — 周末接待结束时间
+          - startTime (string) (required) — 周末接待开启时间
+          - timeZone (string) (required) — 周末接待时间时区
+
+  shop_risk_diagnosis
+    跨境电商商家店铺级风险扫描接口，一次性聚合店铺全量商品的知识产权、禁限售及交易欺诈风险。
+    适用场景：商家需要快速了解店铺整体合规健康度、上架前后做风险体检、或被平台风控提示后排查潜在违规商品时使用。
+    触发条件：用户输入「商品{ID} 检测商品风险」「{商品URL} 检测商品风险」，或发出「扫描店铺风险」「检测商品风险」等通用指令，且已登录商家账号。
+    期望产出：返回 ShopRiskDiagnosisResult 对象，包含各类风险商品数量（TRO 风险 troProdCnt、重复投诉 repeatedComplaintProdCnt、高频投诉 highFreqComplaintProdCnt、禁限售描述违规 forbidDescriptionRiskProdCnt、违规待办超时 toRectifyTaskCnt、欺诈订单 fraudOrderCnt）、对应检测时间及后台处理跳转链接 aiAutoRaiseUrl，供生成三段式风险概览报告。
+    meta: toolkit=alibaba, toolkit_service=risk-for-accio
+
+  start_ggs_product_migration
+    创建GGS搬品任务进行数据拉取和商品信息解析
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+      - currency (string)
+      - fileName (string)
+      - language (string)
+      - logisticsTemplateId (number)
+      - originSite (string)
+      - productFrom (string)
+      - urls (string[])
+
+  start_url_product_generate
+    URL发品-启动URL发品，根据客户输入的商品链接，爬取链接的商品数据，发布到国际站
+    meta: toolkit=alibaba, toolkit_service=icbu-product-agent
+      - publishType (string) — 发布类型（草稿：draft，直发：product）
+      - urlList (string) (required) — 待发品的url列表，用,隔开
+
+  store_diagnose_brief
+    结合店铺经营情况，为店铺做简单的经营数据分析及店铺诊断
+    meta: toolkit=alibaba, toolkit_service=xianfumcp
+      - qry (object) (required) — 请求入参
+          - aiSalesDiagnoseDataQry (object) — 指定报告页诊断查询参数
+              - reportPageCode (string[])
+
+  subaccount_query
+    根据主账号查询所有子账号信息
+    meta: toolkit=alibaba, toolkit_service=icbumember
+
+  submit_ggs_batch_optimize_detail
+    分批次提交批量优化的商品，需要携带主任务id
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+      - productInfo (object[])
+          - absSummImageUrl (string) — 商品缩略图
+          - before (object) — 治理前商品快照
+              - category (object)
+                  - categoryId (number)
+                  - categoryPath (string)
+              - currencyCode (string)
+              - description (string)
+              - hsCodeList (object[])
+                  - hsCode (string)
+                  - targetCountry (string)
+              - images (string[])
+              - inventory (string) — 库存信息（JSON 对象字符串：发货地 dispatchLocation → 可售数量）
+              - keywords (string) — 关键词，**必须为 JSON 数组格式的字符串**，如 `"[\"keyword1\",\"keyword2\"]"`。禁止传纯文本（如 `"keyword1 keyword2"`）
+              - leadTime (object[])
+                  - leadTime (number)
+                  - quantity (number)
+              - moq (number)
+              - price (object)
+                  - currency (string) — 币种，USD
+                  - fixedPrice (string)
+                  - ladderPrices (object[])
+                      - minQuantity (number)
+                      - price (number)
+                  - maxPrice (number)
+                  - minPrice (number)
+                  - priceType (string) — 价格类型，小写字符串枚举 `sku` / `ladder` / `tiered` / `range` / `fixed`
+                  - skuPrices (object[])
+                      - price (number)
+                      - skuId (number)
+                      - skuName (string)
+              - properties (object[])
+                  - attributeId (number)
+                  - attributeName (string)
+                  - attributeValue (string)
+                  - attributeValueId (number)
+              - shippingTemplate (object)
+                  - id (number)
+                  - name (string)
+              - title (string) — 标题
+              - unitSize (string)
+              - unitWeight (number)
+          - generalProductId (string) — 商品id
+          - isExcluded (boolean)
+          - productId (string) — 商品id
+          - reason (string)
+          - status (string) — 当前状态
+      - taskId (string) — 任务 ID（由 `create_ggs_batch_optimize_main_task` 返回）
+
+  update_ggs_agent_detail_list
+    更新GGS数字人配置，包括商品自动优化、沟通自动接待、自动RFQ报价以及风控AI检测
+    meta: toolkit=alibaba-ggs, toolkit_service=ggs-agent-mcp-server
+      - agentList (object[]) (required)
+          - functionList (object[]) (required)
+              - functionCode (string) (required) — 功能项Code
+              - serviceMode (string) (required) — 开关状态，打开captain/关闭secretary
+          - planCode (string) (required) — 计划Code
+
+  video_image_style_generate
+    根据图片，生成视频风格
+    meta: toolkit=alibaba, toolkit_service=icbu-ai-video-agent
+      - generateType (string) (required) — 风格生成类型
+      - imageUrl (string) (required) — 图片URL链接
+
+  web_search
+    网页搜索工具，根据关键词搜索互联网获取实时信息。
+    调用时必须传入以下三个参数：
+      - fieldName_0: 固定传 {"id": "ICBU_P6437_363208B58"}
+      - fieldName_1: 固定传 {"key": "ICBU_H1425_95682FCB-8E8D-4F2F-BFDD-86CD0FE87DD4C71"}
+      - fieldName_3: 传入搜索参数 {"payload": {"query": "搜索关键词", "api": "google"}}
+      fieldName_2 不需要传入
+    meta: toolkit=accio-buyer, toolkit_service=alibaba-com-buyer-assistant-server
+      - fieldName_0 (object) (required) — 用于传入服务id
+          - id (string) (required) — 指定服务id，固定ICBU_P6437_363208B58不变
+      - fieldName_1 (object) (required) — 用于传入服务key
+          - key (string) (required) — 指定服务key，固定ICBU_H1425_95682FCB-8E8D-4F2F-BFDD-86CD0FE87DD4C71不变
+      - fieldName_2 (object) — 无需传入
+      - fieldName_3 (object) (required) — 用于传入服务入参
+          - payload (object) (required) — 传入json，传入query为搜索请求，api为请求网址，固定传"google"，输入示例：{"query": "red dress",   "api": "google" }
+
+  199 tools found
+
