@@ -20,262 +20,204 @@ function escapeHtml(unsafe) {
 }
 
 function resolveImageFolder(id) {
-    const productsDir = path.join(__dirname, 'images', 'products');
-    if (!fs.existsSync(productsDir)) return '';
-    const folders = fs.readdirSync(productsDir);
+    const productsImagesDir = path.join(__dirname, 'images', 'products');
+    if (!fs.existsSync(productsImagesDir)) return '';
+    const folders = fs.readdirSync(productsImagesDir);
     const matched = folders.find(f => f.startsWith(id + '_') || f === id);
-    return matched || '';
+    if (matched) return matched;
+    return '';
 }
 
 function parseCSV(content) {
-    if (!content) return [];
+    content = content.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
     const lines = content.split('\n');
+    if (lines.length === 0) return [];
+    
+    const headerRow = lines[0].replace(/^\uFEFF/, '').trim();
     const headers = [];
-    let inQuotes = false;
     let currentHeader = '';
-    const firstLine = lines[0];
-    if (!firstLine) return [];
-    for (let i = 0; i < firstLine.length; i++) {
-        const char = firstLine[i];
-        if (char === '"') {
-            inQuotes = !inQuotes;
-        } else if (char === ',' && !inQuotes) {
+    let inQuotes = false;
+    for (let j = 0; j < headerRow.length; j++) {
+        const char = headerRow[j];
+        if (char === '"') inQuotes = !inQuotes;
+        else if (char === ',' && !inQuotes) {
             headers.push(currentHeader.trim());
             currentHeader = '';
-        } else {
-            currentHeader += char;
-        }
+        } else currentHeader += char;
     }
     headers.push(currentHeader.trim());
 
     const records = [];
     for (let i = 1; i < lines.length; i++) {
-        const line = lines[i].trim();
-        if (!line) continue;
+        const line = lines[i];
+        if (!line.trim()) continue;
         const record = {};
         let cell = '';
         inQuotes = false;
         let headerIndex = 0;
         for (let j = 0; j < line.length; j++) {
             const char = line[j];
-            if (char === '"') {
-                inQuotes = !inQuotes;
-            } else if (char === ',' && !inQuotes) {
-                record[headers[headerIndex]] = cell.trim();
+            if (char === '"') inQuotes = !inQuotes;
+            else if (char === ',' && !inQuotes) {
+                const colName = headers[headerIndex];
+                if (colName) record[colName] = cell.trim();
                 cell = '';
                 headerIndex++;
-            } else {
-                cell += char;
-            }
+            } else cell += char;
         }
-        record[headers[headerIndex]] = cell.trim();
+        const lastColName = headers[headerIndex];
+        if (lastColName) record[lastColName] = cell.trim();
+        
+        Object.keys(record).forEach(k => {
+            if (record[k].startsWith('"') && record[k].endsWith('"')) {
+                record[k] = record[k].substring(1, record[k].length - 1).trim();
+            }
+        });
         records.push(record);
     }
     return records;
 }
 
-const csvPath = path.join(__dirname, '07_AC001_to_AC020_Product_Cards_SEO.csv');
-const csvContent = fs.readFileSync(csvPath, 'utf8');
-const originalProducts = parseCSV(csvContent);
+function loadAllProductsSimple() {
+    const allProducts = [];
 
-// Load and parse interactive products
-const interactiveCsvPath = path.join(__dirname, 'Accio_Interactive_Product_Upload.csv');
-let interactiveProducts = [];
-if (fs.existsSync(interactiveCsvPath)) {
-    const interactiveContent = fs.readFileSync(interactiveCsvPath, 'utf8');
-    const parsedInteractive = parseCSV(interactiveContent);
-    interactiveProducts = parsedInteractive.map(p => {
-        const id = p['Product ID'];
-        return {
-            'Product ID': id,
-            'Product Name': p['Product Name EN'],
-            'URL Slug': p['URL Slug'],
-            'Main Category': 'Interactive Packaging',
-            'Subcategory': p['Product Subcategory'] || '',
-            'Application Tags': p['Application Tags'] || '',
-            'Holiday Tags': p['Holiday / Occasion Tags'] || '',
-            'Gift Set': p['Advent Calendar Gift Set'] || 'No',
-            'SEO Title': p['SEO Title'] || '',
-            'Meta Description': p['Meta Description'] || '',
-            'H1': p['Product Name EN'],
-            'Short Description': p['Main Selling Point'] || '',
-            'Description': p['Meta Description'] || '',
-            'Key Features': p['Key Features'] || '',
-            'Custom Options': p['Custom Options'] || '',
-            'Image Folder': resolveImageFolder(id),
-            'Main Image': p['Main Image Filename'] || '',
-            'Video': p['Video Filename'] || ''
-        };
-    });
+    // 1. AC series
+    const acCsvPath = path.join(__dirname, '07_AC001_to_AC020_Product_Cards_SEO.csv');
+    if (fs.existsSync(acCsvPath)) {
+        const content = fs.readFileSync(acCsvPath, 'utf8');
+        const rows = parseCSV(content);
+        rows.forEach(r => {
+            allProducts.push({
+                'Product ID': r['Product ID'],
+                'Product Name': r['Product Name'],
+                'Main Category': r['Main Category'] || r['Category'] || 'Advent Calendar Boxes',
+                'Subcategory': r['Subcategory'] || '',
+                'Application Tags': r['Application Tags'] || '',
+                'Holiday Tags': r['Holiday Tags'] || '',
+                'Custom Options': r['Custom Options'] || '',
+                'Image Folder': r['Image Folder'] || resolveImageFolder(r['Product ID'])
+            });
+        });
+    }
+
+    // 2. Interactive (IP series)
+    const ipCsvPath = path.join(__dirname, 'Accio_Interactive_Product_Upload.csv');
+    if (fs.existsSync(ipCsvPath)) {
+        const content = fs.readFileSync(ipCsvPath, 'utf8');
+        const rows = parseCSV(content);
+        rows.forEach(r => {
+            allProducts.push({
+                'Product ID': r['Product ID'],
+                'Product Name': r['Product Name EN'],
+                'Main Category': 'Interactive Packaging',
+                'Subcategory': r['Product Subcategory'] || '',
+                'Application Tags': r['Application Tags'] || '',
+                'Holiday Tags': r['Holiday / Occasion Tags'] || '',
+                'Custom Options': r['Custom Options'] || '',
+                'Image Folder': r['Image Folder'] || resolveImageFolder(r['Product ID'])
+            });
+        });
+    }
+
+    // 3. Life Memory (LM series)
+    const lmCsvPath = path.join(__dirname, 'Accio_Life_Memory_Upload.csv');
+    if (fs.existsSync(lmCsvPath)) {
+        const content = fs.readFileSync(lmCsvPath, 'utf8');
+        const rows = parseCSV(content);
+        rows.forEach(r => {
+            allProducts.push({
+                'Product ID': r['Product ID'],
+                'Product Name': r['Product Name EN'],
+                'Main Category': 'Keepsake Boxes',
+                'Subcategory': r['Product Subcategory'] || '',
+                'Application Tags': r['Application Tags'] || '',
+                'Holiday Tags': r['Holiday / Occasion Tags'] || '',
+                'Custom Options': r['Custom Options'] || '',
+                'Image Folder': resolveImageFolder(r['Product ID'])
+            });
+        });
+    }
+
+    // 4. Religious (RG series)
+    const rgCsvPath = path.join(__dirname, 'Accio_Religious_Product_Upload.csv');
+    if (fs.existsSync(rgCsvPath)) {
+        const content = fs.readFileSync(rgCsvPath, 'utf8');
+        const rows = parseCSV(content);
+        rows.forEach(r => {
+            allProducts.push({
+                'Product ID': r['Product ID'],
+                'Product Name': r['Product Name EN'],
+                'Main Category': 'Religious Gift Packaging',
+                'Subcategory': r['Product Subcategory'] || '',
+                'Application Tags': r['Application Tags'] || '',
+                'Holiday Tags': r['Holiday / Occasion Tags'] || '',
+                'Custom Options': r['Custom Options'] || '',
+                'Image Folder': resolveImageFolder(r['Product ID'])
+            });
+        });
+    }
+
+    // 5. Greeting Cards (GC series)
+    const gcCsvPath = path.join(__dirname, 'Accio_Greeting_Cards_Upload.csv');
+    if (fs.existsSync(gcCsvPath)) {
+        const content = fs.readFileSync(gcCsvPath, 'utf8');
+        const rows = parseCSV(content);
+        rows.forEach(r => {
+            allProducts.push({
+                'Product ID': r['Product ID'],
+                'Product Name': r['Product Name EN'],
+                'Main Category': 'Greeting Cards',
+                'Subcategory': r['Product Subcategory'] || '',
+                'Application Tags': r['Application Tags'] || '',
+                'Holiday Tags': r['Holiday / Occasion Tags'] || '',
+                'Custom Options': r['Custom Options'] || '',
+                'Image Folder': resolveImageFolder(r['Product ID'])
+            });
+        });
+    }
+
+    // 6. Cosmetic & Perfume (PP/CP series)
+    const cpCsvPath = path.join(__dirname, 'Accio_Cosmetic_Perfume_Final.csv');
+    if (fs.existsSync(cpCsvPath)) {
+        const content = fs.readFileSync(cpCsvPath, 'utf8');
+        const rows = parseCSV(content);
+        rows.forEach(r => {
+            allProducts.push({
+                'Product ID': r['Product ID'],
+                'Product Name': r['Product Name EN'],
+                'Main Category': 'Beauty & Perfume Packaging',
+                'Subcategory': r['Product Subcategory'] || '',
+                'Application Tags': r['Application Tags'] || '',
+                'Holiday Tags': r['Holiday / Occasion Tags'] || '',
+                'Custom Options': r['Custom Options'] || '',
+                'Image Folder': resolveImageFolder(r['Product ID'])
+            });
+        });
+    }
+
+    // 7. Chocolate & Food (CFP series)
+    const cfpCsvPath = path.join(__dirname, 'Accio_Chocolate_Food_Upload.csv');
+    if (fs.existsSync(cfpCsvPath)) {
+        const content = fs.readFileSync(cfpCsvPath, 'utf8');
+        const rows = parseCSV(content);
+        rows.forEach(r => {
+            allProducts.push({
+                'Product ID': r['Product ID'],
+                'Product Name': r['Product Name'],
+                'Main Category': r['Products Directory'] || 'Chocolate & Food Packaging',
+                'Subcategory': r['Box Type'] || '',
+                'Application Tags': r['Application Tags'] || '',
+                'Holiday Tags': r['Holiday Tags'] || '',
+                'Custom Options': r['Custom Options'] || '',
+                'Image Folder': resolveImageFolder(r['Product ID'])
+            });
+        });
+    }
+
+    return allProducts.filter(p => p['Product ID']);
 }
 
-const lmCsvPath = path.join(__dirname, 'Accio_Life_Memory_Upload.csv');
-let lmProducts = [];
-if (fs.existsSync(lmCsvPath)) {
-    const lmContent = fs.readFileSync(lmCsvPath, 'utf8');
-    const parsedLm = parseCSV(lmContent);
-    lmProducts = parsedLm.map(p => {
-        const id = p['Product ID'];
-        return {
-            'Product ID': id,
-            'Product Name': p['Product Name EN'],
-            'URL Slug': p['URL Slug'],
-            'Main Category': 'Keepsake Boxes',
-            'Subcategory': p['Product Subcategory'] || '',
-            'Application Tags': p['Application Tags'] || '',
-            'Holiday Tags': p['Holiday / Occasion Tags'] || '',
-            'Gift Set': 'No',
-            'SEO Title': p['SEO Title'] || '',
-            'Meta Description': p['Meta Description'] || '',
-            'H1': p['Product Name EN'],
-            'Short Description': p['Main Selling Point'] || '',
-            'Description': p['Meta Description'] || '',
-            'Key Features': p['Key Features'] || '',
-            'Best For': '',
-            'Custom Options': p['Custom Options'] || '',
-            'Manufacturing Support': '',
-            'CTA': '',
-            'Image Folder': resolveImageFolder(id),
-            'Main Image': p['Main Image Filename'] || '',
-            'Video': ''
-        };
-    });
-}
-
-const rgCsvPath = path.join(__dirname, 'Accio_Religious_Product_Upload.csv');
-let rgProducts = [];
-if (fs.existsSync(rgCsvPath)) {
-    const rgContent = fs.readFileSync(rgCsvPath, 'utf8');
-    const parsedRg = parseCSV(rgContent);
-    rgProducts = parsedRg.map(p => {
-        const id = p['Product ID'];
-        return {
-            'Product ID': id,
-            'Product Name': p['Product Name EN'],
-            'URL Slug': p['URL Slug'],
-            'Main Category': 'Religious Gift Packaging',
-            'Subcategory': p['Product Subcategory'] || '',
-            'Application Tags': p['Application Tags'] || '',
-            'Holiday Tags': p['Holiday / Occasion Tags'] || '',
-            'Gift Set': 'No',
-            'SEO Title': p['SEO Title'] || '',
-            'Meta Description': p['Meta Description'] || '',
-            'H1': p['Product Name EN'],
-            'Short Description': p['Main Selling Point'] || '',
-            'Description': p['Meta Description'] || '',
-            'Key Features': p['Key Features'] || '',
-            'Best For': '',
-            'Custom Options': p['Custom Options'] || '',
-            'Manufacturing Support': '',
-            'CTA': '',
-            'Image Folder': resolveImageFolder(id),
-            'Main Image': p['Main Image Filename'] || '',
-            'Video': ''
-        };
-    });
-}
-
-const gcCsvPath = path.join(__dirname, 'Accio_Greeting_Cards_Upload.csv');
-let gcProducts = [];
-if (fs.existsSync(gcCsvPath)) {
-    const gcContent = fs.readFileSync(gcCsvPath, 'utf8');
-    const parsedGc = parseCSV(gcContent);
-    gcProducts = parsedGc.map(p => {
-        const id = p['Product ID'];
-        return {
-            'Product ID': id,
-            'Product Name': p['Product Name EN'],
-            'URL Slug': p['URL Slug'],
-            'Main Category': 'Greeting Cards',
-            'Subcategory': p['Product Subcategory'] || '',
-            'Application Tags': p['Application Tags'] || '',
-            'Holiday Tags': p['Holiday / Occasion Tags'] || '',
-            'Gift Set': 'No',
-            'SEO Title': p['SEO Title'] || '',
-            'Meta Description': p['Meta Description'] || '',
-            'H1': p['Product Name EN'],
-            'Short Description': p['Main Selling Point'] || '',
-            'Description': p['Meta Description'] || '',
-            'Key Features': p['Key Features'] || '',
-            'Best For': '',
-            'Custom Options': p['Custom Options'] || '',
-            'Manufacturing Support': '',
-            'CTA': '',
-            'Image Folder': resolveImageFolder(id),
-            'Main Image': p['Main Image Filename'] || '',
-            'Video': ''
-        };
-    });
-}
-
-const cpCsvPath = path.join(__dirname, 'Accio_Cosmetic_Perfume_Final.csv');
-let cpProducts = [];
-if (fs.existsSync(cpCsvPath)) {
-    const cpContent = fs.readFileSync(cpCsvPath, 'utf8');
-    const parsedCp = parseCSV(cpContent);
-    cpProducts = parsedCp.map(p => {
-        const id = p['Product ID'];
-        return {
-            'Product ID': id,
-            'Product Name': p['Product Name EN'],
-            'URL Slug': p['URL Slug'],
-            'Main Category': 'Beauty & Perfume Packaging',
-            'Subcategory': p['Product Subcategory'] || '',
-            'Application Tags': p['Application Tags'] || '',
-            'Holiday Tags': p['Holiday / Occasion Tags'] || '',
-            'Gift Set': 'No',
-            'SEO Title': p['SEO Title'] || '',
-            'Meta Description': p['Meta Description'] || '',
-            'H1': p['Product Name EN'],
-            'Short Description': p['Main Selling Point'] || '',
-            'Description': p['Meta Description'] || '',
-            'Key Features': p['Key Features'] || '',
-            'Best For': '',
-            'Custom Options': p['Custom Options'] || '',
-            'Manufacturing Support': '',
-            'CTA': '',
-            'Image Folder': resolveImageFolder(id),
-            'Main Image': p['Main Image Filename'] || '',
-            'Video': ''
-        };
-    });
-}
-
-const cfpCsvPath = path.join(__dirname, 'Accio_Chocolate_Food_Upload.csv');
-let cfpProducts = [];
-if (fs.existsSync(cfpCsvPath)) {
-    const cfpContent = fs.readFileSync(cfpCsvPath, 'utf8');
-    const parsedCfp = parseCSV(cfpContent);
-    cfpProducts = parsedCfp.map(p => {
-        const id = p['Product ID'];
-        return {
-            'Product ID': id,
-            'Product Name': p['Product Name'],
-            'URL Slug': p['URL Slug'],
-            'Main Category': p['Products Directory'] || 'Chocolate & Food Packaging',
-            'Subcategory': p['Box Type'] || '',
-            'Application Tags': p['Application Tags'] || '',
-            'Holiday Tags': p['Holiday Tags'] || '',
-            'Gift Set': 'No',
-            'SEO Title': p['SEO Title'] || '',
-            'Meta Description': p['Meta Description'] || '',
-            'H1': p['H1'] || p['Product Name'],
-            'Short Description': p['Short Description'] || '',
-            'Description': p['Meta Description'] || '',
-            'Key Features': p['Key Features'] || '',
-            'Best For': '',
-            'Custom Options': p['Custom Options'] || '',
-            'Manufacturing Support': '',
-            'CTA': '',
-            'Image Folder': resolveImageFolder(id),
-            'Main Image': p['Main Image'] || 'image_01.jpg',
-            'Video': ''
-        };
-    });
-}
-
-const products = originalProducts.concat(interactiveProducts).concat(lmProducts).concat(rgProducts).concat(gcProducts).concat(cpProducts).concat(cfpProducts);
-
+const products = loadAllProductsSimple();
 const holidayOccasionsDir = path.join(__dirname, 'holiday-occasions');
 ensureDir(holidayOccasionsDir);
 
@@ -358,7 +300,6 @@ const categories = [
         intro: 'Create a truly premium unboxing experience with our collection of custom rigid boxes. Constructed from high-density chipboard and wrapped in specialty papers, these rigid boxes are perfect for high-end retail, promotional kits, corporate gifting, and product launches.',
         filter: p => p['Main Category'] === 'Luxury Gift Boxes' || (p['Main Category'] || '').toLowerCase().includes('rigid') || (p['Subcategory'] || '').toLowerCase().includes('drawer') || (p['Subcategory'] || '').toLowerCase().includes('magnetic') || (p['Product Name'] || '').toLowerCase().includes('magnetic') || (p['Product Name'] || '').toLowerCase().includes('drawer') || (p['Product Name'] || '').toLowerCase().includes('rigid') || (p['Custom Options'] || '').toLowerCase().includes('magnetic') || (p['Custom Options'] || '').toLowerCase().includes('drawer') || (p['Custom Options'] || '').toLowerCase().includes('rigid')
     },
-    // New Rigid Sub-categories
     {
         dir: 'products/rigid-boxes',
         slug: 'magnetic-gift-boxes',
@@ -662,17 +603,14 @@ function buildCategoryPages() {
         const categoryDir = path.join(__dirname, cat.dir);
         ensureDir(categoryDir);
 
-        // --- ENHANCED B2B SEO META DATA ---
         const marketSuffix = " | FSC Certified Manufacturer for USA & Middle East";
         const customTitle = `[Wholesale] ${cat.title}${marketSuffix}`;
         const customDesc = `${cat.desc} Disney FAMA & BSCI certified factory. Supporting 5-7 days fast sampling, free dielines, and USA DDP shipping. Specialist in Middle East luxury cultural packaging.`;
-        // ----------------------------------
 
         let html = headTemplate(customTitle, customDesc, cat.dir.includes('/') ? '../../' : '../') + headerTemplate(cat.dir.includes('/') ? '../../' : '../');
         
         let matchedProducts = products.filter(cat.filter);
 
-        // For Other Occasions or empty-match pages, fill with products starting with RG- or specific reference items
         if (cat.slug === 'other-occasions') {
             matchedProducts = products.filter(p => p['Product ID'].startsWith('RG-') || p['Product ID'].startsWith('LM-') || p['Main Category'] === 'Mooncake Boxes');
             if (matchedProducts.length === 0) matchedProducts = products.slice(0, 8);
@@ -681,7 +619,6 @@ function buildCategoryPages() {
         }
 
         html += `
-    <!-- Category Hero -->
     <section class="bg-brandGreen text-white py-16 sm:py-24 border-b border-brandGold-dark">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <nav class="mb-6 text-[10px] font-bold uppercase tracking-widest text-brandGold-light flex items-center space-x-2">
@@ -696,15 +633,12 @@ function buildCategoryPages() {
         </div>
     </section>
 
-    <!-- Detailed Intro -->
     <section class="py-16 bg-brandIvory border-b border-slate-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
                 <div class="lg:col-span-8">
                     <h2 class="text-sm font-bold text-brandGreen uppercase tracking-widest mb-4">B2B Manufacturing Excellence</h2>
-                    <p class="text-slate-600 text-sm sm:text-base leading-relaxed font-medium">
-                        ${cat.intro}
-                    </p>
+                    <p class="text-slate-600 text-sm sm:text-base leading-relaxed font-medium">${cat.intro}</p>
                 </div>
                 <div class="lg:col-span-4 bg-white p-6 rounded-lg border border-slate-200 shadow-sm">
                     <h3 class="text-xs font-bold text-brandGreen uppercase tracking-widest mb-4">Core Specifications</h3>
@@ -712,14 +646,13 @@ function buildCategoryPages() {
                         <li class="flex items-center"><span class="w-1.5 h-1.5 rounded-full bg-brandGold mr-2"></span>Custom Sizes & Structural Design</li>
                         <li class="flex items-center"><span class="w-1.5 h-1.5 rounded-full bg-brandGold mr-2"></span>Premium Paper: Art, Kraft, Specialty</li>
                         <li class="flex items-center"><span class="w-1.5 h-1.5 rounded-full bg-brandGold mr-2"></span>Finishing: Foil, UV, Emboss, Matte</li>
-                        <li class="flex items-center"><span class="w-1.5 h-1.5 rounded-full bg-brandGold mr-2"></span>Tailored Inner Dividers (EVA, Flocked Trays, Cardboard)</li>
+                        <li class="flex items-center"><span class="w-1.5 h-1.5 rounded-full bg-brandGold mr-2"></span>Tailored Inner Dividers</li>
                     </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Product Grid -->
     <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             ${matchedProducts
@@ -729,13 +662,13 @@ function buildCategoryPages() {
                             const folderName = p['Image Folder'] || resolveImageFolder(id);
                             let prefix = 'ac';
                             if (id.startsWith('IP-')) prefix = 'ip';
-                            if (id.startsWith('LM-')) prefix = 'lm';
-                            if (id.startsWith('RG-')) prefix = 'rg';
-                            if (id.startsWith('GC-')) prefix = 'gc';
-                            if (id.startsWith('SLF-')) prefix = 'slf';
-                            if (id.startsWith('PP-')) prefix = 'pp';
-                            if (id.startsWith('CP-')) prefix = 'cp';
-                            if (id.startsWith('CFP-')) prefix = 'cfp';
+                            else if (id.startsWith('LM-')) prefix = 'lm';
+                            else if (id.startsWith('RG-')) prefix = 'rg';
+                            else if (id.startsWith('GC-')) prefix = 'gc';
+                            else if (id.startsWith('SLF-')) prefix = 'slf';
+                            else if (id.startsWith('PP-')) prefix = 'pp';
+                            else if (id.startsWith('CP-')) prefix = 'cp';
+                            else if (id.startsWith('CFP-')) prefix = 'cfp';
                             
                             const idLower = id.toLowerCase().replace('ac-', '').replace('ip-', '').replace('lm-', '').replace('rg-', '').replace('gc-', '').replace('slf-', '').replace('pp-', '').replace('cp-', '').replace('cfp-', '');
                             
@@ -743,11 +676,8 @@ function buildCategoryPages() {
                             if (folderName) {
                                 const imageFolderPath = path.join(__dirname, 'images', 'products', folderName);
                                 if (fs.existsSync(imageFolderPath)) {
-                                    const dirFiles = fs.readdirSync(imageFolderPath);
-                                    const imgFiles = dirFiles.filter(f => /\.(jpg|jpeg|png|gif|webp)$/i.test(f)).sort();
-                                    if (imgFiles.length > 0) {
-                                        imgPath = `${cat.dir.includes('/') ? '../../' : '../'}images/products/${folderName}/${imgFiles[0]}`;
-                                    }
+                                    const imgFiles = fs.readdirSync(imageFolderPath).filter(f => /\.(jpg|jpeg|png|gif|webp)$/i.test(f)).sort();
+                                    if (imgFiles.length > 0) imgPath = `${cat.dir.includes('/') ? '../../' : '../'}images/products/${folderName}/${imgFiles[0]}`;
                                 }
                             }
 
@@ -769,13 +699,10 @@ function buildCategoryPages() {
                         <a href="${cat.dir.includes('/') ? '../../' : '../'}products/${prefix}-${idLower}.html" class="text-[10px] font-bold text-brandGreen uppercase border-b border-brandGreen hover:text-brandGold hover:border-brandGold transition-all">Details</a>
                     </div>
                 </div>
-            </div>
-            `;
-                        })
-                        .join('')}
+            </div>`;
+                        }).join('')}
         </div>
         
-        <!-- High-Conversion Dieline Banner for Advent Calendars -->
         ${cat.slug === 'advent-calendar-boxes' ? `
         <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 relative z-20">
             <div class="bg-brandGreen text-white p-8 sm:p-12 rounded-2xl shadow-2xl border-2 border-brandGold-dark overflow-hidden relative group">
@@ -784,50 +711,35 @@ function buildCategoryPages() {
                     <div class="md:col-span-8">
                         <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-brandGold text-brandGreen uppercase tracking-widest mb-4">Limited Offer for 2026</span>
                         <h2 class="font-serif text-3xl sm:text-4xl font-bold mb-4">🎁 FREE 2026 ADVENT CALENDAR DIELINE SERVICE</h2>
-                        <p class="text-slate-300 text-sm sm:text-base leading-relaxed max-w-2xl">
-                            Eliminate the complexity of structural design. Our in-house engineers are providing **100% free production-ready vector dielines** (AI-optimized for structural integrity) for your next high-volume holiday campaign. 
-                        </p>
+                        <p class="text-slate-300 text-sm sm:text-base leading-relaxed max-w-2xl">Eliminate structural design complexity. Our engineers provide **100% free production-ready vector dielines** for your holiday campaigns.</p>
                     </div>
                     <div class="md:col-span-4 text-center md:text-right">
-                        <a href="${cat.dir.includes('/') ? '../../' : '../'}contact.html?subject=Request%20Free%202026%20Advent%20Dieline&dieline=true" class="inline-flex items-center justify-center px-8 py-4 bg-brandGold text-brandGreen-dark font-bold rounded-lg hover:bg-brandGold-light transition-all shadow-lg transform hover:-translate-y-1">
-                            Claim Free Dieline
-                        </a>
-                        <p class="text-[10px] text-brandGold-light mt-3 uppercase font-bold tracking-widest">Available for Douglas-Level Large Scale Inquiries</p>
+                        <a href="${cat.dir.includes('/') ? '../../' : '../'}contact.html?subject=Request%20Free%202026%20Advent%20Dieline&dieline=true" class="inline-flex items-center justify-center px-8 py-4 bg-brandGold text-brandGreen-dark font-bold rounded-lg hover:bg-brandGold-light transition-all shadow-lg transform hover:-translate-y-1">Claim Free Dieline</a>
                     </div>
                 </div>
             </div>
-        </section>
-        ` : ''}
+        </section>` : ''}
 
-        <!-- Manufacturer Introduction -->
-        <div class="mt-20 border-t border-slate-200 pt-16">
-            <div class="max-w-3xl mx-auto text-center">
-                <h2 class="font-serif text-2xl font-bold text-brandGreen mb-6">Partnering for Global B2B Scale</h2>
-                <p class="text-slate-600 text-sm leading-relaxed mb-8">
-                    ShineleeBox is a Disney FAMA, BSCI, and FSC certified manufacturer based in Guangzhou. We specialize in high-volume production for retailers like Douglas (Europe), for whom we delivered 300,000 advent calendar sets in just 60 days. Our end-to-end service includes USA DDP logistics, free dieline design, and 5-7 days rapid prototyping.
-                </p>
-                <a href="${cat.dir.includes('/') ? '../../' : '../'}contact.html" class="inline-flex items-center text-brandGold font-bold border-b-2 border-brandGold pb-1 hover:text-brandGreen hover:border-brandGreen transition-all">Request Wholesale Pricing & Catalog →</a>
-            </div>
+        <div class="mt-20 border-t border-slate-200 pt-16 text-center max-w-3xl mx-auto">
+            <h2 class="font-serif text-2xl font-bold text-brandGreen mb-6">Partnering for Global B2B Scale</h2>
+            <p class="text-slate-600 text-sm leading-relaxed mb-8">ShineleeBox is a Disney FAMA, BSCI, and FSC certified manufacturer. We delivered 300,000 advent calendars in 60 days for Douglas. Service includes USA DDP logistics, free dielines, and 5-7 days rapid prototyping.</p>
+            <a href="${cat.dir.includes('/') ? '../../' : '../'}contact.html" class="inline-flex items-center text-brandGold font-bold border-b-2 border-brandGold pb-1 hover:text-brandGreen hover:border-brandGreen transition-all">Request Wholesale Pricing & Catalog →</a>
         </div>
-    </section>
-    `;
+    </section>`;
 
         html += footerTemplate(cat.dir.includes('/') ? '../../' : '../');
         fs.writeFileSync(path.join(categoryDir, `${cat.slug}.html`), html, 'utf8');
     });
 
-    // 2. Holiday & Occasions Index (holiday-occasions/index.html)
+    // 2. Holiday & Occasions Index
     let holidaysHtml = headTemplate("Holiday & Special Occasions Custom Packaging | ShineleeBox", "Custom holiday gift packaging for Christmas, Ramadan, Eid, Weddings and more. Disney FAMA certified factory.", '../') + headerTemplate('../');
     holidaysHtml += `
     <section class="bg-brandGreen text-white py-20 border-b border-brandGold-dark">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h1 class="font-serif text-4xl sm:text-6xl font-bold mb-6">Holiday & Special Occasions</h1>
-            <p class="text-slate-300 text-lg max-w-2xl font-light">
-                Tailored packaging solutions that honor tradition and celebrate success. From 24-day advent calendars to luxury cultural gift sets.
-            </p>
+            <p class="text-slate-300 text-lg max-w-2xl font-light">Tailored packaging solutions that honor tradition and celebrate success. From 24-day advent calendars to luxury cultural gift sets.</p>
         </div>
     </section>
-
     <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
             ${categories.filter(c => c.dir === 'holiday-occasions')
@@ -837,19 +749,12 @@ function buildCategoryPages() {
                     <div class="h-48 overflow-hidden bg-slate-100">
                         <img src="${h.thumbnail || 'https://images.unsplash.com/photo-1512909006721-3d6018887383?auto=format&fit=crop&w=800&q=80'}" alt="${h.name}" class="w-full h-full object-cover">
                     </div>
-                    <div class="p-8">
-                        <h3 class="font-serif text-2xl font-bold text-brandGreen mb-3">${h.name}</h3>
-                        <p class="text-slate-500 text-sm leading-relaxed mb-6">${h.desc}</p>
-                    </div>
+                    <div class="p-8"><h3 class="font-serif text-2xl font-bold text-brandGreen mb-3">${h.name}</h3><p class="text-slate-500 text-sm leading-relaxed mb-6">${h.desc}</p></div>
                 </div>
-                <div class="p-8 pt-0">
-                    <a href="${h.slug}.html" class="block text-center text-xs font-bold text-brandGreen hover:text-brandGold border border-brandGreen hover:border-brandGold py-2 rounded transition-colors uppercase tracking-widest">View Solutions</a>
-                </div>
-            </div>
-            `).join('')}
+                <div class="p-8 pt-0"><a href="${h.slug}.html" class="block text-center text-xs font-bold text-brandGreen hover:text-brandGold border border-brandGreen hover:border-brandGold py-2 rounded transition-colors uppercase tracking-widest">View Solutions</a></div>
+            </div>`).join('')}
         </div>
-    </section>
-    `;
+    </section>`;
     holidaysHtml += footerTemplate('../');
     fs.writeFileSync(path.join(holidayOccasionsDir, 'index.html'), holidaysHtml, 'utf8');
 }
