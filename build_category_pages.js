@@ -416,7 +416,18 @@ const categories = [
         h1: 'Custom Round Gift Boxes',
         heroSub: 'Custom Round Gift Boxes for Premium Retail and Food Packaging',
         intro: 'Cylinder and round rigid boxes create a distinctive presentation for food, beauty, floral and lifestyle products. Round gift boxes are ideal for brands that want a softer, more decorative structure than standard square packaging.',
-        filter: p => p['Product ID'].startsWith('RG-') || ((p['Product Name'] || '').toLowerCase().includes('round') || (p['Product Name'] || '').toLowerCase().includes('cylinder') || (p['Product Name'] || '').toLowerCase().includes('cylindrical') || (p['Subcategory'] || '').toLowerCase().includes('round'))
+        filter: p => {
+            const id = p['Product ID'] || '';
+            const name = (p['Product Name'] || '').toLowerCase();
+            const sub = (p['Subcategory'] || '').toLowerCase();
+            // Exclusion list for religious items misclassified as round
+            const isReligious = name.includes('miswak') || name.includes('hajj') || name.includes('zakat') || name.includes('wudu') || id.startsWith('RG-'); // Assuming RG is religious based on prompt context, wait, actually RG is Round in scripts. Let's be precise.
+            
+            // Re-evaluating RG- prefix based on script logic vs user prompt
+            // In scripts: RG- is Round. User says Miswak etc are religious.
+            return (id.startsWith('RG-') || name.includes('round') || name.includes('cylinder') || sub.includes('round')) && 
+                   !(name.includes('miswak') || name.includes('hajj') || name.includes('zakat') || name.includes('wudu'));
+        }
     },
     {
         dir: 'products/rigid-boxes',
@@ -427,7 +438,13 @@ const categories = [
         h1: 'Custom Suitcase Gift Boxes',
         heroSub: 'Custom Suitcase Gift Boxes With Handles for Travel-Themed Packaging',
         intro: 'With handles, locks and travel-inspired details, suitcase boxes feel collectible and are often kept long after the product is opened. Suitcase gift boxes are a memorable packaging structure for brands that want a travel, childhood, souvenir or collectible theme.',
-        filter: p => p['Product ID'].startsWith('SC-') || ((p['Product Name'] || '').toLowerCase().includes('suitcase') || (p['Subcategory'] || '').toLowerCase().includes('suitcase') || (p['Product Name'] || '').toLowerCase().includes('handle'))
+        filter: p => {
+            const id = p['Product ID'] || '';
+            const name = (p['Product Name'] || '').toLowerCase();
+            const sub = (p['Subcategory'] || '').toLowerCase();
+            return (id.startsWith('SC-') || name.includes('suitcase') || sub.includes('suitcase') || name.includes('handle')) &&
+                   !(name.includes('folding') || name.includes('magnetic') || name.includes('cake'));
+        }
     },
     {
         dir: 'products',
