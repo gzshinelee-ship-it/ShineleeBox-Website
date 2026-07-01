@@ -26,22 +26,14 @@
             theme: {
                 extend: {
                     colors: {
-                        brandGreen: {
-                            DEFAULT: '#111827', // Deep Charcoal Black (Primary)
-                            dark: '#020617',    // Rich Onyx
-                            light: '#1E293B'    // Slate Blue-Gray
-                        },
-                        brandGold: {
-                            DEFAULT: '#B89E6E', // Champagne Gold (Accent)
-                            dark: '#A1824A',    // Brushed Brass
-                            light: '#D4C391'    // Muted Sand
-                        },
-                        brandIvory: {
-                            DEFAULT: '#F9FAFB', // Clean Cool White (Background)
-                            dark: '#F3F4F6'
-                        }
+                        brandCharcoal: '#1F1F1F',
+                        brandGold: '#C6A15B',
+                        brandIvory: '#F7F3EC',
+                        brandBurgundy: '#5A1F2B',
+                        brandForest: '#1F3A2E',
+                        brandBeige: '#E5DDD0',
+                        brandWhite: '#FFFFFF'
                     },
-
                     fontFamily: {
                         serif: ['Playfair Display', 'Georgia', 'serif'],
                         sans: ['Inter', 'Montserrat', 'sans-serif']
@@ -52,125 +44,41 @@
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        .gold-gradient-bg { background: linear-gradient(135deg, #d9b977 0%, #C5A059 50%, #ae8541 100%); }
-        .green-gradient-bg { background: linear-gradient(135deg, #144c25 0%, #0B2F17 50%, #072210 100%); }
+        body { color: #1F1F1F; background-color: #F7F3EC; }
+        .luxury-shadow { box-shadow: 0 10px 30px -5px rgba(31, 31, 31, 0.05); }
     </style>
 </head>
-<body class="bg-brandIvory text-slate-800 font-sans min-h-screen flex flex-col">
+<body class="bg-brandIvory text-brandCharcoal font-sans min-h-screen flex flex-col">
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T82P7C8W"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
-<div class="bg-brandGold text-brandGreen-dark text-center text-xs font-semibold py-2 px-4">
-    Premium Custom Packaging Manufacturer — Disney FAMA & BSCI Certified Factory — MOQ From 50 PCS
+<div class="bg-brandCharcoal text-brandIvory text-center text-[10px] font-bold uppercase tracking-[0.2em] py-2.5 px-4 border-b border-brandGold/20">
+    Disney FAMA & BSCI Certified — FSC Sustainable Packaging — MOQ From 50 PCS
 </div>
 
-<header class="bg-brandGreen text-white sticky top-0 z-50 shadow-lg border-b border-brandGreen-dark">
+<header class="bg-brandWhite text-brandCharcoal sticky top-0 z-50 shadow-sm border-b border-brandBeige">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-20">
-            <div class="flex-shrink-0 flex flex-col justify-center">
-                <a href="../index.html" class="flex items-center space-x-2">
-                    <span class="font-serif text-2xl font-bold tracking-wider text-brandGold">ShineleeBox</span>
+            <div class="flex-shrink-0">
+                <a href="../index.html" class="flex flex-col">
+                    <span class="font-serif text-2xl font-bold tracking-tight text-brandCharcoal">ShineleeBox</span>
+                    <span class="text-[8px] uppercase tracking-[0.3em] text-brandGold font-bold -mt-1">Guangzhou Excellence</span>
                 </a>
-                <span class="text-[9px] uppercase tracking-widest text-brandGold-light font-medium -mt-1">Guangzhou Paper Packaging</span>
             </div>
             
-            <nav class="hidden md:flex space-x-1 lg:space-x-4 items-center">
-                <a href="../index.html" class="text-sm font-medium px-3 py-2 text-white hover:text-brandGold transition-colors">Home</a>
-                
-                <!-- Products Menu -->
-                <div class="relative group">
-                    <a href="../products/index.html" class="text-sm font-medium px-3 py-2 text-white hover:text-brandGold transition-colors flex items-center">
-                        Products <svg class="w-3 h-3 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 9l-7 7-7-7"/></svg>
-                    </a>
-                    <div class="absolute left-0 mt-0 w-72 bg-white rounded-md shadow-xl py-2 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-200 border border-slate-100 z-[60]">
-                        <a href="../products/advent-calendar-boxes.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Advent Calendar Boxes</a>
-                        
-                        <div class="relative group/sub px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold cursor-pointer flex items-center justify-between">
-                            <a href="../products/rigid-boxes.html" class="flex-grow">Rigid Gift Boxes</a>
-                            <svg class="w-2.5 h-2.5 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M9 5l7 7-7 7"/></svg>
-                            <div class="absolute left-full top-0 w-64 bg-white rounded-md shadow-xl py-2 invisible group-hover/sub:visible opacity-0 group-hover/sub:opacity-100 transition-all duration-200 border border-slate-100 z-[70]">
-                                <a href="../products/rigid-boxes/magnetic-gift-boxes.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Magnetic Gift Boxes</a>
-                                <a href="../products/rigid-boxes/drawer-gift-boxes.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Drawer Gift Boxes</a>
-                                <a href="../products/rigid-boxes/foldable-rigid-boxes.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Foldable Rigid Boxes</a>
-                                <a href="../products/rigid-boxes/lid-and-base-boxes.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Lid and Base Boxes</a>
-                                <a href="../products/rigid-boxes/custom-shape-boxes.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Custom Shape Boxes</a>
-                                <a href="../products/rigid-boxes/round-gift-boxes.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Round Gift Boxes</a>
-                                <a href="../products/rigid-boxes/suitcase-gift-boxes.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Suitcase Gift Boxes</a>
-                                <a href="../products/rigid-boxes/mailing-gift-boxes.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Mailing Gift Boxes</a>
-                            </div>
-                        </div>
-
-                        <a href="../products/religious-gift-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Religious Gift Packaging</a>
-                        <a href="../products/keepsake-boxes.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Keepsake Boxes</a>
-                        <a href="../products/greeting-cards.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Greeting Cards</a>
-                        <a href="../products/index.html" class="block px-4 py-2 text-xs font-bold text-brandGreen border-t border-slate-50 mt-1 hover:bg-brandIvory">All Products</a>
-                    </div>
-                </div>
-
-                <!-- Applications Menu -->
-                <div class="relative group">
-                    <a href="../applications/index.html" class="text-sm font-medium px-3 py-2 text-white hover:text-brandGold transition-colors flex items-center">
-                        Applications <svg class="w-3 h-3 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 9l-7 7-7-7"/></svg>
-                    </a>
-                    <div class="absolute left-0 mt-0 w-72 bg-white rounded-md shadow-xl py-2 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-200 border border-slate-100 z-[60]">
-                        <a href="../applications/beauty-perfume-personal-care-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Beauty & Personal Care</a>
-                        <a href="../applications/chocolate-and-food-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Chocolate & Truffle Packaging</a>
-                        <a href="../applications/cake-boxes.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Cake & Bakery Packaging</a>
-                        <a href="../applications/date-dessert-boxes.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Date & Arabic Sweet Packaging</a>
-                        <a href="../applications/mooncake-boxes.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Mooncake & Festive Packaging</a>
-                        <a href="../applications/wine-liquor-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Wine & Liquor Packaging</a>
-                        <a href="../applications/jewelry-and-accessories-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Jewelry & Accessories</a>
-                        <a href="../applications/corporate-and-retail-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Corporate & Retail</a>
-                        <a href="../applications/electronics-and-premium-gift-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Electronics & Premium Packaging</a>
-                        <a href="../applications/index.html" class="block px-4 py-2 text-xs font-bold text-brandGreen border-t border-slate-50 mt-1 hover:bg-brandIvory">All Solutions</a>
-                    </div>
-                </div>
-
-                <!-- Holiday & Occasions Menu -->
-                <div class="relative group">
-                    <a href="../holiday-occasions/index.html" class="text-sm font-medium px-3 py-2 text-white hover:text-brandGold transition-colors flex items-center">
-                        Holiday & Occasions <svg class="w-3 h-3 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 9l-7 7-7-7"/></svg>
-                    </a>
-                    <div class="absolute left-0 mt-0 w-64 bg-white rounded-md shadow-xl py-2 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-200 border border-slate-100 z-[60]">
-                        <a href="../holiday-occasions/christmas-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Christmas Packaging</a>
-                        <a href="../holiday-occasions/ramadan-and-eid-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Ramadan & Eid Packaging</a>
-                        <a href="../holiday-occasions/valentines-day-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Valentine’s Day Packaging</a>
-                        <a href="../holiday-occasions/wedding-and-anniversary-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Wedding & Anniversary Packaging</a>
-                        <a href="../holiday-occasions/baby-and-family-keepsake-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Baby & Family Keepsake</a>
-                        <a href="../holiday-occasions/graduation-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Graduation Packaging</a>
-                        <a href="../holiday-occasions/mothers-day-fathers-day-packaging.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Corporate Holiday Gifts</a>
-                        <a href="../holiday-occasions/other-occasions.html" class="block px-4 py-2 text-xs font-bold text-brandGreen hover:bg-brandIvory hover:text-brandGold">Other Occasions</a>
-                    </div>
-                </div>
-
-                <a href="../blog/index.html" class="text-sm font-medium px-3 py-2 text-white hover:text-brandGold transition-colors">Blog</a>
-                <a href="../about.html" class="text-sm font-medium px-3 py-2 text-white hover:text-brandGold transition-colors">About</a>
-                <a href="../contact.html" class="text-sm font-medium px-3 py-2 text-white hover:text-brandGold transition-colors">Contact</a>
+            <nav class="hidden md:flex space-x-8 items-center">
+                <a href="../index.html" class="text-xs font-bold uppercase tracking-widest hover:text-brandGold transition-colors">Home</a>
+                <a href="../products/index.html" class="text-xs font-bold uppercase tracking-widest hover:text-brandGold transition-colors">Products</a>
+                <a href="../applications/index.html" class="text-xs font-bold uppercase tracking-widest hover:text-brandGold transition-colors">Applications</a>
+                <a href="../blog/index.html" class="text-xs font-bold uppercase tracking-widest hover:text-brandGold transition-colors">Insights</a>
+                <a href="../contact.html" class="text-xs font-bold uppercase tracking-widest hover:text-brandGold transition-colors">Contact</a>
             </nav>
 
             <div class="hidden md:block">
-                <a href="../contact.html" class="inline-flex items-center justify-center px-5 py-2.5 border border-transparent text-sm font-semibold rounded-md text-brandGreen bg-brandGold hover:bg-brandGold-light transition-all shadow-md">
-                    Get Free Quote
+                <a href="../contact.html" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-[10px] font-bold uppercase tracking-widest rounded-sm text-brandWhite bg-brandBurgundy hover:opacity-90 transition-all shadow-sm">
+                    Inquire Now
                 </a>
             </div>
-
-            <div class="flex md:hidden">
-                <button id="mobile-menu-btn" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-white hover:text-brandGold focus:outline-none">
-                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <div class="hidden md:hidden bg-brandGreen-dark border-t border-brandGreen" id="mobile-menu">
-        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 text-sm">
-            <a href="../index.html" class="block text-base font-medium px-3 py-2 text-white hover:text-brandGold">Home</a>
-            <div class="px-3 py-2 text-xs font-bold uppercase tracking-wider text-brandGold-light border-b border-brandGreen/40 mt-2">Products</div>
-            <a href="../products/advent-calendar-boxes.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Advent Calendar Boxes</a>
-            <a href="../products/rigid-boxes.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Rigid Gift Boxes</a>
-            <a href="../products/religious-gift-packaging.html" class="block text-sm font-medium pl-6 py-1 text-slate-300 hover:text-brandGold">Religious Gift Packaging</a>
-            <a href="../products/index.html" class="block text-sm font-medium pl-6 py-1 text-brandGold hover:text-white">All Products</a>
-            <a href="../contact.html" class="block text-center text-base font-semibold px-3 py-3 mt-4 text-brandGreen bg-brandGold rounded-md hover:bg-brandGold-light">Get Free Quote</a>
         </div>
     </div>
 </header>
@@ -213,399 +121,399 @@
     <section class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             
-            <div class="bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg transition-all flex flex-col group h-full">
-                <div class="h-64 overflow-hidden bg-white relative p-4 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ac-001.html'">
-                    <img src="../images/products/AC-001_white-luxury-drawer-advent-calendar-box/image_01.jpg" alt="White Luxury Drawer Advent Calendar Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-brandGreen/0 group-hover:bg-brandGreen/5 transition-colors"></div>
+            <div class="bg-brandWhite rounded-sm overflow-hidden shadow-sm border border-brandBeige hover:border-brandGold transition-all flex flex-col group h-full luxury-shadow">
+                <div class="h-64 overflow-hidden bg-brandWhite relative p-6 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ac-001.html'">
+                    <img src="../images/products/AC-001_white-luxury-drawer-advent-calendar-box/image_01.jpg" alt="White Luxury Drawer Advent Calendar Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-brandCharcoal/0 group-hover:bg-brandCharcoal/[0.02] transition-colors"></div>
                 </div>
-                <div class="p-5 flex-grow flex flex-col justify-between border-t border-slate-50">
+                <div class="p-6 flex-grow flex flex-col justify-between border-t border-brandBeige/50">
                     <div>
-                        <div class="text-[10px] font-bold text-brandGold uppercase tracking-tighter mb-1">Beauty Advent Calendar Boxes; Advent Calendar Gift Set</div>
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-3 group-hover:text-brandGold transition-colors leading-snug">
+                        <div class="text-[9px] font-bold text-brandGold uppercase tracking-[0.2em] mb-2">Beauty Advent Calendar Boxes; Advent Calendar Gift Set</div>
+                        <h3 class="font-serif text-lg font-bold text-brandCharcoal mb-3 group-hover:text-brandGold transition-colors leading-tight">
                             <a href="../products/ac-001.html">White Luxury Drawer Advent Calendar Box</a>
                         </h3>
                     </div>
-                    <div class="flex items-center justify-between mt-4 pt-4 border-t border-slate-50">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">MOQ 50</span>
-                        <a href="../products/ac-001.html" class="text-[10px] font-bold text-brandGreen uppercase border-b border-brandGreen hover:text-brandGold hover:border-brandGold transition-all">Details</a>
+                    <div class="flex items-center justify-between mt-6 pt-6 border-t border-brandBeige/30">
+                        <span class="text-[9px] font-bold text-brandCharcoal/40 uppercase tracking-widest">Low MOQ 50</span>
+                        <a href="../products/ac-001.html" class="text-[9px] font-bold text-brandBurgundy uppercase border-b border-brandBurgundy hover:text-brandGold hover:border-brandGold transition-all tracking-widest">View Details</a>
                     </div>
                 </div>
             </div>
-            <div class="bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg transition-all flex flex-col group h-full">
-                <div class="h-64 overflow-hidden bg-white relative p-4 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ac-002.html'">
-                    <img src="../images/products/AC-002_dark-green-premium-advent-calendar-gift-set-box/image_01.jpg" alt="Dark Green Premium Advent Calendar Gift Set Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-brandGreen/0 group-hover:bg-brandGreen/5 transition-colors"></div>
+            <div class="bg-brandWhite rounded-sm overflow-hidden shadow-sm border border-brandBeige hover:border-brandGold transition-all flex flex-col group h-full luxury-shadow">
+                <div class="h-64 overflow-hidden bg-brandWhite relative p-6 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ac-002.html'">
+                    <img src="../images/products/AC-002_dark-green-premium-advent-calendar-gift-set-box/image_01.jpg" alt="Dark Green Premium Advent Calendar Gift Set Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-brandCharcoal/0 group-hover:bg-brandCharcoal/[0.02] transition-colors"></div>
                 </div>
-                <div class="p-5 flex-grow flex flex-col justify-between border-t border-slate-50">
+                <div class="p-6 flex-grow flex flex-col justify-between border-t border-brandBeige/50">
                     <div>
-                        <div class="text-[10px] font-bold text-brandGold uppercase tracking-tighter mb-1">Beauty Advent Calendar Boxes; Gift Set Calendar</div>
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-3 group-hover:text-brandGold transition-colors leading-snug">
+                        <div class="text-[9px] font-bold text-brandGold uppercase tracking-[0.2em] mb-2">Beauty Advent Calendar Boxes; Gift Set Calendar</div>
+                        <h3 class="font-serif text-lg font-bold text-brandCharcoal mb-3 group-hover:text-brandGold transition-colors leading-tight">
                             <a href="../products/ac-002.html">Dark Green Premium Advent Calendar Gift Set Box</a>
                         </h3>
                     </div>
-                    <div class="flex items-center justify-between mt-4 pt-4 border-t border-slate-50">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">MOQ 50</span>
-                        <a href="../products/ac-002.html" class="text-[10px] font-bold text-brandGreen uppercase border-b border-brandGreen hover:text-brandGold hover:border-brandGold transition-all">Details</a>
+                    <div class="flex items-center justify-between mt-6 pt-6 border-t border-brandBeige/30">
+                        <span class="text-[9px] font-bold text-brandCharcoal/40 uppercase tracking-widest">Low MOQ 50</span>
+                        <a href="../products/ac-002.html" class="text-[9px] font-bold text-brandBurgundy uppercase border-b border-brandBurgundy hover:text-brandGold hover:border-brandGold transition-all tracking-widest">View Details</a>
                     </div>
                 </div>
             </div>
-            <div class="bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg transition-all flex flex-col group h-full">
-                <div class="h-64 overflow-hidden bg-white relative p-4 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ac-005.html'">
-                    <img src="../images/products/AC-005_pink-nutcracker-advent-calendar-box/image_01.jpg" alt="Pink Nutcracker Advent Calendar Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-brandGreen/0 group-hover:bg-brandGreen/5 transition-colors"></div>
+            <div class="bg-brandWhite rounded-sm overflow-hidden shadow-sm border border-brandBeige hover:border-brandGold transition-all flex flex-col group h-full luxury-shadow">
+                <div class="h-64 overflow-hidden bg-brandWhite relative p-6 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ac-005.html'">
+                    <img src="../images/products/AC-005_pink-nutcracker-advent-calendar-box/image_01.jpg" alt="Pink Nutcracker Advent Calendar Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-brandCharcoal/0 group-hover:bg-brandCharcoal/[0.02] transition-colors"></div>
                 </div>
-                <div class="p-5 flex-grow flex flex-col justify-between border-t border-slate-50">
+                <div class="p-6 flex-grow flex flex-col justify-between border-t border-brandBeige/50">
                     <div>
-                        <div class="text-[10px] font-bold text-brandGold uppercase tracking-tighter mb-1">Christmas Advent Calendar Boxes; Beauty Calendar</div>
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-3 group-hover:text-brandGold transition-colors leading-snug">
+                        <div class="text-[9px] font-bold text-brandGold uppercase tracking-[0.2em] mb-2">Christmas Advent Calendar Boxes; Beauty Calendar</div>
+                        <h3 class="font-serif text-lg font-bold text-brandCharcoal mb-3 group-hover:text-brandGold transition-colors leading-tight">
                             <a href="../products/ac-005.html">Pink Nutcracker Advent Calendar Box</a>
                         </h3>
                     </div>
-                    <div class="flex items-center justify-between mt-4 pt-4 border-t border-slate-50">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">MOQ 50</span>
-                        <a href="../products/ac-005.html" class="text-[10px] font-bold text-brandGreen uppercase border-b border-brandGreen hover:text-brandGold hover:border-brandGold transition-all">Details</a>
+                    <div class="flex items-center justify-between mt-6 pt-6 border-t border-brandBeige/30">
+                        <span class="text-[9px] font-bold text-brandCharcoal/40 uppercase tracking-widest">Low MOQ 50</span>
+                        <a href="../products/ac-005.html" class="text-[9px] font-bold text-brandBurgundy uppercase border-b border-brandBurgundy hover:text-brandGold hover:border-brandGold transition-all tracking-widest">View Details</a>
                     </div>
                 </div>
             </div>
-            <div class="bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg transition-all flex flex-col group h-full">
-                <div class="h-64 overflow-hidden bg-white relative p-4 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ac-006.html'">
-                    <img src="../images/products/AC-006_christmas-house-advent-calendar-box/image_01.jpg" alt="Christmas House Advent Calendar Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-brandGreen/0 group-hover:bg-brandGreen/5 transition-colors"></div>
+            <div class="bg-brandWhite rounded-sm overflow-hidden shadow-sm border border-brandBeige hover:border-brandGold transition-all flex flex-col group h-full luxury-shadow">
+                <div class="h-64 overflow-hidden bg-brandWhite relative p-6 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ac-006.html'">
+                    <img src="../images/products/AC-006_christmas-house-advent-calendar-box/image_01.jpg" alt="Christmas House Advent Calendar Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-brandCharcoal/0 group-hover:bg-brandCharcoal/[0.02] transition-colors"></div>
                 </div>
-                <div class="p-5 flex-grow flex flex-col justify-between border-t border-slate-50">
+                <div class="p-6 flex-grow flex flex-col justify-between border-t border-brandBeige/50">
                     <div>
-                        <div class="text-[10px] font-bold text-brandGold uppercase tracking-tighter mb-1">Custom Shape Advent Calendar Boxes; Christmas Calendar</div>
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-3 group-hover:text-brandGold transition-colors leading-snug">
+                        <div class="text-[9px] font-bold text-brandGold uppercase tracking-[0.2em] mb-2">Custom Shape Advent Calendar Boxes; Christmas Calendar</div>
+                        <h3 class="font-serif text-lg font-bold text-brandCharcoal mb-3 group-hover:text-brandGold transition-colors leading-tight">
                             <a href="../products/ac-006.html">Christmas House Advent Calendar Box</a>
                         </h3>
                     </div>
-                    <div class="flex items-center justify-between mt-4 pt-4 border-t border-slate-50">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">MOQ 50</span>
-                        <a href="../products/ac-006.html" class="text-[10px] font-bold text-brandGreen uppercase border-b border-brandGreen hover:text-brandGold hover:border-brandGold transition-all">Details</a>
+                    <div class="flex items-center justify-between mt-6 pt-6 border-t border-brandBeige/30">
+                        <span class="text-[9px] font-bold text-brandCharcoal/40 uppercase tracking-widest">Low MOQ 50</span>
+                        <a href="../products/ac-006.html" class="text-[9px] font-bold text-brandBurgundy uppercase border-b border-brandBurgundy hover:text-brandGold hover:border-brandGold transition-all tracking-widest">View Details</a>
                     </div>
                 </div>
             </div>
-            <div class="bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg transition-all flex flex-col group h-full">
-                <div class="h-64 overflow-hidden bg-white relative p-4 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ac-009.html'">
-                    <img src="../images/products/AC-009_red-window-advent-calendar-gift-set-box/image_01.jpg" alt="Red Window Advent Calendar Gift Set Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-brandGreen/0 group-hover:bg-brandGreen/5 transition-colors"></div>
+            <div class="bg-brandWhite rounded-sm overflow-hidden shadow-sm border border-brandBeige hover:border-brandGold transition-all flex flex-col group h-full luxury-shadow">
+                <div class="h-64 overflow-hidden bg-brandWhite relative p-6 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ac-009.html'">
+                    <img src="../images/products/AC-009_red-window-advent-calendar-gift-set-box/image_01.jpg" alt="Red Window Advent Calendar Gift Set Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-brandCharcoal/0 group-hover:bg-brandCharcoal/[0.02] transition-colors"></div>
                 </div>
-                <div class="p-5 flex-grow flex flex-col justify-between border-t border-slate-50">
+                <div class="p-6 flex-grow flex flex-col justify-between border-t border-brandBeige/50">
                     <div>
-                        <div class="text-[10px] font-bold text-brandGold uppercase tracking-tighter mb-1">Beauty Advent Calendar Boxes; Gift Set Calendar</div>
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-3 group-hover:text-brandGold transition-colors leading-snug">
+                        <div class="text-[9px] font-bold text-brandGold uppercase tracking-[0.2em] mb-2">Beauty Advent Calendar Boxes; Gift Set Calendar</div>
+                        <h3 class="font-serif text-lg font-bold text-brandCharcoal mb-3 group-hover:text-brandGold transition-colors leading-tight">
                             <a href="../products/ac-009.html">Red Window Advent Calendar Gift Set Box</a>
                         </h3>
                     </div>
-                    <div class="flex items-center justify-between mt-4 pt-4 border-t border-slate-50">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">MOQ 50</span>
-                        <a href="../products/ac-009.html" class="text-[10px] font-bold text-brandGreen uppercase border-b border-brandGreen hover:text-brandGold hover:border-brandGold transition-all">Details</a>
+                    <div class="flex items-center justify-between mt-6 pt-6 border-t border-brandBeige/30">
+                        <span class="text-[9px] font-bold text-brandCharcoal/40 uppercase tracking-widest">Low MOQ 50</span>
+                        <a href="../products/ac-009.html" class="text-[9px] font-bold text-brandBurgundy uppercase border-b border-brandBurgundy hover:text-brandGold hover:border-brandGold transition-all tracking-widest">View Details</a>
                     </div>
                 </div>
             </div>
-            <div class="bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg transition-all flex flex-col group h-full">
-                <div class="h-64 overflow-hidden bg-white relative p-4 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ac-010.html'">
-                    <img src="../images/products/AC-010_small-house-shape-advent-calendar-box/image_01.jpg" alt="Small House Shape Advent Calendar Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-brandGreen/0 group-hover:bg-brandGreen/5 transition-colors"></div>
+            <div class="bg-brandWhite rounded-sm overflow-hidden shadow-sm border border-brandBeige hover:border-brandGold transition-all flex flex-col group h-full luxury-shadow">
+                <div class="h-64 overflow-hidden bg-brandWhite relative p-6 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ac-010.html'">
+                    <img src="../images/products/AC-010_small-house-shape-advent-calendar-box/image_01.jpg" alt="Small House Shape Advent Calendar Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-brandCharcoal/0 group-hover:bg-brandCharcoal/[0.02] transition-colors"></div>
                 </div>
-                <div class="p-5 flex-grow flex flex-col justify-between border-t border-slate-50">
+                <div class="p-6 flex-grow flex flex-col justify-between border-t border-brandBeige/50">
                     <div>
-                        <div class="text-[10px] font-bold text-brandGold uppercase tracking-tighter mb-1">Custom Shape Advent Calendar Boxes; Christmas Calendar</div>
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-3 group-hover:text-brandGold transition-colors leading-snug">
+                        <div class="text-[9px] font-bold text-brandGold uppercase tracking-[0.2em] mb-2">Custom Shape Advent Calendar Boxes; Christmas Calendar</div>
+                        <h3 class="font-serif text-lg font-bold text-brandCharcoal mb-3 group-hover:text-brandGold transition-colors leading-tight">
                             <a href="../products/ac-010.html">Small House Shape Advent Calendar Box</a>
                         </h3>
                     </div>
-                    <div class="flex items-center justify-between mt-4 pt-4 border-t border-slate-50">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">MOQ 50</span>
-                        <a href="../products/ac-010.html" class="text-[10px] font-bold text-brandGreen uppercase border-b border-brandGreen hover:text-brandGold hover:border-brandGold transition-all">Details</a>
+                    <div class="flex items-center justify-between mt-6 pt-6 border-t border-brandBeige/30">
+                        <span class="text-[9px] font-bold text-brandCharcoal/40 uppercase tracking-widest">Low MOQ 50</span>
+                        <a href="../products/ac-010.html" class="text-[9px] font-bold text-brandBurgundy uppercase border-b border-brandBurgundy hover:text-brandGold hover:border-brandGold transition-all tracking-widest">View Details</a>
                     </div>
                 </div>
             </div>
-            <div class="bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg transition-all flex flex-col group h-full">
-                <div class="h-64 overflow-hidden bg-white relative p-4 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ac-011.html'">
-                    <img src="../images/products/AC-011_white-red-drawer-advent-calendar-box/image_01.jpg" alt="White Red Drawer Advent Calendar Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-brandGreen/0 group-hover:bg-brandGreen/5 transition-colors"></div>
+            <div class="bg-brandWhite rounded-sm overflow-hidden shadow-sm border border-brandBeige hover:border-brandGold transition-all flex flex-col group h-full luxury-shadow">
+                <div class="h-64 overflow-hidden bg-brandWhite relative p-6 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ac-011.html'">
+                    <img src="../images/products/AC-011_white-red-drawer-advent-calendar-box/image_01.jpg" alt="White Red Drawer Advent Calendar Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-brandCharcoal/0 group-hover:bg-brandCharcoal/[0.02] transition-colors"></div>
                 </div>
-                <div class="p-5 flex-grow flex flex-col justify-between border-t border-slate-50">
+                <div class="p-6 flex-grow flex flex-col justify-between border-t border-brandBeige/50">
                     <div>
-                        <div class="text-[10px] font-bold text-brandGold uppercase tracking-tighter mb-1">Beauty Advent Calendar Boxes; Drawer Calendar</div>
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-3 group-hover:text-brandGold transition-colors leading-snug">
+                        <div class="text-[9px] font-bold text-brandGold uppercase tracking-[0.2em] mb-2">Beauty Advent Calendar Boxes; Drawer Calendar</div>
+                        <h3 class="font-serif text-lg font-bold text-brandCharcoal mb-3 group-hover:text-brandGold transition-colors leading-tight">
                             <a href="../products/ac-011.html">White Red Drawer Advent Calendar Box</a>
                         </h3>
                     </div>
-                    <div class="flex items-center justify-between mt-4 pt-4 border-t border-slate-50">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">MOQ 50</span>
-                        <a href="../products/ac-011.html" class="text-[10px] font-bold text-brandGreen uppercase border-b border-brandGreen hover:text-brandGold hover:border-brandGold transition-all">Details</a>
+                    <div class="flex items-center justify-between mt-6 pt-6 border-t border-brandBeige/30">
+                        <span class="text-[9px] font-bold text-brandCharcoal/40 uppercase tracking-widest">Low MOQ 50</span>
+                        <a href="../products/ac-011.html" class="text-[9px] font-bold text-brandBurgundy uppercase border-b border-brandBurgundy hover:text-brandGold hover:border-brandGold transition-all tracking-widest">View Details</a>
                     </div>
                 </div>
             </div>
-            <div class="bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg transition-all flex flex-col group h-full">
-                <div class="h-64 overflow-hidden bg-white relative p-4 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ac-012.html'">
-                    <img src="../images/products/AC-012_round-rotating-advent-calendar-box/image_01.jpg" alt="Round Rotating Advent Calendar Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-brandGreen/0 group-hover:bg-brandGreen/5 transition-colors"></div>
+            <div class="bg-brandWhite rounded-sm overflow-hidden shadow-sm border border-brandBeige hover:border-brandGold transition-all flex flex-col group h-full luxury-shadow">
+                <div class="h-64 overflow-hidden bg-brandWhite relative p-6 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ac-012.html'">
+                    <img src="../images/products/AC-012_round-rotating-advent-calendar-box/image_01.jpg" alt="Round Rotating Advent Calendar Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-brandCharcoal/0 group-hover:bg-brandCharcoal/[0.02] transition-colors"></div>
                 </div>
-                <div class="p-5 flex-grow flex flex-col justify-between border-t border-slate-50">
+                <div class="p-6 flex-grow flex flex-col justify-between border-t border-brandBeige/50">
                     <div>
-                        <div class="text-[10px] font-bold text-brandGold uppercase tracking-tighter mb-1">Custom Shape Advent Calendar Boxes; Gift Set Calendar</div>
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-3 group-hover:text-brandGold transition-colors leading-snug">
+                        <div class="text-[9px] font-bold text-brandGold uppercase tracking-[0.2em] mb-2">Custom Shape Advent Calendar Boxes; Gift Set Calendar</div>
+                        <h3 class="font-serif text-lg font-bold text-brandCharcoal mb-3 group-hover:text-brandGold transition-colors leading-tight">
                             <a href="../products/ac-012.html">Round Rotating Advent Calendar Box</a>
                         </h3>
                     </div>
-                    <div class="flex items-center justify-between mt-4 pt-4 border-t border-slate-50">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">MOQ 50</span>
-                        <a href="../products/ac-012.html" class="text-[10px] font-bold text-brandGreen uppercase border-b border-brandGreen hover:text-brandGold hover:border-brandGold transition-all">Details</a>
+                    <div class="flex items-center justify-between mt-6 pt-6 border-t border-brandBeige/30">
+                        <span class="text-[9px] font-bold text-brandCharcoal/40 uppercase tracking-widest">Low MOQ 50</span>
+                        <a href="../products/ac-012.html" class="text-[9px] font-bold text-brandBurgundy uppercase border-b border-brandBurgundy hover:text-brandGold hover:border-brandGold transition-all tracking-widest">View Details</a>
                     </div>
                 </div>
             </div>
-            <div class="bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg transition-all flex flex-col group h-full">
-                <div class="h-64 overflow-hidden bg-white relative p-4 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ac-013.html'">
-                    <img src="../images/products/AC-013_carousel-tent-advent-calendar-box/image_01.png" alt="Carousel Tent Advent Calendar Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-brandGreen/0 group-hover:bg-brandGreen/5 transition-colors"></div>
+            <div class="bg-brandWhite rounded-sm overflow-hidden shadow-sm border border-brandBeige hover:border-brandGold transition-all flex flex-col group h-full luxury-shadow">
+                <div class="h-64 overflow-hidden bg-brandWhite relative p-6 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ac-013.html'">
+                    <img src="../images/products/AC-013_carousel-tent-advent-calendar-box/image_01.png" alt="Carousel Tent Advent Calendar Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-brandCharcoal/0 group-hover:bg-brandCharcoal/[0.02] transition-colors"></div>
                 </div>
-                <div class="p-5 flex-grow flex flex-col justify-between border-t border-slate-50">
+                <div class="p-6 flex-grow flex flex-col justify-between border-t border-brandBeige/50">
                     <div>
-                        <div class="text-[10px] font-bold text-brandGold uppercase tracking-tighter mb-1">Custom Shape Advent Calendar Boxes; Christmas Calendar; Gift Set Calendar</div>
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-3 group-hover:text-brandGold transition-colors leading-snug">
+                        <div class="text-[9px] font-bold text-brandGold uppercase tracking-[0.2em] mb-2">Custom Shape Advent Calendar Boxes; Christmas Calendar; Gift Set Calendar</div>
+                        <h3 class="font-serif text-lg font-bold text-brandCharcoal mb-3 group-hover:text-brandGold transition-colors leading-tight">
                             <a href="../products/ac-013.html">Carousel Tent Advent Calendar Box</a>
                         </h3>
                     </div>
-                    <div class="flex items-center justify-between mt-4 pt-4 border-t border-slate-50">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">MOQ 50</span>
-                        <a href="../products/ac-013.html" class="text-[10px] font-bold text-brandGreen uppercase border-b border-brandGreen hover:text-brandGold hover:border-brandGold transition-all">Details</a>
+                    <div class="flex items-center justify-between mt-6 pt-6 border-t border-brandBeige/30">
+                        <span class="text-[9px] font-bold text-brandCharcoal/40 uppercase tracking-widest">Low MOQ 50</span>
+                        <a href="../products/ac-013.html" class="text-[9px] font-bold text-brandBurgundy uppercase border-b border-brandBurgundy hover:text-brandGold hover:border-brandGold transition-all tracking-widest">View Details</a>
                     </div>
                 </div>
             </div>
-            <div class="bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg transition-all flex flex-col group h-full">
-                <div class="h-64 overflow-hidden bg-white relative p-4 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ac-014.html'">
-                    <img src="../images/products/AC-014_pink-arch-jewelry-advent-calendar-box/image_01.jpg" alt="Pink Arch Jewelry Advent Calendar Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-brandGreen/0 group-hover:bg-brandGreen/5 transition-colors"></div>
+            <div class="bg-brandWhite rounded-sm overflow-hidden shadow-sm border border-brandBeige hover:border-brandGold transition-all flex flex-col group h-full luxury-shadow">
+                <div class="h-64 overflow-hidden bg-brandWhite relative p-6 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ac-014.html'">
+                    <img src="../images/products/AC-014_pink-arch-jewelry-advent-calendar-box/image_01.jpg" alt="Pink Arch Jewelry Advent Calendar Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-brandCharcoal/0 group-hover:bg-brandCharcoal/[0.02] transition-colors"></div>
                 </div>
-                <div class="p-5 flex-grow flex flex-col justify-between border-t border-slate-50">
+                <div class="p-6 flex-grow flex flex-col justify-between border-t border-brandBeige/50">
                     <div>
-                        <div class="text-[10px] font-bold text-brandGold uppercase tracking-tighter mb-1">Jewelry Advent Calendar Boxes; Beauty Calendar; Custom Shape Calendar</div>
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-3 group-hover:text-brandGold transition-colors leading-snug">
+                        <div class="text-[9px] font-bold text-brandGold uppercase tracking-[0.2em] mb-2">Jewelry Advent Calendar Boxes; Beauty Calendar; Custom Shape Calendar</div>
+                        <h3 class="font-serif text-lg font-bold text-brandCharcoal mb-3 group-hover:text-brandGold transition-colors leading-tight">
                             <a href="../products/ac-014.html">Pink Arch Jewelry Advent Calendar Box</a>
                         </h3>
                     </div>
-                    <div class="flex items-center justify-between mt-4 pt-4 border-t border-slate-50">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">MOQ 50</span>
-                        <a href="../products/ac-014.html" class="text-[10px] font-bold text-brandGreen uppercase border-b border-brandGreen hover:text-brandGold hover:border-brandGold transition-all">Details</a>
+                    <div class="flex items-center justify-between mt-6 pt-6 border-t border-brandBeige/30">
+                        <span class="text-[9px] font-bold text-brandCharcoal/40 uppercase tracking-widest">Low MOQ 50</span>
+                        <a href="../products/ac-014.html" class="text-[9px] font-bold text-brandBurgundy uppercase border-b border-brandBurgundy hover:text-brandGold hover:border-brandGold transition-all tracking-widest">View Details</a>
                     </div>
                 </div>
             </div>
-            <div class="bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg transition-all flex flex-col group h-full">
-                <div class="h-64 overflow-hidden bg-white relative p-4 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ac-015.html'">
-                    <img src="../images/products/AC-015_red-round-christmas-advent-calendar-box/image_01.jpg" alt="Red Round Christmas Advent Calendar Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-brandGreen/0 group-hover:bg-brandGreen/5 transition-colors"></div>
+            <div class="bg-brandWhite rounded-sm overflow-hidden shadow-sm border border-brandBeige hover:border-brandGold transition-all flex flex-col group h-full luxury-shadow">
+                <div class="h-64 overflow-hidden bg-brandWhite relative p-6 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ac-015.html'">
+                    <img src="../images/products/AC-015_red-round-christmas-advent-calendar-box/image_01.jpg" alt="Red Round Christmas Advent Calendar Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-brandCharcoal/0 group-hover:bg-brandCharcoal/[0.02] transition-colors"></div>
                 </div>
-                <div class="p-5 flex-grow flex flex-col justify-between border-t border-slate-50">
+                <div class="p-6 flex-grow flex flex-col justify-between border-t border-brandBeige/50">
                     <div>
-                        <div class="text-[10px] font-bold text-brandGold uppercase tracking-tighter mb-1">Christmas Advent Calendar Boxes; Chocolate Advent Calendar Boxes</div>
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-3 group-hover:text-brandGold transition-colors leading-snug">
+                        <div class="text-[9px] font-bold text-brandGold uppercase tracking-[0.2em] mb-2">Christmas Advent Calendar Boxes; Chocolate Advent Calendar Boxes</div>
+                        <h3 class="font-serif text-lg font-bold text-brandCharcoal mb-3 group-hover:text-brandGold transition-colors leading-tight">
                             <a href="../products/ac-015.html">Red Round Christmas Advent Calendar Box</a>
                         </h3>
                     </div>
-                    <div class="flex items-center justify-between mt-4 pt-4 border-t border-slate-50">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">MOQ 50</span>
-                        <a href="../products/ac-015.html" class="text-[10px] font-bold text-brandGreen uppercase border-b border-brandGreen hover:text-brandGold hover:border-brandGold transition-all">Details</a>
+                    <div class="flex items-center justify-between mt-6 pt-6 border-t border-brandBeige/30">
+                        <span class="text-[9px] font-bold text-brandCharcoal/40 uppercase tracking-widest">Low MOQ 50</span>
+                        <a href="../products/ac-015.html" class="text-[9px] font-bold text-brandBurgundy uppercase border-b border-brandBurgundy hover:text-brandGold hover:border-brandGold transition-all tracking-widest">View Details</a>
                     </div>
                 </div>
             </div>
-            <div class="bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg transition-all flex flex-col group h-full">
-                <div class="h-64 overflow-hidden bg-white relative p-4 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ac-016.html'">
-                    <img src="../images/products/AC-016_green-custom-shape-advent-calendar-box/image_01.jpg" alt="Green Custom Shape Advent Calendar Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-brandGreen/0 group-hover:bg-brandGreen/5 transition-colors"></div>
+            <div class="bg-brandWhite rounded-sm overflow-hidden shadow-sm border border-brandBeige hover:border-brandGold transition-all flex flex-col group h-full luxury-shadow">
+                <div class="h-64 overflow-hidden bg-brandWhite relative p-6 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ac-016.html'">
+                    <img src="../images/products/AC-016_green-custom-shape-advent-calendar-box/image_01.jpg" alt="Green Custom Shape Advent Calendar Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-brandCharcoal/0 group-hover:bg-brandCharcoal/[0.02] transition-colors"></div>
                 </div>
-                <div class="p-5 flex-grow flex flex-col justify-between border-t border-slate-50">
+                <div class="p-6 flex-grow flex flex-col justify-between border-t border-brandBeige/50">
                     <div>
-                        <div class="text-[10px] font-bold text-brandGold uppercase tracking-tighter mb-1">Custom Shape Advent Calendar Boxes; Gift Set Calendar</div>
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-3 group-hover:text-brandGold transition-colors leading-snug">
+                        <div class="text-[9px] font-bold text-brandGold uppercase tracking-[0.2em] mb-2">Custom Shape Advent Calendar Boxes; Gift Set Calendar</div>
+                        <h3 class="font-serif text-lg font-bold text-brandCharcoal mb-3 group-hover:text-brandGold transition-colors leading-tight">
                             <a href="../products/ac-016.html">Green Custom Shape Advent Calendar Box</a>
                         </h3>
                     </div>
-                    <div class="flex items-center justify-between mt-4 pt-4 border-t border-slate-50">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">MOQ 50</span>
-                        <a href="../products/ac-016.html" class="text-[10px] font-bold text-brandGreen uppercase border-b border-brandGreen hover:text-brandGold hover:border-brandGold transition-all">Details</a>
+                    <div class="flex items-center justify-between mt-6 pt-6 border-t border-brandBeige/30">
+                        <span class="text-[9px] font-bold text-brandCharcoal/40 uppercase tracking-widest">Low MOQ 50</span>
+                        <a href="../products/ac-016.html" class="text-[9px] font-bold text-brandBurgundy uppercase border-b border-brandBurgundy hover:text-brandGold hover:border-brandGold transition-all tracking-widest">View Details</a>
                     </div>
                 </div>
             </div>
-            <div class="bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg transition-all flex flex-col group h-full">
-                <div class="h-64 overflow-hidden bg-white relative p-4 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ac-017.html'">
-                    <img src="../images/products/AC-017_t-shape-premium-advent-calendar-box/image_01.jpg" alt="T-Shape Premium Advent Calendar Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-brandGreen/0 group-hover:bg-brandGreen/5 transition-colors"></div>
+            <div class="bg-brandWhite rounded-sm overflow-hidden shadow-sm border border-brandBeige hover:border-brandGold transition-all flex flex-col group h-full luxury-shadow">
+                <div class="h-64 overflow-hidden bg-brandWhite relative p-6 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ac-017.html'">
+                    <img src="../images/products/AC-017_t-shape-premium-advent-calendar-box/image_01.jpg" alt="T-Shape Premium Advent Calendar Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-brandCharcoal/0 group-hover:bg-brandCharcoal/[0.02] transition-colors"></div>
                 </div>
-                <div class="p-5 flex-grow flex flex-col justify-between border-t border-slate-50">
+                <div class="p-6 flex-grow flex flex-col justify-between border-t border-brandBeige/50">
                     <div>
-                        <div class="text-[10px] font-bold text-brandGold uppercase tracking-tighter mb-1">Custom Shape Advent Calendar Boxes; Advent Calendar Gift Set</div>
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-3 group-hover:text-brandGold transition-colors leading-snug">
+                        <div class="text-[9px] font-bold text-brandGold uppercase tracking-[0.2em] mb-2">Custom Shape Advent Calendar Boxes; Advent Calendar Gift Set</div>
+                        <h3 class="font-serif text-lg font-bold text-brandCharcoal mb-3 group-hover:text-brandGold transition-colors leading-tight">
                             <a href="../products/ac-017.html">T-Shape Premium Advent Calendar Box</a>
                         </h3>
                     </div>
-                    <div class="flex items-center justify-between mt-4 pt-4 border-t border-slate-50">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">MOQ 50</span>
-                        <a href="../products/ac-017.html" class="text-[10px] font-bold text-brandGreen uppercase border-b border-brandGreen hover:text-brandGold hover:border-brandGold transition-all">Details</a>
+                    <div class="flex items-center justify-between mt-6 pt-6 border-t border-brandBeige/30">
+                        <span class="text-[9px] font-bold text-brandCharcoal/40 uppercase tracking-widest">Low MOQ 50</span>
+                        <a href="../products/ac-017.html" class="text-[9px] font-bold text-brandBurgundy uppercase border-b border-brandBurgundy hover:text-brandGold hover:border-brandGold transition-all tracking-widest">View Details</a>
                     </div>
                 </div>
             </div>
-            <div class="bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg transition-all flex flex-col group h-full">
-                <div class="h-64 overflow-hidden bg-white relative p-4 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ac-018.html'">
-                    <img src="../images/products/AC-018_double-door-advent-calendar-box/image_01.jpg" alt="Double-Door Advent Calendar Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-brandGreen/0 group-hover:bg-brandGreen/5 transition-colors"></div>
+            <div class="bg-brandWhite rounded-sm overflow-hidden shadow-sm border border-brandBeige hover:border-brandGold transition-all flex flex-col group h-full luxury-shadow">
+                <div class="h-64 overflow-hidden bg-brandWhite relative p-6 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ac-018.html'">
+                    <img src="../images/products/AC-018_double-door-advent-calendar-box/image_01.jpg" alt="Double-Door Advent Calendar Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-brandCharcoal/0 group-hover:bg-brandCharcoal/[0.02] transition-colors"></div>
                 </div>
-                <div class="p-5 flex-grow flex flex-col justify-between border-t border-slate-50">
+                <div class="p-6 flex-grow flex flex-col justify-between border-t border-brandBeige/50">
                     <div>
-                        <div class="text-[10px] font-bold text-brandGold uppercase tracking-tighter mb-1">Christmas Advent Calendar Boxes; Beauty Advent Calendar Boxes; Advent Calendar Gift Set</div>
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-3 group-hover:text-brandGold transition-colors leading-snug">
+                        <div class="text-[9px] font-bold text-brandGold uppercase tracking-[0.2em] mb-2">Christmas Advent Calendar Boxes; Beauty Advent Calendar Boxes; Advent Calendar Gift Set</div>
+                        <h3 class="font-serif text-lg font-bold text-brandCharcoal mb-3 group-hover:text-brandGold transition-colors leading-tight">
                             <a href="../products/ac-018.html">Double-Door Advent Calendar Box</a>
                         </h3>
                     </div>
-                    <div class="flex items-center justify-between mt-4 pt-4 border-t border-slate-50">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">MOQ 50</span>
-                        <a href="../products/ac-018.html" class="text-[10px] font-bold text-brandGreen uppercase border-b border-brandGreen hover:text-brandGold hover:border-brandGold transition-all">Details</a>
+                    <div class="flex items-center justify-between mt-6 pt-6 border-t border-brandBeige/30">
+                        <span class="text-[9px] font-bold text-brandCharcoal/40 uppercase tracking-widest">Low MOQ 50</span>
+                        <a href="../products/ac-018.html" class="text-[9px] font-bold text-brandBurgundy uppercase border-b border-brandBurgundy hover:text-brandGold hover:border-brandGold transition-all tracking-widest">View Details</a>
                     </div>
                 </div>
             </div>
-            <div class="bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg transition-all flex flex-col group h-full">
-                <div class="h-64 overflow-hidden bg-white relative p-4 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ac-019.html'">
-                    <img src="../images/products/AC-019_classic-24-day-drawer-advent-calendar-box/image_01.jpg" alt="Classic 24-Day Drawer Advent Calendar Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-brandGreen/0 group-hover:bg-brandGreen/5 transition-colors"></div>
+            <div class="bg-brandWhite rounded-sm overflow-hidden shadow-sm border border-brandBeige hover:border-brandGold transition-all flex flex-col group h-full luxury-shadow">
+                <div class="h-64 overflow-hidden bg-brandWhite relative p-6 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ac-019.html'">
+                    <img src="../images/products/AC-019_classic-24-day-drawer-advent-calendar-box/image_01.jpg" alt="Classic 24-Day Drawer Advent Calendar Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-brandCharcoal/0 group-hover:bg-brandCharcoal/[0.02] transition-colors"></div>
                 </div>
-                <div class="p-5 flex-grow flex flex-col justify-between border-t border-slate-50">
+                <div class="p-6 flex-grow flex flex-col justify-between border-t border-brandBeige/50">
                     <div>
-                        <div class="text-[10px] font-bold text-brandGold uppercase tracking-tighter mb-1">Christmas Advent Calendar Boxes; Drawer Advent Calendar Boxes; Advent Calendar Gift Set</div>
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-3 group-hover:text-brandGold transition-colors leading-snug">
+                        <div class="text-[9px] font-bold text-brandGold uppercase tracking-[0.2em] mb-2">Christmas Advent Calendar Boxes; Drawer Advent Calendar Boxes; Advent Calendar Gift Set</div>
+                        <h3 class="font-serif text-lg font-bold text-brandCharcoal mb-3 group-hover:text-brandGold transition-colors leading-tight">
                             <a href="../products/ac-019.html">Classic 24-Day Drawer Advent Calendar Box</a>
                         </h3>
                     </div>
-                    <div class="flex items-center justify-between mt-4 pt-4 border-t border-slate-50">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">MOQ 50</span>
-                        <a href="../products/ac-019.html" class="text-[10px] font-bold text-brandGreen uppercase border-b border-brandGreen hover:text-brandGold hover:border-brandGold transition-all">Details</a>
+                    <div class="flex items-center justify-between mt-6 pt-6 border-t border-brandBeige/30">
+                        <span class="text-[9px] font-bold text-brandCharcoal/40 uppercase tracking-widest">Low MOQ 50</span>
+                        <a href="../products/ac-019.html" class="text-[9px] font-bold text-brandBurgundy uppercase border-b border-brandBurgundy hover:text-brandGold hover:border-brandGold transition-all tracking-widest">View Details</a>
                     </div>
                 </div>
             </div>
-            <div class="bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg transition-all flex flex-col group h-full">
-                <div class="h-64 overflow-hidden bg-white relative p-4 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ac-020.html'">
-                    <img src="../images/products/AC-020_christmas-door-advent-calendar-box-collection/image_01.jpg" alt="Christmas Door Advent Calendar Box Collection" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-brandGreen/0 group-hover:bg-brandGreen/5 transition-colors"></div>
+            <div class="bg-brandWhite rounded-sm overflow-hidden shadow-sm border border-brandBeige hover:border-brandGold transition-all flex flex-col group h-full luxury-shadow">
+                <div class="h-64 overflow-hidden bg-brandWhite relative p-6 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ac-020.html'">
+                    <img src="../images/products/AC-020_christmas-door-advent-calendar-box-collection/image_01.jpg" alt="Christmas Door Advent Calendar Box Collection" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-brandCharcoal/0 group-hover:bg-brandCharcoal/[0.02] transition-colors"></div>
                 </div>
-                <div class="p-5 flex-grow flex flex-col justify-between border-t border-slate-50">
+                <div class="p-6 flex-grow flex flex-col justify-between border-t border-brandBeige/50">
                     <div>
-                        <div class="text-[10px] font-bold text-brandGold uppercase tracking-tighter mb-1">Christmas Advent Calendar Boxes; Custom Shape Advent Calendar Boxes; Advent Calendar Gift Set</div>
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-3 group-hover:text-brandGold transition-colors leading-snug">
+                        <div class="text-[9px] font-bold text-brandGold uppercase tracking-[0.2em] mb-2">Christmas Advent Calendar Boxes; Custom Shape Advent Calendar Boxes; Advent Calendar Gift Set</div>
+                        <h3 class="font-serif text-lg font-bold text-brandCharcoal mb-3 group-hover:text-brandGold transition-colors leading-tight">
                             <a href="../products/ac-020.html">Christmas Door Advent Calendar Box Collection</a>
                         </h3>
                     </div>
-                    <div class="flex items-center justify-between mt-4 pt-4 border-t border-slate-50">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">MOQ 50</span>
-                        <a href="../products/ac-020.html" class="text-[10px] font-bold text-brandGreen uppercase border-b border-brandGreen hover:text-brandGold hover:border-brandGold transition-all">Details</a>
+                    <div class="flex items-center justify-between mt-6 pt-6 border-t border-brandBeige/30">
+                        <span class="text-[9px] font-bold text-brandCharcoal/40 uppercase tracking-widest">Low MOQ 50</span>
+                        <a href="../products/ac-020.html" class="text-[9px] font-bold text-brandBurgundy uppercase border-b border-brandBurgundy hover:text-brandGold hover:border-brandGold transition-all tracking-widest">View Details</a>
                     </div>
                 </div>
             </div>
-            <div class="bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg transition-all flex flex-col group h-full">
-                <div class="h-64 overflow-hidden bg-white relative p-4 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ac-023.html'">
-                    <img src="../images/products/AC-023_gold-bar-advent-calendar-box/image_01.jpg" alt="Gold Bar Advent Calendar Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-brandGreen/0 group-hover:bg-brandGreen/5 transition-colors"></div>
+            <div class="bg-brandWhite rounded-sm overflow-hidden shadow-sm border border-brandBeige hover:border-brandGold transition-all flex flex-col group h-full luxury-shadow">
+                <div class="h-64 overflow-hidden bg-brandWhite relative p-6 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ac-023.html'">
+                    <img src="../images/products/AC-023_gold-bar-advent-calendar-box/image_01.jpg" alt="Gold Bar Advent Calendar Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-brandCharcoal/0 group-hover:bg-brandCharcoal/[0.02] transition-colors"></div>
                 </div>
-                <div class="p-5 flex-grow flex flex-col justify-between border-t border-slate-50">
+                <div class="p-6 flex-grow flex flex-col justify-between border-t border-brandBeige/50">
                     <div>
-                        <div class="text-[10px] font-bold text-brandGold uppercase tracking-tighter mb-1">Custom Shape Advent Calendar Boxes; Luxury Advent Calendar Boxes</div>
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-3 group-hover:text-brandGold transition-colors leading-snug">
+                        <div class="text-[9px] font-bold text-brandGold uppercase tracking-[0.2em] mb-2">Custom Shape Advent Calendar Boxes; Luxury Advent Calendar Boxes</div>
+                        <h3 class="font-serif text-lg font-bold text-brandCharcoal mb-3 group-hover:text-brandGold transition-colors leading-tight">
                             <a href="../products/ac-023.html">Gold Bar Advent Calendar Box</a>
                         </h3>
                     </div>
-                    <div class="flex items-center justify-between mt-4 pt-4 border-t border-slate-50">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">MOQ 50</span>
-                        <a href="../products/ac-023.html" class="text-[10px] font-bold text-brandGreen uppercase border-b border-brandGreen hover:text-brandGold hover:border-brandGold transition-all">Details</a>
+                    <div class="flex items-center justify-between mt-6 pt-6 border-t border-brandBeige/30">
+                        <span class="text-[9px] font-bold text-brandCharcoal/40 uppercase tracking-widest">Low MOQ 50</span>
+                        <a href="../products/ac-023.html" class="text-[9px] font-bold text-brandBurgundy uppercase border-b border-brandBurgundy hover:text-brandGold hover:border-brandGold transition-all tracking-widest">View Details</a>
                     </div>
                 </div>
             </div>
-            <div class="bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg transition-all flex flex-col group h-full">
-                <div class="h-64 overflow-hidden bg-white relative p-4 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ac-025.html'">
-                    <img src="../images/products/AC-025_perfume-bottle-advent-calendar-box/image_01.jpg" alt="Perfume Bottle Advent Calendar Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-brandGreen/0 group-hover:bg-brandGreen/5 transition-colors"></div>
+            <div class="bg-brandWhite rounded-sm overflow-hidden shadow-sm border border-brandBeige hover:border-brandGold transition-all flex flex-col group h-full luxury-shadow">
+                <div class="h-64 overflow-hidden bg-brandWhite relative p-6 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ac-025.html'">
+                    <img src="../images/products/AC-025_perfume-bottle-advent-calendar-box/image_01.jpg" alt="Perfume Bottle Advent Calendar Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-brandCharcoal/0 group-hover:bg-brandCharcoal/[0.02] transition-colors"></div>
                 </div>
-                <div class="p-5 flex-grow flex flex-col justify-between border-t border-slate-50">
+                <div class="p-6 flex-grow flex flex-col justify-between border-t border-brandBeige/50">
                     <div>
-                        <div class="text-[10px] font-bold text-brandGold uppercase tracking-tighter mb-1">Perfume Advent Calendar Boxes; Beauty Advent Calendar Boxes; Advent Calendar Gift Set</div>
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-3 group-hover:text-brandGold transition-colors leading-snug">
+                        <div class="text-[9px] font-bold text-brandGold uppercase tracking-[0.2em] mb-2">Perfume Advent Calendar Boxes; Beauty Advent Calendar Boxes; Advent Calendar Gift Set</div>
+                        <h3 class="font-serif text-lg font-bold text-brandCharcoal mb-3 group-hover:text-brandGold transition-colors leading-tight">
                             <a href="../products/ac-025.html">Perfume Bottle Advent Calendar Box</a>
                         </h3>
                     </div>
-                    <div class="flex items-center justify-between mt-4 pt-4 border-t border-slate-50">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">MOQ 50</span>
-                        <a href="../products/ac-025.html" class="text-[10px] font-bold text-brandGreen uppercase border-b border-brandGreen hover:text-brandGold hover:border-brandGold transition-all">Details</a>
+                    <div class="flex items-center justify-between mt-6 pt-6 border-t border-brandBeige/30">
+                        <span class="text-[9px] font-bold text-brandCharcoal/40 uppercase tracking-widest">Low MOQ 50</span>
+                        <a href="../products/ac-025.html" class="text-[9px] font-bold text-brandBurgundy uppercase border-b border-brandBurgundy hover:text-brandGold hover:border-brandGold transition-all tracking-widest">View Details</a>
                     </div>
                 </div>
             </div>
-            <div class="bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg transition-all flex flex-col group h-full">
-                <div class="h-64 overflow-hidden bg-white relative p-4 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ac-027.html'">
-                    <img src="../images/products/AC-027_music-vinyl-player-advent-calendar-box/image_01.jpg" alt="Music Vinyl Player Advent Calendar Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-brandGreen/0 group-hover:bg-brandGreen/5 transition-colors"></div>
+            <div class="bg-brandWhite rounded-sm overflow-hidden shadow-sm border border-brandBeige hover:border-brandGold transition-all flex flex-col group h-full luxury-shadow">
+                <div class="h-64 overflow-hidden bg-brandWhite relative p-6 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ac-027.html'">
+                    <img src="../images/products/AC-027_music-vinyl-player-advent-calendar-box/image_01.jpg" alt="Music Vinyl Player Advent Calendar Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-brandCharcoal/0 group-hover:bg-brandCharcoal/[0.02] transition-colors"></div>
                 </div>
-                <div class="p-5 flex-grow flex flex-col justify-between border-t border-slate-50">
+                <div class="p-6 flex-grow flex flex-col justify-between border-t border-brandBeige/50">
                     <div>
-                        <div class="text-[10px] font-bold text-brandGold uppercase tracking-tighter mb-1">Music Advent Calendar Boxes; Interactive Packaging; Advent Calendar Gift Set</div>
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-3 group-hover:text-brandGold transition-colors leading-snug">
+                        <div class="text-[9px] font-bold text-brandGold uppercase tracking-[0.2em] mb-2">Music Advent Calendar Boxes; Interactive Packaging; Advent Calendar Gift Set</div>
+                        <h3 class="font-serif text-lg font-bold text-brandCharcoal mb-3 group-hover:text-brandGold transition-colors leading-tight">
                             <a href="../products/ac-027.html">Music Vinyl Player Advent Calendar Box</a>
                         </h3>
                     </div>
-                    <div class="flex items-center justify-between mt-4 pt-4 border-t border-slate-50">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">MOQ 50</span>
-                        <a href="../products/ac-027.html" class="text-[10px] font-bold text-brandGreen uppercase border-b border-brandGreen hover:text-brandGold hover:border-brandGold transition-all">Details</a>
+                    <div class="flex items-center justify-between mt-6 pt-6 border-t border-brandBeige/30">
+                        <span class="text-[9px] font-bold text-brandCharcoal/40 uppercase tracking-widest">Low MOQ 50</span>
+                        <a href="../products/ac-027.html" class="text-[9px] font-bold text-brandBurgundy uppercase border-b border-brandBurgundy hover:text-brandGold hover:border-brandGold transition-all tracking-widest">View Details</a>
                     </div>
                 </div>
             </div>
-            <div class="bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg transition-all flex flex-col group h-full">
-                <div class="h-64 overflow-hidden bg-white relative p-4 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ac-028.html'">
-                    <img src="../images/products/AC-028_led-perfume-advent-calendar-box/image_01.jpg" alt="LED Perfume Advent Calendar Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-brandGreen/0 group-hover:bg-brandGreen/5 transition-colors"></div>
+            <div class="bg-brandWhite rounded-sm overflow-hidden shadow-sm border border-brandBeige hover:border-brandGold transition-all flex flex-col group h-full luxury-shadow">
+                <div class="h-64 overflow-hidden bg-brandWhite relative p-6 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ac-028.html'">
+                    <img src="../images/products/AC-028_led-perfume-advent-calendar-box/image_01.jpg" alt="LED Perfume Advent Calendar Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-brandCharcoal/0 group-hover:bg-brandCharcoal/[0.02] transition-colors"></div>
                 </div>
-                <div class="p-5 flex-grow flex flex-col justify-between border-t border-slate-50">
+                <div class="p-6 flex-grow flex flex-col justify-between border-t border-brandBeige/50">
                     <div>
-                        <div class="text-[10px] font-bold text-brandGold uppercase tracking-tighter mb-1">Perfume Advent Calendar Boxes; Beauty Advent Calendar Boxes; LED Advent Calendar Boxes; Advent Calendar Gift Set</div>
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-3 group-hover:text-brandGold transition-colors leading-snug">
+                        <div class="text-[9px] font-bold text-brandGold uppercase tracking-[0.2em] mb-2">Perfume Advent Calendar Boxes; Beauty Advent Calendar Boxes; LED Advent Calendar Boxes; Advent Calendar Gift Set</div>
+                        <h3 class="font-serif text-lg font-bold text-brandCharcoal mb-3 group-hover:text-brandGold transition-colors leading-tight">
                             <a href="../products/ac-028.html">LED Perfume Advent Calendar Box</a>
                         </h3>
                     </div>
-                    <div class="flex items-center justify-between mt-4 pt-4 border-t border-slate-50">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">MOQ 50</span>
-                        <a href="../products/ac-028.html" class="text-[10px] font-bold text-brandGreen uppercase border-b border-brandGreen hover:text-brandGold hover:border-brandGold transition-all">Details</a>
+                    <div class="flex items-center justify-between mt-6 pt-6 border-t border-brandBeige/30">
+                        <span class="text-[9px] font-bold text-brandCharcoal/40 uppercase tracking-widest">Low MOQ 50</span>
+                        <a href="../products/ac-028.html" class="text-[9px] font-bold text-brandBurgundy uppercase border-b border-brandBurgundy hover:text-brandGold hover:border-brandGold transition-all tracking-widest">View Details</a>
                     </div>
                 </div>
             </div>
-            <div class="bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg transition-all flex flex-col group h-full">
-                <div class="h-64 overflow-hidden bg-white relative p-4 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ip-006.html'">
-                    <img src="../images/products/IP-006_Music_Vinyl_Player_Advent_Calendar_Box/IP-006_01.jpg" alt="Music Vinyl Player Advent Calendar Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-brandGreen/0 group-hover:bg-brandGreen/5 transition-colors"></div>
+            <div class="bg-brandWhite rounded-sm overflow-hidden shadow-sm border border-brandBeige hover:border-brandGold transition-all flex flex-col group h-full luxury-shadow">
+                <div class="h-64 overflow-hidden bg-brandWhite relative p-6 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ip-006.html'">
+                    <img src="../images/products/IP-006_Music_Vinyl_Player_Advent_Calendar_Box/IP-006_01.jpg" alt="Music Vinyl Player Advent Calendar Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-brandCharcoal/0 group-hover:bg-brandCharcoal/[0.02] transition-colors"></div>
                 </div>
-                <div class="p-5 flex-grow flex flex-col justify-between border-t border-slate-50">
+                <div class="p-6 flex-grow flex flex-col justify-between border-t border-brandBeige/50">
                     <div>
-                        <div class="text-[10px] font-bold text-brandGold uppercase tracking-tighter mb-1">Music Advent Calendar; Beauty Gift Set Packaging</div>
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-3 group-hover:text-brandGold transition-colors leading-snug">
+                        <div class="text-[9px] font-bold text-brandGold uppercase tracking-[0.2em] mb-2">Music Advent Calendar; Beauty Gift Set Packaging</div>
+                        <h3 class="font-serif text-lg font-bold text-brandCharcoal mb-3 group-hover:text-brandGold transition-colors leading-tight">
                             <a href="../products/ip-006.html">Music Vinyl Player Advent Calendar Box</a>
                         </h3>
                     </div>
-                    <div class="flex items-center justify-between mt-4 pt-4 border-t border-slate-50">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">MOQ 50</span>
-                        <a href="../products/ip-006.html" class="text-[10px] font-bold text-brandGreen uppercase border-b border-brandGreen hover:text-brandGold hover:border-brandGold transition-all">Details</a>
+                    <div class="flex items-center justify-between mt-6 pt-6 border-t border-brandBeige/30">
+                        <span class="text-[9px] font-bold text-brandCharcoal/40 uppercase tracking-widest">Low MOQ 50</span>
+                        <a href="../products/ip-006.html" class="text-[9px] font-bold text-brandBurgundy uppercase border-b border-brandBurgundy hover:text-brandGold hover:border-brandGold transition-all tracking-widest">View Details</a>
                     </div>
                 </div>
             </div>
-            <div class="bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg transition-all flex flex-col group h-full">
-                <div class="h-64 overflow-hidden bg-white relative p-4 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ip-007.html'">
-                    <img src="../images/products/IP-007_LED_Perfume_Advent_Calendar_Box/IP-007_01.jpg" alt="LED Perfume Advent Calendar Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-brandGreen/0 group-hover:bg-brandGreen/5 transition-colors"></div>
+            <div class="bg-brandWhite rounded-sm overflow-hidden shadow-sm border border-brandBeige hover:border-brandGold transition-all flex flex-col group h-full luxury-shadow">
+                <div class="h-64 overflow-hidden bg-brandWhite relative p-6 flex items-center justify-center cursor-pointer" onclick="window.location.href='../products/ip-007.html'">
+                    <img src="../images/products/IP-007_LED_Perfume_Advent_Calendar_Box/IP-007_01.jpg" alt="LED Perfume Advent Calendar Box" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-brandCharcoal/0 group-hover:bg-brandCharcoal/[0.02] transition-colors"></div>
                 </div>
-                <div class="p-5 flex-grow flex flex-col justify-between border-t border-slate-50">
+                <div class="p-6 flex-grow flex flex-col justify-between border-t border-brandBeige/50">
                     <div>
-                        <div class="text-[10px] font-bold text-brandGold uppercase tracking-tighter mb-1">LED Perfume Advent Calendar; Beauty Gift Set Packaging</div>
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-3 group-hover:text-brandGold transition-colors leading-snug">
+                        <div class="text-[9px] font-bold text-brandGold uppercase tracking-[0.2em] mb-2">LED Perfume Advent Calendar; Beauty Gift Set Packaging</div>
+                        <h3 class="font-serif text-lg font-bold text-brandCharcoal mb-3 group-hover:text-brandGold transition-colors leading-tight">
                             <a href="../products/ip-007.html">LED Perfume Advent Calendar Box</a>
                         </h3>
                     </div>
-                    <div class="flex items-center justify-between mt-4 pt-4 border-t border-slate-50">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">MOQ 50</span>
-                        <a href="../products/ip-007.html" class="text-[10px] font-bold text-brandGreen uppercase border-b border-brandGreen hover:text-brandGold hover:border-brandGold transition-all">Details</a>
+                    <div class="flex items-center justify-between mt-6 pt-6 border-t border-brandBeige/30">
+                        <span class="text-[9px] font-bold text-brandCharcoal/40 uppercase tracking-widest">Low MOQ 50</span>
+                        <a href="../products/ip-007.html" class="text-[9px] font-bold text-brandBurgundy uppercase border-b border-brandBurgundy hover:text-brandGold hover:border-brandGold transition-all tracking-widest">View Details</a>
                     </div>
                 </div>
             </div>
@@ -635,65 +543,50 @@
         </div>
     </section>
 </main>
-<footer class="bg-brandGreen-dark text-white border-t border-brandGold-dark pt-16 pb-8">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-12">
-        <div class="md:col-span-1">
-            <h3 class="font-serif text-2xl font-bold text-brandGold tracking-wider">ShineleeBox</h3>
-            <p class="text-[9px] uppercase tracking-widest text-brandGold-light font-medium -mt-1 mb-4">Guangzhou Paper Packaging</p>
-            <p class="text-sm text-slate-300 italic mb-6">"Too Good To Throw Away. Packaging That Gets Shared, Not Discarded."</p>
-            <div class="flex space-x-3 text-xs text-brandGold-light font-semibold mb-6">
-                <span>Disney FAMA</span> | <span>BSCI Certified</span>
+<footer class="bg-brandCharcoal text-brandIvory border-t border-brandGold/30 pt-20 pb-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-16">
+        <div class="md:col-span-1 space-y-6">
+            <div>
+                <h3 class="font-serif text-2xl font-bold text-brandIvory tracking-tight">ShineleeBox</h3>
+                <p class="text-[8px] uppercase tracking-[0.4em] text-brandGold font-bold mt-1">Packaging Legacy</p>
+            </div>
+            <p class="text-xs text-brandIvory/60 leading-relaxed font-light italic">"Premium manufacturing for brands that value longevity. Packaging designed to be kept, not discarded."</p>
+            <div class="flex space-x-3 text-[10px] text-brandGold font-bold uppercase tracking-tighter">
+                <span>Disney FAMA</span><span class="opacity-30">|</span><span>BSCI</span><span class="opacity-30">|</span><span>FSC</span>
             </div>
         </div>
 
         <div>
-            <h4 class="text-lg font-serif font-semibold text-brandGold mb-4">Core Products</h4>
-            <ul class="space-y-2.5 text-sm text-slate-300">
-                <li><a href="../products/advent-calendar-boxes.html" class="hover:text-brandGold transition-colors">Advent Calendar Boxes</a></li>
+            <h4 class="text-[10px] font-bold uppercase tracking-[0.2em] text-brandGold mb-8">Collections</h4>
+            <ul class="space-y-4 text-xs font-medium opacity-80">
+                <li><a href="../products/advent-calendar-boxes.html" class="hover:text-brandGold transition-colors">Advent Calendar</a></li>
                 <li><a href="../products/rigid-boxes.html" class="hover:text-brandGold transition-colors">Rigid Gift Boxes</a></li>
-                <li><a href="../products/religious-gift-packaging.html" class="hover:text-brandGold transition-colors">Religious Packaging</a></li>
-                <li><a href="../products/index.html" class="hover:text-brandGold transition-colors">All Collections</a></li>
+                <li><a href="../products/index.html" class="hover:text-brandGold transition-colors">Catalog</a></li>
             </ul>
         </div>
 
         <div>
-            <h4 class="text-lg font-serif font-semibold text-brandGold mb-4">Industry Solutions</h4>
-            <ul class="space-y-2.5 text-sm text-slate-300">
-                <li><a href="../applications/beauty-perfume-personal-care-packaging.html" class="hover:text-brandGold transition-colors">Beauty & Perfume</a></li>
-                <li><a href="../applications/chocolate-and-food-packaging.html" class="hover:text-brandGold transition-colors">Chocolate & Truffle</a></li>
-                <li><a href="../applications/wine-liquor-packaging.html" class="hover:text-brandGold transition-colors">Wine & Liquor</a></li>
-                <li><a href="../applications/index.html" class="hover:text-brandGold transition-colors">All Solutions</a></li>
-            </ul>
+            <h4 class="text-[10px] font-bold uppercase tracking-[0.2em] text-brandGold mb-8">Manufacturing</h4>
+            <p class="text-xs text-brandIvory opacity-80 leading-relaxed"><strong>Shinelee Paper Product Co.</strong><br>Guangzhou, China<br>18+ Years Excellence</p>
         </div>
 
-        <div>
-            <h4 class="text-lg font-serif font-semibold text-brandGold mb-4">Contact Manufacturer</h4>
-            <p class="text-sm text-slate-300 mb-1"><strong>Guangzhou Shinelee Paper Product Co., Ltd.</strong></p>
-            <p class="text-sm text-slate-300 mb-1">📧 Email: info@slpack.net</p>
-            <p class="text-sm text-slate-300 mb-1">📞 WhatsApp: +86 18818840878</p>
+        <div class="space-y-6">
+            <h4 class="text-[10px] font-bold uppercase tracking-[0.2em] text-brandGold mb-8">Connect</h4>
+            <p class="text-xs opacity-60">info@slpack.net</p>
+            <p class="text-xs opacity-60">+86 188 1884 0878</p>
         </div>
     </div>
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-8 border-t border-brandGreen-light flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400">
-        <p>&copy; 2026 Guangzhou Shinelee Paper Product Co., Ltd. All rights reserved.</p>
-        <div class="flex space-x-4 mt-4 sm:mt-0">
-            <a href="../about.html#faq" class="hover:text-brandGold transition-colors">FAQ</a>
-            <a href="../contact.html" class="hover:text-brandGold transition-colors font-semibold text-brandGold">Get Custom Quotation</a>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-20 pt-10 border-t border-brandIvory/10 flex flex-col sm:flex-row items-center justify-between text-[10px] font-bold uppercase tracking-widest text-brandIvory/40">
+        <p>&copy; 2026 ShineleeBox. All Rights Reserved.</p>
+        <div class="flex space-x-6 mt-6 sm:mt-0">
+            <a href="../contact.html" class="hover:text-brandGold transition-colors text-brandGold">Technical Quote</a>
         </div>
     </div>
 </footer>
 
-<script>
-    const mobileBtn = document.getElementById('mobile-menu-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
-    if (mobileBtn && mobileMenu) {
-        mobileBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
-    }
-</script>
-<a href="https://wa.me/8618818840878?text=Hi%20Lisa,%20I'm%20interested%20in%20customizing%20packaging." target="_blank" class="fixed bottom-6 right-6 z-50 bg-[#25D366] text-white p-3 rounded-full shadow-2xl hover:scale-110 transition-all flex items-center group">
-    <div class="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-500 whitespace-nowrap px-0 group-hover:px-2 text-[10px] font-bold uppercase tracking-tight">Chat for Free 2026 Dielines</div>
+<a href="https://wa.me/8618818840878" target="_blank" class="fixed bottom-8 right-8 z-50 bg-brandBurgundy text-brandWhite p-4 rounded-full shadow-2xl hover:scale-110 transition-all flex items-center group border border-brandGold/30">
+    <div class="max-w-0 overflow-hidden group-hover:max-w-xs transition-all duration-500 whitespace-nowrap px-0 group-hover:px-4 text-[10px] font-bold uppercase tracking-[0.2em]">Free Dieline Service</div>
     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.353-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.412c-1.935 0-3.83-.502-5.485-1.45L3 21.033l.664-4.818a8.947 8.947 0 01-1.592-5.088c0-4.947 4.032-8.98 8.98-8.98 2.398 0 4.653.935 6.348 2.632a8.916 8.947 0 012.632 6.348c0 4.95-4.031 8.982-8.98 8.982m8.98-17.96A10.74 10.74 0 0011.05 1c-5.952 0-10.05 4.84-10.05 10.79 0 2.215.65 4.385 1.875 6.3L1 23l5.05-1.325c1.865 1.135 4.025 1.735 6.22 1.735 5.95 0 10.79-4.835 10.79-10.785 0-2.855-1.11-5.54-3.125-7.555"/></svg>
 </a>
 </body>

@@ -796,21 +796,21 @@ function buildCategoryPages() {
                             }
 
                             return `
-            <div class="bg-white rounded-lg overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg transition-all flex flex-col group h-full">
-                <div class="h-64 overflow-hidden bg-white relative p-4 flex items-center justify-center cursor-pointer" onclick="window.location.href='${cat.dir.includes('/') ? '../../' : '../'}products/${prefix}-${idLower}.html'">
-                    <img src="${imgPath}" alt="${escapeHtml(name)}" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-brandGreen/0 group-hover:bg-brandGreen/5 transition-colors"></div>
+            <div class="bg-brandWhite rounded-sm overflow-hidden shadow-sm border border-brandBeige hover:border-brandGold transition-all flex flex-col group h-full luxury-shadow">
+                <div class="h-64 overflow-hidden bg-brandWhite relative p-6 flex items-center justify-center cursor-pointer" onclick="window.location.href='${cat.dir.includes('/') ? '../../' : '../'}products/${prefix}-${idLower}.html'">
+                    <img src="${imgPath}" alt="${escapeHtml(name)}" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-brandCharcoal/0 group-hover:bg-brandCharcoal/[0.02] transition-colors"></div>
                 </div>
-                <div class="p-5 flex-grow flex flex-col justify-between border-t border-slate-50">
+                <div class="p-6 flex-grow flex flex-col justify-between border-t border-brandBeige/50">
                     <div>
-                        <div class="text-[10px] font-bold text-brandGold uppercase tracking-tighter mb-1">${escapeHtml(p['Subcategory'] || 'Custom Rigid Packaging')}</div>
-                        <h3 class="font-serif text-base font-bold text-brandGreen mb-3 group-hover:text-brandGold transition-colors leading-snug">
+                        <div class="text-[9px] font-bold text-brandGold uppercase tracking-[0.2em] mb-2">${escapeHtml(p['Subcategory'] || 'Bespoke Packaging')}</div>
+                        <h3 class="font-serif text-lg font-bold text-brandCharcoal mb-3 group-hover:text-brandGold transition-colors leading-tight">
                             <a href="${cat.dir.includes('/') ? '../../' : '../'}products/${prefix}-${idLower}.html">${escapeHtml(name)}</a>
                         </h3>
                     </div>
-                    <div class="flex items-center justify-between mt-4 pt-4 border-t border-slate-50">
-                        <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">MOQ 50</span>
-                        <a href="${cat.dir.includes('/') ? '../../' : '../'}products/${prefix}-${idLower}.html" class="text-[10px] font-bold text-brandGreen uppercase border-b border-brandGreen hover:text-brandGold hover:border-brandGold transition-all">Details</a>
+                    <div class="flex items-center justify-between mt-6 pt-6 border-t border-brandBeige/30">
+                        <span class="text-[9px] font-bold text-brandCharcoal/40 uppercase tracking-widest">Low MOQ 50</span>
+                        <a href="${cat.dir.includes('/') ? '../../' : '../'}products/${prefix}-${idLower}.html" class="text-[9px] font-bold text-brandBurgundy uppercase border-b border-brandBurgundy hover:text-brandGold hover:border-brandGold transition-all tracking-widest">View Details</a>
                     </div>
                 </div>
             </div>`;
