@@ -33,10 +33,22 @@ const headTemplate = (title, description, relativePath = '') => `
             theme: {
                 extend: {
                     colors: {
-                        brandGreen: { DEFAULT: '#0B2F17', dark: '#072210', light: '#144c25' },
-                        brandGold: { DEFAULT: '#C5A059', dark: '#ae8541', light: '#d9b977' },
-                        brandIvory: { DEFAULT: '#FCFAF6', dark: '#F5F0E6' }
+                        brandGreen: {
+                            DEFAULT: '#111827', // Deep Charcoal Black (Primary)
+                            dark: '#020617',    // Rich Onyx
+                            light: '#1E293B'    // Slate Blue-Gray
+                        },
+                        brandGold: {
+                            DEFAULT: '#B89E6E', // Champagne Gold (Accent)
+                            dark: '#A1824A',    // Brushed Brass
+                            light: '#D4C391'    // Muted Sand
+                        },
+                        brandIvory: {
+                            DEFAULT: '#F9FAFB', // Clean Cool White (Background)
+                            dark: '#F3F4F6'
+                        }
                     },
+
                     fontFamily: {
                         serif: ['Playfair Display', 'Georgia', 'serif'],
                         sans: ['Inter', 'Montserrat', 'sans-serif']
