@@ -350,8 +350,69 @@ const categories = [
         h1: 'Custom Magnetic Gift Boxes',
         heroSub: 'Magnetic Gift Boxes With a Smooth, Premium Opening Experience',
         intro: 'Magnetic gift boxes are one of the most practical premium rigid box structures for B2B brand packaging. ShineleeBox manufactures custom magnetic closure boxes for perfume, cosmetics, skincare, jewelry, electronics, luxury food and promotional gifts.',
-        filter: p => p['Product ID'].startsWith('MG-') || ((p['Main Category'] === 'Rigid Box' || p['Main Category'] === 'Luxury Gift Boxes') && ((p['Product Name'] || '').toLowerCase().includes('magnetic') || (p['Subcategory'] || '').toLowerCase().includes('magnetic') || (p['Custom Options'] || '').toLowerCase().includes('magnetic')))
+        filter: p => {
+            const id = (p['Product ID'] || '').toUpperCase();
+            const name = (p['Product Name'] || '').toLowerCase();
+            const sub = (p['Subcategory'] || '').toLowerCase();
+            // Keep only real rigid magnetic boxes, exclude bag-style or ordinary calendars
+            const isRigidMagnetic = (id.startsWith('MG-') || name.includes('magnetic') || sub.includes('magnetic')) && 
+                                    !name.includes('bag') && !name.includes('advent');
+            return isRigidMagnetic;
+        }
     },
+    {
+        dir: 'products/rigid-boxes',
+        slug: 'suitcase-gift-boxes',
+        name: 'Suitcase Gift Boxes',
+        title: 'Custom Suitcase Gift Boxes Manufacturer | ShineleeBox',
+        desc: 'Custom suitcase gift boxes with handles for souvenirs, kids gifts, travel sets, and premium promotions. MOQ from 50 pcs.',
+        h1: 'Custom Suitcase Gift Boxes',
+        heroSub: 'Custom Suitcase Gift Boxes With Handles for Travel-Themed Packaging',
+        intro: 'With handles and locks, suitcase boxes feel collectible. These are a memorable packaging structure for souvenir or travel-themed brands.',
+        filter: p => {
+            const id = (p['Product ID'] || '').toUpperCase();
+            const name = (p['Product Name'] || '').toLowerCase();
+            // Filter for TRUE suitcase/handle boxes, remove all AC- advent calendars
+            return (id.startsWith('SC-') || (name.includes('suitcase') && name.includes('handle'))) && 
+                   !id.startsWith('AC-') && !name.includes('cake');
+        }
+    },
+    {
+        dir: 'applications',
+        slug: 'electronics-and-premium-gift-packaging',
+        name: 'Electronics & Premium Packaging',
+        title: 'Electronics & Premium Packaging Manufacturer | ShineleeBox',
+        desc: 'Luxury electronics gift boxes and premium LED/sound packaging. Custom rigid box manufacturer with integrated technology.',
+        h1: 'Electronics & Premium Packaging',
+        heroSub: 'Premium rigid boxes with integrated light sensors, sound modules, and HD video screens.',
+        intro: 'Protect and highlight high-value technology. We craft custom electronics packaging with secure shock-absorbing inserts and clean magnetic closures.',
+        filter: p => {
+            const id = (p['Product ID'] || '').toUpperCase();
+            const name = (p['Product Name'] || '').toLowerCase();
+            const isInteractive = id.startsWith('IP-') || name.includes('video') || name.includes('music') || name.includes('led') || name.includes('light-up') || name.includes('sound');
+            // Remove ordinary advent calendars, keep only the light-up/musical ones
+            return isInteractive && (!id.startsWith('AC-') || name.includes('led') || name.includes('music'));
+        }
+    },
+    {
+        dir: 'applications',
+        slug: 'religious-and-cultural-gift-packaging',
+        name: 'Religious & Cultural Gift Packaging',
+        title: 'Religious & Cultural Gift Packaging Manufacturer | ShineleeBox',
+        desc: 'Bespoke cultural and religious packaging, featuring Ramadan dates boxes, Eid sweet gift boxes, and luxury Islamic prayer set storage. Hot foil geometric patterns.',
+        h1: 'Religious & Cultural Gift Packaging',
+        heroSub: 'Factory-direct high-end cultural gift packaging, Quran rigid storage boxes, and traditional Islamic pattern gold foiled boxes.',
+        intro: 'Celebrate faith and cultural heritage with highly respectful, premium custom packaging. ShineleeBox creates religious and cultural gift packaging built with gold foil Islamic geometric lines, custom compartment boards for religious texts or prayer pads, and sweets boxes for major cultural festivals.',
+        filter: p => {
+            const id = (p['Product ID'] || '').toUpperCase();
+            const name = (p['Product Name'] || '').toLowerCase();
+            return id.startsWith('RG-') || // Religious/Round Series
+                   name.includes('miswak') || name.includes('hajj') || name.includes('zakat') || 
+                   name.includes('wudu') || name.includes('pad') || name.includes('charity') || 
+                   name.includes('islamic') || name.includes('ramadan') || name.includes('eid');
+        }
+    },
+
     {
         dir: 'products/rigid-boxes',
         slug: 'drawer-gift-boxes',
