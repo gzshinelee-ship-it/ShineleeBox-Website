@@ -113,7 +113,7 @@ function loadAllProductsSimple() {
             const rows = parseCSV(content);
             rows.forEach(r => {
                 const id = r['Product ID'] || r['Product ID '];
-                if (!id || id.length > 20) return;
+                if (!id || id.length > 25) return;
                 allProducts.push({
                     'Product ID': id,
                     'Product Name': r['Product Name'] || r['Product Name EN'] || '',
@@ -145,7 +145,12 @@ const categories = [
         h1: 'Custom Advent Calendar Boxes Manufacturer',
         heroSub: 'Luxury Advent Calendar Packaging for Brand Gift Sets',
         intro: 'Dominating the holiday unboxing season requires both artisanal quality and industrial scale. ShineleeBox is the partner behind European retail giants like Douglas, fulfilling 300,000 double-door calendars in just 2 months.',
-        filter: p => p['Main Category'].includes('Advent') || (p['Subcategory'] || '').toLowerCase().includes('advent') || (p['Product Name'] || '').toLowerCase().includes('advent')
+        filter: p => {
+            const cat = (p['Main Category'] || '').toLowerCase();
+            const sub = (p['Subcategory'] || '').toLowerCase();
+            const name = (p['Product Name'] || '').toLowerCase();
+            return cat.includes('advent') || sub.includes('advent') || name.includes('advent');
+        }
     },
     {
         dir: 'products',
@@ -156,7 +161,11 @@ const categories = [
         h1: 'Custom Rigid Gift Boxes Manufacturer',
         heroSub: 'Premium Rigid Packaging for Global Brands',
         intro: 'Create a truly premium unboxing experience with our collection of custom rigid boxes, constructed from high-density chipboard and wrapped in luxury specialty papers.',
-        filter: p => p['Main Category'].includes('Rigid') || p['Main Category'].includes('Luxury Gift') || p['Product ID'].startsWith('RB-') || p['Product ID'].startsWith('MG-') || p['Product ID'].startsWith('DR-') || p['Product ID'].startsWith('RG-') || p['Product ID'].startsWith('SC-') || p['Product ID'].startsWith('CS-')
+        filter: p => {
+            const cat = (p['Main Category'] || '').toLowerCase();
+            const id = (p['Product ID'] || '').toUpperCase();
+            return cat.includes('rigid') || cat.includes('luxury gift') || id.startsWith('RB-') || id.startsWith('MG-') || id.startsWith('DR-') || id.startsWith('RG-') || id.startsWith('SC-') || id.startsWith('CS-');
+        }
     },
     {
         dir: 'products/rigid-boxes',
@@ -168,11 +177,11 @@ const categories = [
         heroSub: 'Premium Magnetic Closure Rigid Boxes',
         intro: 'Our magnetic gift boxes feature a smooth, reliable opening experience. Perfect for high-end retail and luxury gift collections.',
         filter: p => {
-            const id = p['Product ID'].toUpperCase();
-            const name = p['Product Name'].toLowerCase();
-            const sub = p['Subcategory'].toLowerCase();
+            const id = (p['Product ID'] || '').toUpperCase();
+            const name = (p['Product Name'] || '').toLowerCase();
+            const sub = (p['Subcategory'] || '').toLowerCase();
             const isMagnetic = id.startsWith('MG-') || name.includes('magnetic') || sub.includes('magnetic');
-            const isExclude = name.includes('bag') || name.includes('advent');
+            const isExclude = name.includes('bag') || name.includes('advent') || name.includes('foldable');
             return isMagnetic && !isExclude;
         }
     },
@@ -184,11 +193,11 @@ const categories = [
         desc: 'Custom drawer gift boxes for beauty, jewelry, perfume, chocolate and gift set packaging. Premium sliding structure with custom inserts and finishing.',
         h1: 'Custom Drawer Gift Boxes Manufacturer',
         heroSub: 'Sliding Drawer Boxes with Premium Reveal',
-        intro: 'A neat, layered reveal for brands that want a compact structure with a premium reveal. Features custom inserts and high-end surface finishes.',
+        intro: 'A neat, layered reveal for brands that want a compact structure with a premium reveal.',
         filter: p => {
-            const id = p['Product ID'].toUpperCase();
-            const name = p['Product Name'].toLowerCase();
-            const sub = p['Subcategory'].toLowerCase();
+            const id = (p['Product ID'] || '').toUpperCase();
+            const name = (p['Product Name'] || '').toLowerCase();
+            const sub = (p['Subcategory'] || '').toLowerCase();
             return (id.startsWith('DR-') || name.includes('drawer') || sub.includes('drawer')) && !name.includes('advent');
         }
     },
@@ -202,12 +211,12 @@ const categories = [
         heroSub: 'Cylinder Packaging for Luxury Gifting',
         intro: 'Round rigid boxes create a distinctive presentation for lifestyle and food products.',
         filter: p => {
-            const id = p['Product ID'].toUpperCase();
-            const name = p['Product Name'].toLowerCase();
+            const id = (p['Product ID'] || '').toUpperCase();
+            const name = (p['Product Name'] || '').toLowerCase();
             const sub = (p['Subcategory'] || '').toLowerCase();
-            const religiousKeywords = ['miswak', 'hajj', 'zakat', 'wudu', 'pad', 'charity', 'islamic', 'ramadan', 'eid'];
+            const religiousKeywords = ['miswak', 'hajj', 'zakat', 'wudu', 'pad', 'charity', 'islamic', 'funeral', 'qibla'];
             const isReligious = religiousKeywords.some(k => name.includes(k) || sub.includes(k));
-            return id.startsWith('RG-') && !isReligious;
+            return (id.startsWith('RG-') || name.includes('round') || name.includes('cylinder')) && !isReligious && !name.includes('advent');
         }
     },
     {
@@ -220,10 +229,23 @@ const categories = [
         heroSub: 'Suitcase-Style Packaging with Travel Theme',
         intro: 'Memorable travel-themed packaging with handles and locks.',
         filter: p => {
-            const id = p['Product ID'].toUpperCase();
-            const name = p['Product Name'].toLowerCase();
-            return (id.startsWith('SC-') || (name.includes('suitcase') && name.includes('handle'))) && !id.startsWith('AC-') && !name.includes('cake');
+            const id = (p['Product ID'] || '').toUpperCase();
+            const name = (p['Product Name'] || '').toLowerCase();
+            const sub = (p['Subcategory'] || '').toLowerCase();
+            const isSuitcase = id.startsWith('SC-') || (name.includes('suitcase') && (name.includes('handle') || sub.includes('suitcase')));
+            return isSuitcase && !id.startsWith('AC-') && !name.includes('advent') && !name.includes('cake');
         }
+    },
+    {
+        dir: 'products/rigid-boxes',
+        slug: 'mailing-gift-boxes',
+        name: 'Mailing Gift Boxes',
+        title: 'Custom Mailing Gift Boxes Manufacturer | Branded Mailer Boxes',
+        desc: 'Custom mailing gift boxes for e-commerce, promotional kits, and brand delivery. Printed mailers with durable construction.',
+        h1: 'Custom Mailing Gift Boxes Manufacturer',
+        heroSub: 'Protective & Branded Mailing Solutions',
+        intro: 'Turn delivery into an unboxing experience with branded mailer boxes.',
+        filter: p => (p['Product Name'] || '').toLowerCase().includes('mailer') || (p['Product Name'] || '').toLowerCase().includes('mailing')
     },
     {
         dir: 'products',
@@ -235,10 +257,10 @@ const categories = [
         heroSub: 'Packaging That Tells a Digital Story',
         intro: 'Engage all senses with sensor-activated light, sound, and HD video.',
         filter: p => {
-            const id = p['Product ID'].toUpperCase();
-            const name = p['Product Name'].toLowerCase();
+            const id = (p['Product ID'] || '').toUpperCase();
+            const name = (p['Product Name'] || '').toLowerCase();
             const isInteractive = id.startsWith('IP-') || name.includes('video') || name.includes('music') || name.includes('led') || name.includes('light-up') || name.includes('sound');
-            return isInteractive && (!id.startsWith('AC-') || name.includes('led') || name.includes('music'));
+            return isInteractive && (!id.startsWith('AC-') || name.includes('led') || name.includes('music') || name.includes('light-up'));
         }
     },
     {
@@ -250,21 +272,27 @@ const categories = [
         h1: 'Custom Keepsake Boxes Manufacturer',
         heroSub: 'Memory Packaging Too Good To Throw Away',
         intro: 'We design and construct heavy, high-durability custom keepsake boxes meant to be stored and cherished for years.',
-        filter: p => p['Main Category'].includes('Keepsake') || p['Product ID'].startsWith('LM-') || (p['Subcategory'] || '').toLowerCase().includes('keepsake')
+        filter: p => {
+            const cat = (p['Main Category'] || '').toLowerCase();
+            const sub = (p['Subcategory'] || '').toLowerCase();
+            const name = (p['Product Name'] || '').toLowerCase();
+            const id = (p['Product ID'] || '').toUpperCase();
+            return cat.includes('keepsake') || id.startsWith('LM-') || sub.includes('keepsake') || name.includes('keepsake');
+        }
     },
     {
-        dir: 'applications',
-        slug: 'religious-and-cultural-gift-packaging',
-        name: 'Religious & Cultural Packaging',
-        title: 'Custom Religious & Cultural Gift Packaging Manufacturer | ShineleeBox',
-        desc: 'Bespoke cultural and religious packaging, featuring Ramadan dates boxes, Eid sweet gift boxes, Miswak holders, and luxury Islamic prayer set storage.',
-        h1: 'Religious & Cultural Packaging Manufacturer',
-        heroSub: 'Culturally-Compliant Packaging for Sacred Ceremonies',
-        intro: 'Respectful, premium packaging for religious milestones.',
+        dir: 'products',
+        slug: 'greeting-cards',
+        name: 'Greeting Cards',
+        title: 'Custom Luxury Greeting Cards & PR Invitations | ShineleeBox',
+        desc: 'Custom luxury greeting cards, interactive sound cards, and pop-up 3D invitations for brand campaigns and corporate events.',
+        h1: 'Custom Luxury Greeting Cards Manufacturer',
+        heroSub: 'Premium Paper Gifts & Interactive Invitations',
+        intro: 'Intricate 3D pop-up structures and high-tech greeting cards with embedded music and video.',
         filter: p => {
-            const name = p['Product Name'].toLowerCase();
-            const id = p['Product ID'].toUpperCase();
-            return id.startsWith('RG-') || name.includes('miswak') || name.includes('hajj') || name.includes('zakat') || name.includes('wudu') || name.includes('pad') || name.includes('charity') || name.includes('islamic') || name.includes('ramadan') || name.includes('eid');
+            const id = (p['Product ID'] || '').toUpperCase();
+            const cat = (p['Main Category'] || '').toLowerCase();
+            return id.startsWith('GC-') || cat.includes('greeting');
         }
     },
     {
@@ -276,7 +304,11 @@ const categories = [
         h1: 'Custom Beauty & Perfume Packaging',
         heroSub: 'Luxury Fragrance & Cosmetic Sourcing Solutions',
         intro: 'First impressions are critical for premium beauty brands.',
-        filter: p => p['Application Tags'].toLowerCase().includes('beauty') || p['Application Tags'].toLowerCase().includes('perfume') || p['Application Tags'].toLowerCase().includes('skincare') || p['Product Name'].toLowerCase().includes('beauty') || p['Product Name'].toLowerCase().includes('skincare') || p['Product Name'].toLowerCase().includes('perfume')
+        filter: p => {
+            const app = (p['Application Tags'] || '').toLowerCase();
+            const name = (p['Product Name'] || '').toLowerCase();
+            return app.includes('beauty') || app.includes('perfume') || app.includes('skincare') || name.includes('beauty') || name.includes('skincare') || name.includes('perfume') || name.includes('cosmetic');
+        }
     },
     {
         dir: 'applications',
@@ -287,7 +319,12 @@ const categories = [
         h1: 'Custom Chocolate & Food Packaging',
         heroSub: 'Food-Safe Rigid Packaging for High-End Gifting',
         intro: 'Protect and present with sophistication.',
-        filter: p => p['Application Tags'].toLowerCase().includes('food') || p['Application Tags'].toLowerCase().includes('chocolate') || p['Product Name'].toLowerCase().includes('food') || p['Product Name'].toLowerCase().includes('chocolate') || p['Product Name'].toLowerCase().includes('date') || p['Product Name'].toLowerCase().includes('mooncake') || p['Product Name'].toLowerCase().includes('cake')
+        filter: p => {
+            const app = (p['Application Tags'] || '').toLowerCase();
+            const name = (p['Product Name'] || '').toLowerCase();
+            const cat = (p['Main Category'] || '').toLowerCase();
+            return app.includes('food') || app.includes('chocolate') || name.includes('food') || name.includes('chocolate') || name.includes('date') || name.includes('mooncake') || name.includes('cake') || cat.includes('chocolate');
+        }
     },
     {
         dir: 'applications',
@@ -298,7 +335,27 @@ const categories = [
         h1: 'Custom Wine & Liquor Packaging',
         heroSub: 'Bespoke Spirits & Liquor Bottle Packaging',
         intro: 'Durable, high-end rigid boxes for champagne, whiskey and wine gifting.',
-        filter: p => p['Application Tags'].toLowerCase().includes('wine') || p['Application Tags'].toLowerCase().includes('liquor') || p['Product Name'].toLowerCase().includes('wine') || p['Product Name'].toLowerCase().includes('liquor') || p['Product Name'].toLowerCase().includes('spirits')
+        filter: p => {
+            const app = (p['Application Tags'] || '').toLowerCase();
+            const name = (p['Product Name'] || '').toLowerCase();
+            return app.includes('wine') || app.includes('liquor') || name.includes('wine') || name.includes('whiskey') || name.includes('spirits');
+        }
+    },
+    {
+        dir: 'applications',
+        slug: 'religious-and-cultural-gift-packaging',
+        name: 'Religious & Cultural Packaging',
+        title: 'Custom Religious & Cultural Gift Packaging Manufacturer | ShineleeBox',
+        desc: 'Bespoke cultural and religious packaging, featuring Ramadan dates boxes, Eid sweet gift boxes, Miswak holders, and luxury Islamic prayer set storage.',
+        h1: 'Religious & Cultural Packaging Manufacturer',
+        heroSub: 'Culturally-Compliant Packaging for Sacred Ceremonies',
+        intro: 'Respectful, premium packaging for religious milestones.',
+        filter: p => {
+            const name = (p['Product Name'] || '').toLowerCase();
+            const id = (p['Product ID'] || '').toUpperCase();
+            const sub = (p['Subcategory'] || '').toLowerCase();
+            return id.startsWith('RG-') || name.includes('miswak') || name.includes('hajj') || name.includes('zakat') || name.includes('wudu') || name.includes('pad') || name.includes('charity') || name.includes('islamic') || name.includes('ramadan') || name.includes('eid') || sub.includes('charity');
+        }
     },
     {
         dir: 'applications',
@@ -310,10 +367,12 @@ const categories = [
         heroSub: 'Premium rigid boxes with integrated light sensors, sound modules, and HD video screens.',
         intro: 'Protect and highlight high-value technology.',
         filter: p => {
-            const id = p['Product ID'].toUpperCase();
-            const name = p['Product Name'].toLowerCase();
-            const isInteractive = id.startsWith('IP-') || name.includes('video') || name.includes('music') || name.includes('led') || name.includes('light-up') || name.includes('sound');
-            return isInteractive && (!id.startsWith('AC-') || name.includes('led') || name.includes('music'));
+            const id = (p['Product ID'] || '').toUpperCase();
+            const name = (p['Product Name'] || '').toLowerCase();
+            const sub = (p['Subcategory'] || '').toLowerCase();
+            const isInteractive = id.startsWith('IP-') || name.includes('video') || name.includes('music') || name.includes('led') || name.includes('light-up') || name.includes('sound') || sub.includes('video') || sub.includes('music') || sub.includes('led');
+            // Remove ordinary advent calendars, keep only the light-up/musical ones
+            return isInteractive && (!id.startsWith('AC-') || name.includes('led') || name.includes('music') || name.includes('light-up'));
         }
     },
     {
@@ -326,8 +385,10 @@ const categories = [
         heroSub: 'Elegant Cultural Packaging for the Holy Month',
         intro: 'Celebrate faith with premium custom packaging.',
         filter: p => {
-            const name = p['Product Name'].toLowerCase();
-            return name.includes('ramadan') || name.includes('eid') || name.includes('miswak') || name.includes('zakat') || name.includes('wudu') || name.includes('islamic') || name.includes('charity');
+            const name = (p['Product Name'] || '').toLowerCase();
+            const hol = (p['Holiday Tags'] || '').toLowerCase();
+            const sub = (p['Subcategory'] || '').toLowerCase();
+            return name.includes('ramadan') || name.includes('eid') || name.includes('miswak') || name.includes('zakat') || name.includes('wudu') || name.includes('islamic') || name.includes('charity') || hol.includes('ramadan') || hol.includes('eid') || sub.includes('charity');
         }
     }
 ];
@@ -439,4 +500,4 @@ function buildCategoryPages() {
 }
 
 buildCategoryPages();
-console.log("Category pages optimized and cleaned with strict filters!");
+console.log("Category pages optimized and cleaned with final strict filters!");
