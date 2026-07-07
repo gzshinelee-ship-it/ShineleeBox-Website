@@ -1,0 +1,9 @@
+﻿Issue,Page/Category,Current Problem,Required Fix,Priority
+Menu cleanup,Products menu,Religious Gift Packaging still appears under Products,Remove from Products. Keep under Applications > Religious & Cultural and Holiday > Ramadan & Eid,High
+Footer cleanup,Footer Core Products,Religious Packaging appears as core product,Move to Solutions / Applications area,High
+Category mismatch,Round Gift Boxes,Religious items appear on round box page,"Remove Miswak, Hajj cards, Zakat box, Wudu Kit unless truly round",High
+Category mismatch,Suitcase Gift Boxes,Advent calendar and cake products appear on suitcase page,Keep only true suitcase-style boxes,High
+Category mismatch,Electronics & Premium Packaging,Ordinary advent calendar products appear,"Keep only video, music, LED and interactive packaging",High
+Image issue,Product pages,Some products only have 1 image,Add 2+ images: opening/structure and detail/insert/finish,High
+UI readability,Beauty page,Text is low contrast and hard to read,Add overlay or left white panel; use charcoal text,High
+UI overlap,Home page,Hero text overlaps,"Fix hero height, remove duplicate text layers, use responsive spacing",High
