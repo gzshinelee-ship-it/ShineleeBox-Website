@@ -178,287 +178,220 @@
 </header>
 <main class="flex-grow">
 
-    <!-- 1. Hero Banner -->
+    <!-- 1. Optimized Hero Slider (Responsive & Centered) -->
     <section class="relative bg-brandIvory overflow-hidden border-b border-brandBeige/30">
-        <div id="hero-slider" class="relative h-[500px] sm:h-[700px] w-full overflow-hidden">
+        <div id="hero-slider" class="relative h-[450px] sm:h-[650px] lg:h-[750px] w-full overflow-hidden">
             
             <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out slide opacity-100 z-20" data-index="0">
-                <div class="absolute inset-0 z-10 bg-brandIvory/60"></div>
-                <img src="https://sc04.alicdn.com/kf/Hc8f0a4ac37554945b2ac44c9600dafa8Y.jpg" class="h-full w-full object-cover" alt="ShineleeBox Premium Packaging 1">
-                <div class="absolute inset-0 z-20 flex items-center justify-start max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="max-w-3xl text-left space-y-6">
+                <!-- Background Image Layer (Centered & Contain) -->
+                <div class="absolute inset-0 z-0 bg-brandIvory">
+                    <img src="https://sc04.alicdn.com/kf/Hc8f0a4ac37554945b2ac44c9600dafa8Y.jpg" class="h-full w-full object-cover lg:object-contain object-center opacity-80" alt="ShineleeBox Premium Packaging 1">
+                </div>
+                
+                <!-- Overlay Layer to reduce background text impact -->
+                <div class="absolute inset-0 z-10 bg-brandIvory/30 lg:bg-transparent"></div>
+
+                <!-- HTML Content Layer (ALWAYS CENTERED) -->
+                <div class="absolute inset-0 z-30 flex items-center justify-center">
+                    <div class="max-w-4xl mx-auto px-4 text-center space-y-6 sm:space-y-8">
                         
-                        <span class="inline-block text-brandGold font-bold uppercase tracking-[0.3em] text-xs">Since 2008</span>
-                        <h1 class="font-serif text-3xl sm:text-5xl lg:text-7xl font-bold text-brandCharcoal leading-tight">
-                            Custom Advent Calendar & <br>Luxury Gift Packaging Manufacturer
-                        </h1>
-                        <p class="text-brandCharcoal/80 text-sm sm:text-xl font-light max-w-2xl leading-relaxed">
-                            Premium paper packaging for beauty, fragrance, chocolate, gifting and memorable unboxing campaigns.
-                        </p>
-                        <p class="text-brandGold font-serif text-xl italic font-medium">Too Good To Throw Away.</p>
+                        <div class="animate-fadeIn">
+                            <span class="inline-block text-brandGold font-bold uppercase tracking-[0.4em] text-[10px] mb-4">Established 2008</span>
+                            <h1 class="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold text-brandCharcoal leading-[1.1] tracking-tight">
+                                Custom Advent Calendar & <br class="hidden sm:block">Luxury Gift Packaging Manufacturer
+                            </h1>
+                            <div class="w-24 h-[1px] bg-brandGold mx-auto my-8 opacity-50"></div>
+                            <p class="text-brandCharcoal/70 text-sm sm:text-lg lg:text-xl font-light max-w-2xl mx-auto leading-relaxed">
+                                Premium paper packaging for beauty, fragrance, chocolate, gifting and memorable unboxing campaigns.
+                            </p>
+                        </div>
                         
-                        <div class="pt-8 flex flex-wrap gap-4">
-                            <a href="contact.html" class="inline-flex items-center justify-center px-10 py-5 bg-brandBurgundy text-brandWhite text-xs font-bold uppercase tracking-[0.2em] rounded-sm hover:opacity-90 transition-all shadow-xl">
-                                Get Custom Quote
+                        
+                        <div class="pt-8 flex flex-col sm:flex-row justify-center gap-4">
+                            <a href="contact.html" class="inline-flex items-center justify-center px-10 py-4 bg-brandBurgundy text-brandWhite text-[10px] font-bold uppercase tracking-[0.2em] rounded-sm hover:opacity-90 transition-all shadow-xl">
+                                Inquire Now
                             </a>
-                            <a href="products/index.html" class="inline-flex items-center justify-center px-10 py-5 border border-brandCharcoal text-brandCharcoal text-xs font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-brandCharcoal hover:text-brandWhite transition-all">
-                                Explore Product Structures
+                            <a href="products/index.html" class="inline-flex items-center justify-center px-10 py-4 border border-brandCharcoal/20 text-brandCharcoal text-[10px] font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-brandCharcoal hover:text-brandWhite transition-all backdrop-blur-sm bg-white/10">
+                                Explore Collection
                             </a>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out slide opacity-0 z-10" data-index="1">
-                <div class="absolute inset-0 z-10 bg-brandIvory/60"></div>
-                <img src="https://sc04.alicdn.com/kf/H235c9b97a387437f8e44a3371ffe436fS.jpg" class="h-full w-full object-cover" alt="ShineleeBox Premium Packaging 2">
-                <div class="absolute inset-0 z-20 flex items-center justify-start max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="max-w-3xl text-left space-y-6">
+                <!-- Background Image Layer (Centered & Contain) -->
+                <div class="absolute inset-0 z-0 bg-brandIvory">
+                    <img src="https://sc04.alicdn.com/kf/H235c9b97a387437f8e44a3371ffe436fS.jpg" class="h-full w-full object-cover lg:object-contain object-center opacity-80" alt="ShineleeBox Premium Packaging 2">
+                </div>
+                
+                <!-- Overlay Layer to reduce background text impact -->
+                <div class="absolute inset-0 z-10 bg-brandIvory/30 lg:bg-transparent"></div>
+
+                <!-- HTML Content Layer (ALWAYS CENTERED) -->
+                <div class="absolute inset-0 z-30 flex items-center justify-center">
+                    <div class="max-w-4xl mx-auto px-4 text-center space-y-6 sm:space-y-8">
                         
-                        <div class="pt-8 flex flex-wrap gap-4">
-                            <a href="contact.html" class="inline-flex items-center justify-center px-10 py-5 bg-brandBurgundy text-brandWhite text-xs font-bold uppercase tracking-[0.2em] rounded-sm hover:opacity-90 transition-all shadow-xl">
-                                Get Custom Quote
+                        <div class="animate-fadeIn">
+                            <h2 class="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold text-brandCharcoal leading-tight">
+                                High-Volume Advent Calendar Production
+                            </h2>
+                            <p class="text-brandCharcoal/70 text-sm sm:text-lg font-light mt-4">Direct factory sourcing with MOQ from 50 PCS.</p>
+                        </div>
+                        
+                        
+                        <div class="pt-8 flex flex-col sm:flex-row justify-center gap-4">
+                            <a href="contact.html" class="inline-flex items-center justify-center px-10 py-4 bg-brandBurgundy text-brandWhite text-[10px] font-bold uppercase tracking-[0.2em] rounded-sm hover:opacity-90 transition-all shadow-xl">
+                                Inquire Now
                             </a>
-                            <a href="products/index.html" class="inline-flex items-center justify-center px-10 py-5 border border-brandCharcoal text-brandCharcoal text-xs font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-brandCharcoal hover:text-brandWhite transition-all">
-                                Explore Product Structures
+                            <a href="products/advent-calendar-boxes.html" class="inline-flex items-center justify-center px-10 py-4 border border-brandCharcoal/20 text-brandCharcoal text-[10px] font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-brandCharcoal hover:text-brandWhite transition-all backdrop-blur-sm bg-white/10">
+                                Explore Collection
                             </a>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out slide opacity-0 z-10" data-index="2">
-                <div class="absolute inset-0 z-10 bg-brandIvory/60"></div>
-                <img src="https://sc04.alicdn.com/kf/H5b2542838a3f4470a7edfc94cfae1eacy.jpg" class="h-full w-full object-cover" alt="ShineleeBox Premium Packaging 3">
-                <div class="absolute inset-0 z-20 flex items-center justify-start max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="max-w-3xl text-left space-y-6">
+                <!-- Background Image Layer (Centered & Contain) -->
+                <div class="absolute inset-0 z-0 bg-brandIvory">
+                    <img src="https://sc04.alicdn.com/kf/H5b2542838a3f4470a7edfc94cfae1eacy.jpg" class="h-full w-full object-cover lg:object-contain object-center opacity-80" alt="ShineleeBox Premium Packaging 3">
+                </div>
+                
+                <!-- Overlay Layer to reduce background text impact -->
+                <div class="absolute inset-0 z-10 bg-brandIvory/30 lg:bg-transparent"></div>
+
+                <!-- HTML Content Layer (ALWAYS CENTERED) -->
+                <div class="absolute inset-0 z-30 flex items-center justify-center">
+                    <div class="max-w-4xl mx-auto px-4 text-center space-y-6 sm:space-y-8">
                         
-                        <div class="pt-8 flex flex-wrap gap-4">
-                            <a href="contact.html" class="inline-flex items-center justify-center px-10 py-5 bg-brandBurgundy text-brandWhite text-xs font-bold uppercase tracking-[0.2em] rounded-sm hover:opacity-90 transition-all shadow-xl">
-                                Get Custom Quote
+                        <div class="animate-fadeIn">
+                            <h2 class="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold text-brandCharcoal leading-tight">
+                                Interactive Packaging Technology
+                            </h2>
+                            <p class="text-brandCharcoal/70 text-sm sm:text-lg font-light mt-4">Direct factory sourcing with MOQ from 50 PCS.</p>
+                        </div>
+                        
+                        
+                        <div class="pt-8 flex flex-col sm:flex-row justify-center gap-4">
+                            <a href="contact.html" class="inline-flex items-center justify-center px-10 py-4 bg-brandBurgundy text-brandWhite text-[10px] font-bold uppercase tracking-[0.2em] rounded-sm hover:opacity-90 transition-all shadow-xl">
+                                Inquire Now
                             </a>
-                            <a href="products/index.html" class="inline-flex items-center justify-center px-10 py-5 border border-brandCharcoal text-brandCharcoal text-xs font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-brandCharcoal hover:text-brandWhite transition-all">
-                                Explore Product Structures
+                            <a href="products/interactive-packaging.html" class="inline-flex items-center justify-center px-10 py-4 border border-brandCharcoal/20 text-brandCharcoal text-[10px] font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-brandCharcoal hover:text-brandWhite transition-all backdrop-blur-sm bg-white/10">
+                                Explore Collection
                             </a>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out slide opacity-0 z-10" data-index="3">
-                <div class="absolute inset-0 z-10 bg-brandIvory/60"></div>
-                <img src="https://sc04.alicdn.com/kf/H15caf04e02a5455cab9b7992ec60e6b1N.jpg" class="h-full w-full object-cover" alt="ShineleeBox Premium Packaging 4">
-                <div class="absolute inset-0 z-20 flex items-center justify-start max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="max-w-3xl text-left space-y-6">
+                <!-- Background Image Layer (Centered & Contain) -->
+                <div class="absolute inset-0 z-0 bg-brandIvory">
+                    <img src="https://sc04.alicdn.com/kf/H15caf04e02a5455cab9b7992ec60e6b1N.jpg" class="h-full w-full object-cover lg:object-contain object-center opacity-80" alt="ShineleeBox Premium Packaging 4">
+                </div>
+                
+                <!-- Overlay Layer to reduce background text impact -->
+                <div class="absolute inset-0 z-10 bg-brandIvory/30 lg:bg-transparent"></div>
+
+                <!-- HTML Content Layer (ALWAYS CENTERED) -->
+                <div class="absolute inset-0 z-30 flex items-center justify-center">
+                    <div class="max-w-4xl mx-auto px-4 text-center space-y-6 sm:space-y-8">
                         
-                        <div class="pt-8 flex flex-wrap gap-4">
-                            <a href="contact.html" class="inline-flex items-center justify-center px-10 py-5 bg-brandBurgundy text-brandWhite text-xs font-bold uppercase tracking-[0.2em] rounded-sm hover:opacity-90 transition-all shadow-xl">
-                                Get Custom Quote
+                        <div class="animate-fadeIn">
+                            <h2 class="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold text-brandCharcoal leading-tight">
+                                Luxury Beauty & Cosmetic Solutions
+                            </h2>
+                            <p class="text-brandCharcoal/70 text-sm sm:text-lg font-light mt-4">Direct factory sourcing with MOQ from 50 PCS.</p>
+                        </div>
+                        
+                        
+                        <div class="pt-8 flex flex-col sm:flex-row justify-center gap-4">
+                            <a href="contact.html" class="inline-flex items-center justify-center px-10 py-4 bg-brandBurgundy text-brandWhite text-[10px] font-bold uppercase tracking-[0.2em] rounded-sm hover:opacity-90 transition-all shadow-xl">
+                                Inquire Now
                             </a>
-                            <a href="products/index.html" class="inline-flex items-center justify-center px-10 py-5 border border-brandCharcoal text-brandCharcoal text-xs font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-brandCharcoal hover:text-brandWhite transition-all">
-                                Explore Product Structures
+                            <a href="applications/beauty-perfume-personal-care-packaging.html" class="inline-flex items-center justify-center px-10 py-4 border border-brandCharcoal/20 text-brandCharcoal text-[10px] font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-brandCharcoal hover:text-brandWhite transition-all backdrop-blur-sm bg-white/10">
+                                Explore Collection
                             </a>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <button onclick="prevSlide()" class="absolute left-6 top-1/2 -translate-y-1/2 z-30 p-3 bg-brandCharcoal/10 hover:bg-brandCharcoal/20 text-brandCharcoal rounded-full transition-all backdrop-blur-sm border border-brandCharcoal/10">
-                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            <!-- Navigation UI -->
+            <button onclick="prevSlide()" class="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 z-40 p-3 text-brandCharcoal/30 hover:text-brandGold transition-all">
+                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
             </button>
-            <button onclick="nextSlide()" class="absolute right-6 top-1/2 -translate-y-1/2 z-30 p-3 bg-brandCharcoal/10 hover:bg-brandCharcoal/20 text-brandCharcoal rounded-full transition-all backdrop-blur-sm border border-brandCharcoal/10">
-                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            <button onclick="nextSlide()" class="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 z-40 p-3 text-brandCharcoal/30 hover:text-brandGold transition-all">
+                <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
             </button>
-        </div>
-    </section>
-
-    <!-- 2. Featured Product Structures -->
-    <section class="py-24 bg-brandWhite border-b border-brandBeige/50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 space-y-4">
-                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-brandCharcoal">Featured Product Structures</h2>
-                <div class="w-20 h-1 bg-brandGold mx-auto"></div>
-            </div>
             
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Structure 1 -->
-                <div class="group cursor-pointer" onclick="window.location.href='products/advent-calendar-boxes.html'">
-                    <div class="aspect-square bg-brandIvory overflow-hidden mb-6 luxury-shadow border border-brandBeige/40 rounded-sm">
-                        <img src="https://sc04.alicdn.com/kf/H235c9b97a387437f8e44a3371ffe436fS.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                    </div>
-                    <h3 class="font-serif text-xl font-bold text-brandCharcoal mb-2 group-hover:text-brandGold transition-colors">Advent Calendar Boxes</h3>
-                    <p class="text-xs text-brandCharcoal/60 leading-relaxed font-light">Custom advent calendar boxes for beauty, perfume, chocolate and premium gift campaigns.</p>
-                </div>
-                <!-- Structure 2 -->
-                <div class="group cursor-pointer" onclick="window.location.href='products/rigid-boxes.html'">
-                    <div class="aspect-square bg-brandIvory overflow-hidden mb-6 luxury-shadow border border-brandBeige/40 rounded-sm">
-                        <img src="https://sc04.alicdn.com/kf/H15caf04e02a5455cab9b7992ec60e6b1N.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                    </div>
-                    <h3 class="font-serif text-xl font-bold text-brandCharcoal mb-2 group-hover:text-brandGold transition-colors">Rigid Gift Boxes</h3>
-                    <p class="text-xs text-brandCharcoal/60 leading-relaxed font-light">Magnetic, drawer, round, lid-and-base, suitcase and custom shape gift boxes for retail brands.</p>
-                </div>
-                <!-- Structure 3 -->
-                <div class="group cursor-pointer" onclick="window.location.href='products/interactive-packaging.html'">
-                    <div class="aspect-square bg-brandIvory overflow-hidden mb-6 luxury-shadow border border-brandBeige/40 rounded-sm">
-                        <img src="https://sc04.alicdn.com/kf/H5b2542838a3f4470a7edfc94cfae1eacy.jpg" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                    </div>
-                    <h3 class="font-serif text-xl font-bold text-brandCharcoal mb-2 group-hover:text-brandGold transition-colors">Interactive Packaging</h3>
-                    <p class="text-xs text-brandCharcoal/60 leading-relaxed font-light">Video, music and LED packaging designed to create memorable unboxing experiences.</p>
-                </div>
-                <!-- Structure 4 -->
-                <div class="group cursor-pointer" onclick="window.location.href='products/keepsake-boxes.html'">
-                    <div class="aspect-square bg-brandIvory overflow-hidden mb-6 luxury-shadow border border-brandBeige/40 rounded-sm">
-                        <img src="https://sc02.alicdn.com/kf/A6b6a78e23129406cbc21b3bbba9fea2a5.png" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                    </div>
-                    <h3 class="font-serif text-xl font-bold text-brandCharcoal mb-2 group-hover:text-brandGold transition-colors">Keepsake Boxes</h3>
-                    <p class="text-xs text-brandCharcoal/60 leading-relaxed font-light">Packaging and paper gifts designed to be kept, shared and remembered.</p>
-                </div>
+            <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-40 flex space-x-3">
+                <button onclick="goToSlide(0)" class="dot w-8 h-0.5 bg-brandCharcoal/10 transition-all bg-brandGold w-12" data-index="0"></button><button onclick="goToSlide(1)" class="dot w-8 h-0.5 bg-brandCharcoal/10 transition-all " data-index="1"></button><button onclick="goToSlide(2)" class="dot w-8 h-0.5 bg-brandCharcoal/10 transition-all " data-index="2"></button><button onclick="goToSlide(3)" class="dot w-8 h-0.5 bg-brandCharcoal/10 transition-all " data-index="3"></button>
             </div>
         </div>
     </section>
 
-    <!-- 3. Industry Applications -->
-    <section class="py-24 bg-brandIvory border-b border-brandBeige/50">
+    <!-- 2. Trust Badges -->
+    <section class="bg-brandWhite py-12 border-b border-brandBeige/40">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-                <div>
-                    <span class="text-[10px] font-bold uppercase tracking-[0.3em] text-brandGold mb-4 block">Industry Expertise</span>
-                    <h2 class="font-serif text-3xl sm:text-5xl font-bold text-brandCharcoal">Industry Applications</h2>
-                </div>
-                <a href="applications/index.html" class="text-xs font-bold uppercase tracking-widest text-brandBurgundy border-b-2 border-brandBurgundy pb-1 hover:text-brandGold transition-all">View All Industries</a>
-            </div>
-            
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                
-                <a href="applications/beauty-perfume-personal-care-packaging.html" class="bg-brandWhite p-8 border border-brandBeige/50 hover:border-brandGold transition-all text-center flex flex-col justify-center min-h-[120px] rounded-sm group">
-                    <span class="text-xs font-bold text-brandCharcoal group-hover:text-brandGold tracking-wide">Beauty & Skincare</span>
-                </a>
-                <a href="applications/chocolate-and-food-packaging.html" class="bg-brandWhite p-8 border border-brandBeige/50 hover:border-brandGold transition-all text-center flex flex-col justify-center min-h-[120px] rounded-sm group">
-                    <span class="text-xs font-bold text-brandCharcoal group-hover:text-brandGold tracking-wide">Chocolate & Food</span>
-                </a>
-                <a href="applications/wine-liquor-packaging.html" class="bg-brandWhite p-8 border border-brandBeige/50 hover:border-brandGold transition-all text-center flex flex-col justify-center min-h-[120px] rounded-sm group">
-                    <span class="text-xs font-bold text-brandCharcoal group-hover:text-brandGold tracking-wide">Wine & Liquor</span>
-                </a>
-                <a href="applications/jewelry-and-accessories-packaging.html" class="bg-brandWhite p-8 border border-brandBeige/50 hover:border-brandGold transition-all text-center flex flex-col justify-center min-h-[120px] rounded-sm group">
-                    <span class="text-xs font-bold text-brandCharcoal group-hover:text-brandGold tracking-wide">Jewelry & Watch</span>
-                </a>
-                <a href="applications/corporate-and-retail-packaging.html" class="bg-brandWhite p-8 border border-brandBeige/50 hover:border-brandGold transition-all text-center flex flex-col justify-center min-h-[120px] rounded-sm group">
-                    <span class="text-xs font-bold text-brandCharcoal group-hover:text-brandGold tracking-wide">Corporate & Retail</span>
-                </a>
-                <a href="applications/religious-and-cultural-gift-packaging.html" class="bg-brandWhite p-8 border border-brandBeige/50 hover:border-brandGold transition-all text-center flex flex-col justify-center min-h-[120px] rounded-sm group">
-                    <span class="text-xs font-bold text-brandCharcoal group-hover:text-brandGold tracking-wide">Religious & Cultural</span>
-                </a>
-                <a href="applications/electronics-and-premium-gift-packaging.html" class="bg-brandWhite p-8 border border-brandBeige/50 hover:border-brandGold transition-all text-center flex flex-col justify-center min-h-[120px] rounded-sm group">
-                    <span class="text-xs font-bold text-brandCharcoal group-hover:text-brandGold tracking-wide">Digital & Electronics</span>
-                </a>
-                <a href="applications/index.html" class="bg-brandWhite p-8 border border-brandBeige/50 hover:border-brandGold transition-all text-center flex flex-col justify-center min-h-[120px] rounded-sm group">
-                    <span class="text-xs font-bold text-brandCharcoal group-hover:text-brandGold tracking-wide">Limited Editions</span>
-                </a>
+            <div class="flex flex-wrap justify-between items-center gap-8 opacity-40 grayscale hover:opacity-80 transition-all duration-700">
+                <div class="h-8 flex items-center"><img src="https://upload.wikimedia.org/wikipedia/en/thumb/0/0e/Disney_FAMA_logo.svg/1200px-Disney_FAMA_logo.svg.png" class="h-full object-contain"></div>
+                <div class="h-6 flex items-center"><img src="https://www.bsci-intl.org/sites/default/files/bsci_logo_0.png" class="h-full object-contain"></div>
+                <div class="h-8 flex items-center"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/FSC_logo.svg/1200px-FSC_logo.svg.png" class="h-full object-contain"></div>
+                <div class="h-10 flex items-center"><img src="https://www.iso.org/files/live/sites/isoorg/files/archive/img/en/iso_9001_2015_logo.png" class="h-full object-contain"></div>
             </div>
         </div>
     </section>
 
-    <!-- 4. Why ShineleeBox -->
-    <section class="py-24 bg-brandCharcoal text-brandIvory">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
-                <div class="lg:col-span-5 space-y-8">
-                    <h2 class="font-serif text-3xl sm:text-5xl font-bold text-brandGold leading-tight">Accredited Reliability for Global Scale</h2>
-                    <p class="text-brandIvory/60 font-light leading-relaxed">As an 18-year industry leader in Guangzhou, ShineleeBox combines artisanal craftsmanship with modern manufacturing technology to serve the world's most demanding brands.</p>
-                    <div class="grid grid-cols-2 gap-8 items-center opacity-40 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-700">
-                        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/0/0e/Disney_FAMA_logo.svg/1200px-Disney_FAMA_logo.svg.png" class="h-10 object-contain">
-                        <img src="https://www.bsci-intl.org/sites/default/files/bsci_logo_0.png" class="h-8 object-contain">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/FSC_logo.svg/1200px-FSC_logo.svg.png" class="h-12 object-contain">
-                        <img src="https://www.iso.org/files/live/sites/isoorg/files/archive/img/en/iso_9001_2015_logo.png" class="h-12 object-contain">
-                    </div>
+    <!-- ... rest of the featured sections ... -->
+    <section class="py-24 bg-brandIvory">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-16">
+            <span class="text-[10px] font-bold uppercase tracking-[0.3em] text-brandGold mb-4 block">Manufacturing Excellence</span>
+            <h2 class="font-serif text-3xl sm:text-5xl font-bold text-brandCharcoal leading-tight">Bespoke Rigid Box Collections</h2>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div class="group cursor-pointer" onclick="window.location.href='products/advent-calendar-boxes.html'">
+                <div class="aspect-square bg-brandWhite overflow-hidden mb-6 luxury-shadow border border-brandBeige rounded-sm p-4">
+                    <img src="https://sc04.alicdn.com/kf/H235c9b97a387437f8e44a3371ffe436fS.jpg" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700">
                 </div>
-                <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-8">
-                    
-                    <div class="p-8 border border-brandIvory/10 hover:border-brandGold/40 transition-colors rounded-sm">
-                        <h4 class="font-serif text-xl font-bold text-brandGold mb-3">18+ Years Experience</h4>
-                        <p class="text-xs text-brandIvory/50 leading-relaxed font-light">Specializing in complex rigid box structures and seasonal unboxing campaigns.</p>
-                    </div>
-                    <div class="p-8 border border-brandIvory/10 hover:border-brandGold/40 transition-colors rounded-sm">
-                        <h4 class="font-serif text-xl font-bold text-brandGold mb-3">MOQ From 50 PCS</h4>
-                        <p class="text-xs text-brandIvory/50 leading-relaxed font-light">Supporting boutique launches and large-scale retail campaigns alike.</p>
-                    </div>
-                    <div class="p-8 border border-brandIvory/10 hover:border-brandGold/40 transition-colors rounded-sm">
-                        <h4 class="font-serif text-xl font-bold text-brandGold mb-3">5–7 Days Sampling</h4>
-                        <p class="text-xs text-brandIvory/50 leading-relaxed font-light">Fast-track structural design and physical prototype development.</p>
-                    </div>
-                    <div class="p-8 border border-brandIvory/10 hover:border-brandGold/40 transition-colors rounded-sm">
-                        <h4 class="font-serif text-xl font-bold text-brandGold mb-3">USA DDP Logistics</h4>
-                        <p class="text-xs text-brandIvory/50 leading-relaxed font-light">Seamless Delivered Duty Paid shipping directly to your warehouse.</p>
-                    </div>
-                    <div class="p-8 border border-brandIvory/10 hover:border-brandGold/40 transition-colors rounded-sm">
-                        <h4 class="font-serif text-xl font-bold text-brandGold mb-3">Complex Engineering</h4>
-                        <p class="text-xs text-brandIvory/50 leading-relaxed font-light">Expert development of drawer, magnetic, and irregular shape boxes.</p>
-                    </div>
-                    <div class="p-8 border border-brandIvory/10 hover:border-brandGold/40 transition-colors rounded-sm">
-                        <h4 class="font-serif text-xl font-bold text-brandGold mb-3">Tech Integration</h4>
-                        <p class="text-xs text-brandIvory/50 leading-relaxed font-light">Embedded video screens, music chips, and sensor-activated LED lights.</p>
-                    </div>
+                <h3 class="font-serif text-lg font-bold text-brandCharcoal mb-2 group-hover:text-brandGold transition-colors">Advent Calendar Boxes</h3>
+                <p class="text-[11px] text-brandCharcoal/60 leading-relaxed font-light">Custom 12/24-day countdown boxes for premium brands.</p>
+            </div>
+            <div class="group cursor-pointer" onclick="window.location.href='products/rigid-boxes/magnetic-gift-boxes.html'">
+                <div class="aspect-square bg-brandWhite overflow-hidden mb-6 luxury-shadow border border-brandBeige rounded-sm p-4">
+                    <img src="https://sc04.alicdn.com/kf/H15caf04e02a5455cab9b7992ec60e6b1N.jpg" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700">
                 </div>
+                <h3 class="font-serif text-lg font-bold text-brandCharcoal mb-2 group-hover:text-brandGold transition-colors">Magnetic Gift Boxes</h3>
+                <p class="text-[11px] text-brandCharcoal/60 leading-relaxed font-light">Premium rigid structures with seamless magnetic closure.</p>
+            </div>
+            <div class="group cursor-pointer" onclick="window.location.href='products/interactive-packaging.html'">
+                <div class="aspect-square bg-brandWhite overflow-hidden mb-6 luxury-shadow border border-brandBeige rounded-sm p-4">
+                    <img src="https://sc04.alicdn.com/kf/H5b2542838a3f4470a7edfc94cfae1eacy.jpg" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700">
+                </div>
+                <h3 class="font-serif text-lg font-bold text-brandCharcoal mb-2 group-hover:text-brandGold transition-colors">Interactive Packaging</h3>
+                <p class="text-[11px] text-brandCharcoal/60 leading-relaxed font-light">Video, music and LED packaging for memorable unboxing.</p>
+            </div>
+            <div class="group cursor-pointer" onclick="window.location.href='products/keepsake-boxes.html'">
+                <div class="aspect-square bg-brandWhite overflow-hidden mb-6 luxury-shadow border border-brandBeige rounded-sm p-4">
+                    <img src="https://sc02.alicdn.com/kf/A6b6a78e23129406cbc21b3bbba9fea2a5.png" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-700">
+                </div>
+                <h3 class="font-serif text-lg font-bold text-brandCharcoal mb-2 group-hover:text-brandGold transition-colors">Keepsake Boxes</h3>
+                <p class="text-[11px] text-brandCharcoal/60 leading-relaxed font-light">Durable paper gifts designed to be kept and cherished.</p>
             </div>
         </div>
     </section>
 
-    <!-- 5. Factory & Craftsmanship -->
-    <!-- 6. Featured Case (Douglas 300k) -->
-    <section class="py-24 bg-brandWhite">
+    <!-- Case Study & CTA -->
+    <section class="py-24 bg-brandWhite border-t border-brandBeige/30">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-brandIvory p-12 rounded-2xl flex flex-col md:flex-row gap-16 items-center border border-brandBeige/50 shadow-sm">
-                <div class="flex-shrink-0 w-full md:w-1/3">
-                    <img src="https://sc04.alicdn.com/kf/Hc8f0a4ac37554945b2ac44c9600dafa8Y.jpg" class="w-full rounded-lg shadow-xl">
+            <div class="bg-brandIvory p-12 rounded-lg flex flex-col md:flex-row gap-16 items-center border border-brandBeige/50">
+                <div class="flex-shrink-0 w-full md:w-1/3 shadow-2xl rounded-lg overflow-hidden border border-brandBeige">
+                    <img src="https://sc04.alicdn.com/kf/Hc8f0a4ac37554945b2ac44c9600dafa8Y.jpg" class="w-full h-full object-cover">
                 </div>
                 <div class="space-y-6">
-                    <span class="text-xs font-bold text-brandGold uppercase tracking-widest">Case Study</span>
-                    <h2 class="font-serif text-2xl sm:text-4xl font-bold text-brandCharcoal italic">"300,000 Advent Calendars in 60 Days"</h2>
-                    <p class="text-sm sm:text-base text-brandCharcoal/70 leading-relaxed">For European retail giant Douglas, ShineleeBox fulfilled a massive 300,000 double-door set campaign with a 2-month turnaround. We provide the manufacturing scale required for global unboxing season success.</p>
-                    <div class="flex items-center space-x-4">
-                        <span class="text-xs font-bold text-brandCharcoal tracking-tighter">Client: Douglas (Europe)</span>
-                        <span class="text-xs font-bold text-brandCharcoal tracking-tighter">Turnaround: 60 Days</span>
-                        <span class="text-xs font-bold text-brandCharcoal tracking-tighter">Certification: FSC Certified</span>
-                    </div>
+                    <span class="text-xs font-bold text-brandGold uppercase tracking-[0.3em]">Proven Capacity</span>
+                    <h2 class="font-serif text-2xl sm:text-4xl font-bold text-brandCharcoal italic leading-snug">"300,000 Advent Calendars <br>in 60 Days for Douglas"</h2>
+                    <p class="text-sm sm:text-base text-brandCharcoal/70 leading-relaxed max-w-xl">We provide the manufacturing scale required for global unboxing season success. From structural design to physical sample in 7 days.</p>
+                    <div class="pt-4"><a href="contact.html" class="text-xs font-bold uppercase tracking-widest text-brandBurgundy border-b border-brandBurgundy pb-1 hover:text-brandGold transition-all">Download Technical Catalog →</a></div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 7. Manufacturing Process -->
-    <section class="py-24 bg-brandIvory">
-        <div class="max-w-5xl mx-auto px-4 text-center space-y-12">
-            <h2 class="font-serif text-3xl sm:text-4xl font-bold text-brandCharcoal">Precision Manufacturing Flow</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-4 gap-8">
-                
-                <div class="space-y-4">
-                    <div class="w-12 h-12 rounded-full border border-brandGold text-brandGold flex items-center justify-center mx-auto text-xl font-serif italic">1</div>
-                    <h4 class="font-bold text-xs uppercase tracking-widest text-brandCharcoal">Structure & Dieline</h4>
-                </div>
-                <div class="space-y-4">
-                    <div class="w-12 h-12 rounded-full border border-brandGold text-brandGold flex items-center justify-center mx-auto text-xl font-serif italic">2</div>
-                    <h4 class="font-bold text-xs uppercase tracking-widest text-brandCharcoal">Prototyping</h4>
-                </div>
-                <div class="space-y-4">
-                    <div class="w-12 h-12 rounded-full border border-brandGold text-brandGold flex items-center justify-center mx-auto text-xl font-serif italic">3</div>
-                    <h4 class="font-bold text-xs uppercase tracking-widest text-brandCharcoal">Artisanal Assembly</h4>
-                </div>
-                <div class="space-y-4">
-                    <div class="w-12 h-12 rounded-full border border-brandGold text-brandGold flex items-center justify-center mx-auto text-xl font-serif italic">4</div>
-                    <h4 class="font-bold text-xs uppercase tracking-widest text-brandCharcoal">Global Delivery</h4>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 8. Final CTA -->
-    <section class="py-24 bg-brandBurgundy text-brandWhite text-center">
-        <div class="max-w-4xl mx-auto px-4 space-y-8">
-            <h2 class="font-serif text-3xl sm:text-5xl font-bold leading-tight tracking-tight">Start Your Custom Packaging Project</h2>
-            <p class="text-brandWhite/80 text-sm sm:text-lg font-light leading-relaxed max-w-2xl mx-auto">
-                Send us your product size, target quantity, artwork idea and delivery market. Our team will help you choose the right structure, materials and finishing for your packaging campaign.
-            </p>
-            <div class="pt-6">
-                <a href="contact.html" class="inline-block px-12 py-5 bg-brandWhite text-brandBurgundy text-xs font-bold uppercase tracking-[0.2em] rounded-sm hover:bg-brandIvory transition-all shadow-2xl">
-                    Request Free Quote
-                </a>
             </div>
         </div>
     </section>
@@ -466,24 +399,31 @@
     <script>
         let currentSlide = 0;
         const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
         const totalSlides = slides.length;
 
         function updateSlider() {
             slides.forEach((s, i) => {
+                s.style.opacity = (i === currentSlide) ? '1' : '0';
+                s.style.zIndex = (i === currentSlide) ? '20' : '10';
+            });
+            dots.forEach((d, i) => {
                 if(i === currentSlide) {
-                    s.classList.replace('opacity-0', 'opacity-100');
-                    s.classList.replace('z-10', 'z-20');
+                    d.classList.add('bg-brandGold', 'w-12');
+                    d.classList.remove('bg-brandCharcoal/10', 'w-8');
                 } else {
-                    s.classList.replace('opacity-100', 'opacity-0');
-                    s.classList.replace('z-20', 'z-10');
+                    d.classList.remove('bg-brandGold', 'w-12');
+                    d.classList.add('bg-brandCharcoal/10', 'w-8');
                 }
             });
         }
 
         function nextSlide() { currentSlide = (currentSlide + 1) % totalSlides; updateSlider(); }
         function prevSlide() { currentSlide = (currentSlide - 1 + totalSlides) % totalSlides; updateSlider(); }
+        function goToSlide(n) { currentSlide = n; updateSlider(); }
         
         setInterval(nextSlide, 5000);
+        updateSlider();
     </script>
     
 </main>
