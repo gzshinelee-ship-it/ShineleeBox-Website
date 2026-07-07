@@ -144,7 +144,7 @@ const categories = [
         desc: 'Custom advent calendar boxes for beauty, perfume, skincare, chocolate and gift brands. Factory-direct manufacturer with low MOQ, custom inserts, LED and music options.',
         h1: 'Custom Advent Calendar Boxes Manufacturer',
         heroSub: 'Luxury Advent Calendar Packaging for Brand Gift Sets',
-        intro: 'Dominating the holiday unboxing season requires both artisanal quality and industrial scale. ShineleeBox is the partner behind European retail giants like Douglas, fulfilling 300,000 double-door calendars in just 2 months. We offer 5–7 days sampling and USA DDP shipping.',
+        intro: 'Dominating the holiday unboxing season requires both artisanal quality and industrial scale. ShineleeBox is the partner behind European retail giants like Douglas, fulfilling 300,000 double-door calendars in just 2 months.',
         filter: p => p['Main Category'].includes('Advent') || (p['Subcategory'] || '').toLowerCase().includes('advent') || (p['Product Name'] || '').toLowerCase().includes('advent')
     },
     {
@@ -155,7 +155,7 @@ const categories = [
         desc: 'Factory-direct custom rigid gift boxes with magnetic, drawer, lid-and-base, round, suitcase and custom shape structures for premium brands.',
         h1: 'Custom Rigid Gift Boxes Manufacturer',
         heroSub: 'Premium Rigid Packaging for Global Brands',
-        intro: 'Create a truly premium unboxing experience with our collection of custom rigid boxes. constructed from high-density chipboard and wrapped in luxury specialty papers.',
+        intro: 'Create a truly premium unboxing experience with our collection of custom rigid boxes, constructed from high-density chipboard and wrapped in luxury specialty papers.',
         filter: p => p['Main Category'].includes('Rigid') || p['Main Category'].includes('Luxury Gift') || p['Product ID'].startsWith('RB-') || p['Product ID'].startsWith('MG-') || p['Product ID'].startsWith('DR-') || p['Product ID'].startsWith('RG-') || p['Product ID'].startsWith('SC-') || p['Product ID'].startsWith('CS-')
     },
     {
@@ -166,12 +166,14 @@ const categories = [
         desc: 'Custom magnetic gift boxes for cosmetics, perfume, chocolate, jewelry and corporate gifts. Factory-direct rigid packaging with premium finishing and inserts.',
         h1: 'Custom Magnetic Gift Boxes Manufacturer',
         heroSub: 'Premium Magnetic Closure Rigid Boxes',
-        intro: 'Our magnetic gift boxes feature a smooth, reliable opening experience. Perfect for high-end retail, promotional kits, and luxury gift collections.',
+        intro: 'Our magnetic gift boxes feature a smooth, reliable opening experience. Perfect for high-end retail and luxury gift collections.',
         filter: p => {
             const id = p['Product ID'].toUpperCase();
             const name = p['Product Name'].toLowerCase();
             const sub = p['Subcategory'].toLowerCase();
-            return (id.startsWith('MG-') || name.includes('magnetic') || sub.includes('magnetic')) && !name.includes('bag') && !name.includes('advent');
+            const isMagnetic = id.startsWith('MG-') || name.includes('magnetic') || sub.includes('magnetic');
+            const isExclude = name.includes('bag') || name.includes('advent');
+            return isMagnetic && !isExclude;
         }
     },
     {
@@ -198,11 +200,10 @@ const categories = [
         desc: 'Custom round gift boxes and cylinder rigid packaging for perfume, candles, chocolate, flowers and premium gift products.',
         h1: 'Custom Round Gift Boxes Manufacturer',
         heroSub: 'Cylinder Packaging for Luxury Gifting',
-        intro: 'Round rigid boxes create a distinctive presentation for lifestyle and food products. Available with custom inserts and foil stamping.',
+        intro: 'Round rigid boxes create a distinctive presentation for lifestyle and food products.',
         filter: p => {
             const id = p['Product ID'].toUpperCase();
             const name = p['Product Name'].toLowerCase();
-            const sub = p['Subcategory'].toLowerCase();
             const religiousKeywords = ['miswak', 'hajj', 'zakat', 'wudu', 'pad', 'charity'];
             const isReligious = religiousKeywords.some(k => name.includes(k));
             return id.startsWith('RG-') && !isReligious;
@@ -216,7 +217,7 @@ const categories = [
         desc: 'Custom suitcase gift boxes with handles and travel-inspired details for beauty, kids gifts, souvenirs and premium retail campaigns.',
         h1: 'Custom Suitcase Gift Boxes Manufacturer',
         heroSub: 'Suitcase-Style Packaging with Travel Theme',
-        intro: 'Memorable travel-themed packaging with handles and locks. Perfect for souvenirs, collectibles, and holiday PR kits.',
+        intro: 'Memorable travel-themed packaging with handles and locks.',
         filter: p => {
             const id = p['Product ID'].toUpperCase();
             const name = p['Product Name'].toLowerCase();
@@ -231,13 +232,24 @@ const categories = [
         desc: 'Custom video gift boxes, music boxes and LED packaging for brands that want memorable unboxing experiences and high-value gift campaigns.',
         h1: 'Custom Interactive Packaging Boxes with Video, Music and LED Lights',
         heroSub: 'Packaging That Tells a Digital Story',
-        intro: 'Engage all senses with sensor-activated light, sound, and HD video. ShineleeBox leads in integrating electronic modules directly into rigid box structures.',
+        intro: 'Engage all senses with sensor-activated light, sound, and HD video.',
         filter: p => {
             const id = p['Product ID'].toUpperCase();
             const name = p['Product Name'].toLowerCase();
             const isInteractive = id.startsWith('IP-') || name.includes('video') || name.includes('music') || name.includes('led') || name.includes('light-up') || name.includes('sound');
             return isInteractive && (!id.startsWith('AC-') || name.includes('led') || name.includes('music'));
         }
+    },
+    {
+        dir: 'products',
+        slug: 'keepsake-boxes',
+        name: 'Keepsake Boxes',
+        title: 'Custom Keepsake Boxes Manufacturer | Premium Memory Packaging',
+        desc: 'Bespoke rigid keepsake and memory boxes for baby milestones, weddings, and anniversaries. High-durability packaging designed to be kept for years.',
+        h1: 'Custom Keepsake Boxes Manufacturer',
+        heroSub: 'Memory Packaging Too Good To Throw Away',
+        intro: 'We design and construct heavy, high-durability custom keepsake boxes meant to be stored and cherished for years.',
+        filter: p => p['Main Category'].includes('Keepsake') || p['Product ID'].startsWith('LM-') || (p['Subcategory'] || '').toLowerCase().includes('keepsake')
     },
     {
         dir: 'applications',
@@ -247,7 +259,7 @@ const categories = [
         desc: 'Bespoke cultural and religious packaging, featuring Ramadan dates boxes, Eid sweet gift boxes, Miswak holders, and luxury Islamic prayer set storage.',
         h1: 'Religious & Cultural Packaging Manufacturer',
         heroSub: 'Culturally-Compliant Packaging for Sacred Ceremonies',
-        intro: 'Respectful, premium packaging for religious milestones. We specialize in intricate geometric patterns and robust storage for Quran and ritual items.',
+        intro: 'Respectful, premium packaging for religious milestones.',
         filter: p => {
             const name = p['Product Name'].toLowerCase();
             const id = p['Product ID'].toUpperCase();
@@ -262,7 +274,7 @@ const categories = [
         desc: 'Custom cosmetic gift boxes, perfume packaging, skincare gift sets and beauty PR boxes for premium brands. Low MOQ and custom structure support.',
         h1: 'Custom Beauty & Perfume Packaging',
         heroSub: 'Luxury Fragrance & Cosmetic Sourcing Solutions',
-        intro: 'First impressions are critical for premium beauty brands. We deliver structural masterpieces designed to elevate the unboxing experience.',
+        intro: 'First impressions are critical for premium beauty brands.',
         filter: p => p['Application Tags'].toLowerCase().includes('beauty') || p['Application Tags'].toLowerCase().includes('perfume') || p['Application Tags'].toLowerCase().includes('skincare') || p['Product Name'].toLowerCase().includes('beauty') || p['Product Name'].toLowerCase().includes('skincare') || p['Product Name'].toLowerCase().includes('perfume')
     },
     {
@@ -273,7 +285,7 @@ const categories = [
         desc: 'Custom chocolate boxes, dessert gift boxes, date packaging, bakery boxes and mooncake packaging for premium food brands.',
         h1: 'Custom Chocolate & Food Packaging',
         heroSub: 'Food-Safe Rigid Packaging for High-End Gifting',
-        intro: 'Protect and present with sophistication. Our food packaging uses food-grade boards and custom trays for luxury confectionery.',
+        intro: 'Protect and present with sophistication.',
         filter: p => p['Application Tags'].toLowerCase().includes('food') || p['Application Tags'].toLowerCase().includes('chocolate') || p['Product Name'].toLowerCase().includes('food') || p['Product Name'].toLowerCase().includes('chocolate') || p['Product Name'].toLowerCase().includes('date') || p['Product Name'].toLowerCase().includes('mooncake') || p['Product Name'].toLowerCase().includes('cake')
     },
     {
@@ -284,8 +296,24 @@ const categories = [
         desc: 'Custom wine boxes, liquor gift packaging and premium rigid bottle boxes for brands, corporate gifts and holiday campaigns.',
         h1: 'Custom Wine & Liquor Packaging',
         heroSub: 'Bespoke Spirits & Liquor Bottle Packaging',
-        intro: 'Durable, high-end rigid boxes for champagne, whiskey and wine gifting. Features secure inserts and elegant surface finishes.',
+        intro: 'Durable, high-end rigid boxes for champagne, whiskey and wine gifting.',
         filter: p => p['Application Tags'].toLowerCase().includes('wine') || p['Application Tags'].toLowerCase().includes('liquor') || p['Product Name'].toLowerCase().includes('wine') || p['Product Name'].toLowerCase().includes('liquor') || p['Product Name'].toLowerCase().includes('spirits')
+    },
+    {
+        dir: 'applications',
+        slug: 'electronics-and-premium-gift-packaging',
+        name: 'Electronics & Premium Packaging',
+        title: 'Electronics & Premium Packaging Manufacturer | ShineleeBox',
+        desc: 'Luxury electronics gift boxes and premium LED/sound packaging. Custom rigid box manufacturer with integrated technology.',
+        h1: 'Electronics & Premium Packaging',
+        heroSub: 'Premium rigid boxes with integrated light sensors, sound modules, and HD video screens.',
+        intro: 'Protect and highlight high-value technology.',
+        filter: p => {
+            const id = p['Product ID'].toUpperCase();
+            const name = p['Product Name'].toLowerCase();
+            const isInteractive = id.startsWith('IP-') || name.includes('video') || name.includes('music') || name.includes('led') || name.includes('light-up') || name.includes('sound');
+            return isInteractive && (!id.startsWith('AC-') || name.includes('led') || name.includes('music'));
+        }
     },
     {
         dir: 'holiday-occasions',
@@ -295,10 +323,10 @@ const categories = [
         desc: 'Bespoke Ramadan advent calendars, Eid sweet boxes, and traditional Islamic pattern gift packaging. Miswak and Zakat storage solutions.',
         h1: 'Ramadan & Eid Packaging',
         heroSub: 'Elegant Cultural Packaging for the Holy Month',
-        intro: 'Celebrate faith with premium custom packaging. Features specialized structures for dates, sweets, and religious ritual items.',
+        intro: 'Celebrate faith with premium custom packaging.',
         filter: p => {
             const name = p['Product Name'].toLowerCase();
-            return name.includes('ramadan') || name.includes('eid') || name.includes('miswak') || name.includes('zakat') || name.includes('wudu') || name.includes('islamic');
+            return name.includes('ramadan') || name.includes('eid') || name.includes('miswak') || name.includes('zakat') || name.includes('wudu') || name.includes('islamic') || name.includes('charity');
         }
     }
 ];
@@ -410,4 +438,4 @@ function buildCategoryPages() {
 }
 
 buildCategoryPages();
-console.log("Category pages optimized and cleaned!");
+console.log("Category pages optimized and cleaned with strict filters!");
