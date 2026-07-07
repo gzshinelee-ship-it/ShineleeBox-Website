@@ -204,8 +204,9 @@ const categories = [
         filter: p => {
             const id = p['Product ID'].toUpperCase();
             const name = p['Product Name'].toLowerCase();
-            const religiousKeywords = ['miswak', 'hajj', 'zakat', 'wudu', 'pad', 'charity'];
-            const isReligious = religiousKeywords.some(k => name.includes(k));
+            const sub = (p['Subcategory'] || '').toLowerCase();
+            const religiousKeywords = ['miswak', 'hajj', 'zakat', 'wudu', 'pad', 'charity', 'islamic', 'ramadan', 'eid'];
+            const isReligious = religiousKeywords.some(k => name.includes(k) || sub.includes(k));
             return id.startsWith('RG-') && !isReligious;
         }
     },
