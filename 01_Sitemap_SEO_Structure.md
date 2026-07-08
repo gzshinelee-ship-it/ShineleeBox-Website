@@ -69,6 +69,12 @@ These pages should be built first because they are closest to B2B purchasing int
 8. Perfume Advent Calendar Boxes
 9. Beauty Advent Calendar Boxes
 10. Ramadan Advent Calendar Boxes
+11. Religious & Ritual Packaging (Blue Ocean)
+    - Breathable Miswak Sleeve (/products/ms-001.html)
+    - Hajj Tracking Cards (/products/hc-001.html)
+    - Qibla Stickers (/products/qs-001.html)
+    - Zakat Charity Box (/products/zb-001.html)
+    - Hospital Wudu Kit (/products/hw-001.html)
 
 ### Tier 2: Industry Pages
 These pages help capture buyers searching by product application.

@@ -113,10 +113,11 @@ const headerTemplate = (relativePath = '') => `
                             </div>
                         </div>
 
-                        <a href="${relativePath}products/interactive-packaging.html" class="block px-6 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-brandIvory hover:text-brandGold">Interactive Packaging</a>
-                        <a href="${relativePath}products/keepsake-boxes.html" class="block px-6 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-brandIvory hover:text-brandGold">Keepsake Boxes</a>
-                        <a href="${relativePath}products/greeting-cards.html" class="block px-6 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-brandIvory hover:text-brandGold">Greeting Cards</a>
-                        <a href="${relativePath}products/index.html" class="block px-6 py-2 text-[10px] font-bold uppercase tracking-widest border-t border-brandBeige mt-2 hover:bg-brandIvory">All Products</a>
+                        <a href="${relativePath}products/interactive-packaging.html" class="block px-6 py-2.5 text-[10px] font-bold uppercase tracking-widest hover:bg-brandIvory hover:text-brandGold">Interactive Packaging</a>
+                        <a href="${relativePath}products/keepsake-boxes.html" class="block px-6 py-2.5 text-[10px] font-bold uppercase tracking-widest hover:bg-brandIvory hover:text-brandGold">Keepsake Boxes</a>
+                        <a href="${relativePath}products/greeting-cards.html" class="block px-6 py-2.5 text-[10px] font-bold uppercase tracking-widest hover:bg-brandIvory hover:text-brandGold">Greeting Cards</a>
+                        <a href="${relativePath}applications/religious-and-cultural-gift-packaging.html" class="block px-6 py-2.5 text-[10px] font-bold uppercase tracking-widest hover:bg-brandIvory hover:text-brandGold text-brandForest border-t border-brandBeige/50">Religious & Ritual Packaging</a>
+                        <a href="${relativePath}products/index.html" class="block px-6 py-2.5 text-[10px] font-bold uppercase tracking-widest border-t border-brandBeige mt-2 hover:bg-brandIvory">All Products</a>
                     </div>
                 </div>
 
@@ -143,14 +144,14 @@ const headerTemplate = (relativePath = '') => `
                         Holiday & Occasions <svg class="w-3 h-3 ml-1 opacity-40" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M19 9l-7 7-7-7"/></svg>
                     </a>
                     <div class="absolute left-0 mt-0 w-72 bg-brandWhite rounded-b-lg shadow-xl py-4 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-200 border-x border-b border-brandBeige z-[60]">
-                        <a href="${relativePath}holiday-occasions/christmas-packaging.html" class="block px-6 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-brandIvory hover:text-brandGold">Christmas Packaging</a>
-                        <a href="${relativePath}holiday-occasions/ramadan-and-eid-packaging.html" class="block px-6 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-brandIvory hover:text-brandGold text-brandForest">Ramadan & Eid Packaging</a>
-                        <a href="${relativePath}holiday-occasions/valentines-day-packaging.html" class="block px-6 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-brandIvory hover:text-brandGold">Valentine’s Day Packaging</a>
-                        <a href="${relativePath}holiday-occasions/wedding-and-anniversary-packaging.html" class="block px-6 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-brandIvory hover:text-brandGold">Wedding & Anniversary Packaging</a>
-                        <a href="${relativePath}holiday-occasions/baby-and-family-keepsake-packaging.html" class="block px-6 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-brandIvory hover:text-brandGold">Baby & Family Keepsake</a>
-                        <a href="${relativePath}holiday-occasions/graduation-packaging.html" class="block px-6 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-brandIvory hover:text-brandGold">Graduation Packaging</a>
-                        <a href="${relativePath}holiday-occasions/mothers-day-fathers-day-packaging.html" class="block px-6 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-brandIvory hover:text-brandGold">Corporate Holiday Gifts</a>
-                        <a href="${relativePath}holiday-occasions/other-occasions.html" class="block px-6 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-brandIvory hover:text-brandGold">Other Occasions</a>
+                        <a href="${relativePath}holiday-occasions/christmas-packaging.html" class="block px-6 py-2.5 text-[10px] font-bold uppercase tracking-widest hover:bg-brandIvory hover:text-brandGold">Christmas Packaging</a>
+                        <a href="${relativePath}holiday-occasions/ramadan-and-eid-packaging.html" class="block px-6 py-2.5 text-[10px] font-bold uppercase tracking-widest hover:bg-brandIvory hover:text-brandGold text-brandForest">Ramadan & Eid Packaging</a>
+                        <a href="${relativePath}holiday-occasions/valentines-day-packaging.html" class="block px-6 py-2.5 text-[10px] font-bold uppercase tracking-widest hover:bg-brandIvory hover:text-brandGold">Valentine’s Day Packaging</a>
+                        <a href="${relativePath}holiday-occasions/wedding-and-anniversary-packaging.html" class="block px-6 py-2.5 text-[10px] font-bold uppercase tracking-widest hover:bg-brandIvory hover:text-brandGold">Wedding & Anniversary Packaging</a>
+                        <a href="${relativePath}holiday-occasions/baby-and-family-keepsake-packaging.html" class="block px-6 py-2.5 text-[10px] font-bold uppercase tracking-widest hover:bg-brandIvory hover:text-brandGold">Baby & Family Keepsake</a>
+                        <a href="${relativePath}holiday-occasions/graduation-packaging.html" class="block px-6 py-2.5 text-[10px] font-bold uppercase tracking-widest hover:bg-brandIvory hover:text-brandGold">Graduation Packaging</a>
+                        <a href="${relativePath}holiday-occasions/mothers-day-fathers-day-packaging.html" class="block px-6 py-2.5 text-[10px] font-bold uppercase tracking-widest hover:bg-brandIvory hover:text-brandGold">Corporate Holiday Gifts</a>
+                        <a href="${relativePath}holiday-occasions/other-occasions.html" class="block px-6 py-2.5 text-[10px] font-bold uppercase tracking-widest hover:bg-brandIvory hover:text-brandGold">Other Occasions</a>
                     </div>
                 </div>
 

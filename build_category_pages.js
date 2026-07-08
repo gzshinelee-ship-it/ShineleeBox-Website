@@ -112,8 +112,15 @@ function loadAllProductsSimple() {
             const content = fs.readFileSync(file, 'utf8');
             const rows = parseCSV(content);
             rows.forEach(r => {
-                const id = r['Product ID'] || r['Product ID '];
-                if (!id || id.length > 25) return;
+                let id = r['Product ID'] || r['Product ID '];
+                if (!id) return;
+                id = id.trim();
+                
+                // STRICT ID FILTER: Only allow IDs that follow the standard pattern
+                const realIdPattern = /^[A-Z]{2,3}-\d+$/;
+                if (!realIdPattern.test(id)) return;
+
+                if (id.length > 25) return;
                 allProducts.push({
                     'Product ID': id,
                     'Product Name': r['Product Name'] || r['Product Name EN'] || '',
