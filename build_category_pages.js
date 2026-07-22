@@ -3,99 +3,57 @@ const path = require('path');
 const { headTemplate, headerTemplate, footerTemplate } = require('./templates');
 
 function ensureDir(dirPath) {
-    if (!fs.existsSync(dirPath)) {
-        fs.mkdirSync(dirPath, { recursive: true });
-    }
+    if (!fs.existsSync(dirPath)) fs.mkdirSync(dirPath, { recursive: true });
 }
 
 function escapeHtml(unsafe) {
     if (!unsafe) return '';
-    return unsafe
-        .toString()
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+    return unsafe.toString().replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
 }
 
 function parseCSV(content) {
-    content = content.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
-    const lines = [];
-    let currentLine = '';
-    let inQuotes = false;
-    
-    for (let i = 0; i < content.length; i++) {
-        const char = content[i];
-        if (char === '"') inQuotes = !inQuotes;
-        if (char === '\n' && !inQuotes) {
-            lines.push(currentLine);
-            currentLine = '';
-        } else {
-            currentLine += char;
-        }
-    }
-    if (currentLine) lines.push(currentLine);
-
+    const lines = content.replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n');
     if (lines.length === 0) return [];
-    
-    const headerRow = lines[0].replace(/^\uFEFF/, '').trim();
-    const headers = [];
-    let cell = '';
-    inQuotes = false;
-    for (let j = 0; j < headerRow.length; j++) {
-        const char = headerRow[j];
-        if (char === '"') inQuotes = !inQuotes;
-        else if (char === ',' && !inQuotes) {
-            headers.push(cell.trim());
-            cell = '';
-        } else cell += char;
+    function splitCSV(line) {
+        const result = [];
+        let cur = '', inQuotes = false;
+        for (let i = 0; i < line.length; i++) {
+            const c = line[i];
+            if (c === '"') {
+                if (inQuotes && line[i+1] === '"') { cur += '"'; i++; }
+                else inQuotes = !inQuotes;
+            } else if (c === ',' && !inQuotes) { result.push(cur.trim()); cur = ''; }
+            else cur += c;
+        }
+        result.push(cur.trim());
+        return result;
     }
-    headers.push(cell.trim());
-
+    const headers = splitCSV(lines[0].replace(/^\uFEFF/, ''));
     const records = [];
     for (let i = 1; i < lines.length; i++) {
-        const line = lines[i];
-        if (!line.trim()) continue;
+        if (!lines[i].trim()) continue;
+        const parts = splitCSV(lines[i]);
         const record = {};
-        let cellContent = '';
-        inQuotes = false;
-        let headerIndex = 0;
-        for (let j = 0; j < line.length; j++) {
-            const char = line[j];
-            if (char === '"') inQuotes = !inQuotes;
-            else if (char === ',' && !inQuotes) {
-                const colName = headers[headerIndex];
-                if (colName) record[colName] = cellContent.trim();
-                cellContent = '';
-                headerIndex++;
-            } else cellContent += char;
-        }
-        const lastColName = headers[headerIndex];
-        if (lastColName) record[lastColName] = cellContent.trim();
-        
-        Object.keys(record).forEach(k => {
-            if (record[k].startsWith('"') && record[k].endsWith('"')) {
-                record[k] = record[k].substring(1, record[k].length - 1).trim();
-            }
-        });
+        headers.forEach((h, idx) => { if (h) record[h] = (parts[idx] || '').replace(/^"|"$/g, '').trim(); });
         records.push(record);
     }
     return records;
 }
 
 function resolveImageFolder(id) {
+    if (!id) return '';
+    const idUpper = id.toUpperCase().trim();
     const productsImagesDir = path.join(__dirname, 'images', 'products');
     if (!fs.existsSync(productsImagesDir)) return '';
     const dirs = fs.readdirSync(productsImagesDir);
-    const matched = dirs.find(d => d.startsWith(id + '_') || d === id);
-    if (matched) return matched;
-    return '';
+    const matched = dirs.find(d => d.toUpperCase().startsWith(idUpper + '_') || d.toUpperCase() === idUpper);
+    return matched || '';
 }
+
+const DEFAULT_IMG = 'https://sc04.alicdn.com/kf/Ab4e81abe62284910abf050838dc1bd50N.jpg';
 
 function loadAllProductsSimple() {
     const allProducts = [];
-
     const csvFiles = [
         'Accio_Product_Upload_First20.csv',
         'Accio_Interactive_Product_Upload.csv',
@@ -106,41 +64,29 @@ function loadAllProductsSimple() {
         'Accio_Chocolate_Food_Upload.csv',
         'Accio_Product_Upload_Box_Collections_FULL_IMAGES.csv'
     ];
-
     csvFiles.forEach(file => {
         if (fs.existsSync(file)) {
-            const content = fs.readFileSync(file, 'utf8');
-            const rows = parseCSV(content);
+            const rows = parseCSV(fs.readFileSync(file, 'utf8'));
             rows.forEach(r => {
-                let id = r['Product ID'] || r['Product ID '];
-                if (!id) return;
+                let id = r['Product ID'] || r['Product ID '] || r['Product Code'];
+                if (!id || id.length > 25) return;
                 id = id.trim();
-                
-                // STRICT ID FILTER: Only allow IDs that follow the standard pattern
-                const realIdPattern = /^[A-Z]{2,3}-\d+$/;
-                if (!realIdPattern.test(id)) return;
-
-                if (id.length > 25) return;
                 allProducts.push({
                     'Product ID': id,
-                    'Product Name': r['Product Name'] || r['Product Name EN'] || '',
+                    'Product Name': r['Product Name'] || r['Product Name EN'] || r['Product Title'] || '',
                     'Main Category': r['Main Category'] || r['Category'] || r['Products Directory'] || '',
-                    'Subcategory': r['Subcategory'] || r['Product Subcategory'] || r['Box Type'] || '',
+                    'Subcategory': r['Subcategory'] || r['Product Subcategory'] || r['Box Type'] || r['Products Subcategory'] || '',
                     'Application Tags': r['Application Tags'] || '',
                     'Holiday Tags': r['Holiday Tags'] || r['Holiday / Occasion Tags'] || '',
-                    'Custom Options': r['Custom Options'] || '',
                     'Image Folder': r['Image Folder'] || resolveImageFolder(id)
                 });
             });
         }
     });
-
-    return allProducts.filter(p => p['Product ID']);
+    return allProducts;
 }
 
 const products = loadAllProductsSimple();
-const holidayOccasionsDir = path.join(__dirname, 'holiday-occasions');
-ensureDir(holidayOccasionsDir);
 
 const categories = [
     {
@@ -188,7 +134,7 @@ const categories = [
             const name = (p['Product Name'] || '').toLowerCase();
             const sub = (p['Subcategory'] || '').toLowerCase();
             const isMagnetic = id.startsWith('MG-') || name.includes('magnetic') || sub.includes('magnetic');
-            const isExclude = name.includes('bag') || name.includes('advent') || name.includes('foldable');
+            const isExclude = name.includes('bag') || name.includes('advent calendar') || name.includes('foldable');
             return isMagnetic && !isExclude;
         }
     },
@@ -205,7 +151,7 @@ const categories = [
             const id = (p['Product ID'] || '').toUpperCase();
             const name = (p['Product Name'] || '').toLowerCase();
             const sub = (p['Subcategory'] || '').toLowerCase();
-            return (id.startsWith('DR-') || name.includes('drawer') || sub.includes('drawer')) && !name.includes('advent');
+            return (id.startsWith('DR-') || name.includes('drawer') || sub.includes('drawer')) && !name.includes('advent calendar');
         }
     },
     {
@@ -223,7 +169,7 @@ const categories = [
             const sub = (p['Subcategory'] || '').toLowerCase();
             const religiousKeywords = ['miswak', 'hajj', 'zakat', 'wudu', 'pad', 'charity', 'islamic', 'funeral', 'qibla'];
             const isReligious = religiousKeywords.some(k => name.includes(k) || sub.includes(k));
-            return (id.startsWith('RG-') || name.includes('round') || name.includes('cylinder')) && !isReligious && !name.includes('advent');
+            return (id.startsWith('RG-') || name.includes('round') || name.includes('cylinder')) && !isReligious && !name.includes('advent calendar');
         }
     },
     {
@@ -239,163 +185,85 @@ const categories = [
             const id = (p['Product ID'] || '').toUpperCase();
             const name = (p['Product Name'] || '').toLowerCase();
             const sub = (p['Subcategory'] || '').toLowerCase();
-            const isSuitcase = id.startsWith('SC-') || (name.includes('suitcase') && (name.includes('handle') || sub.includes('suitcase')));
-            return isSuitcase && !id.startsWith('AC-') && !name.includes('advent') && !name.includes('cake');
+            return (id.startsWith('SC-') || name.includes('suitcase') || sub.includes('suitcase')) && !name.includes('advent calendar');
+        }
+    },
+    {
+        dir: 'products/rigid-boxes',
+        slug: 'custom-shape-boxes',
+        name: 'Custom Shape Boxes',
+        title: 'Custom Shape Gift Boxes Manufacturer | Die-Cut Specialty Packaging',
+        desc: 'Bespoke custom shape gift boxes for unique product launches, heart-shaped boxes, hexagon boxes, and innovative die-cut rigid packaging.',
+        h1: 'Custom Shape Gift Boxes Manufacturer',
+        heroSub: 'Distinctive Die-Cut Structural Packaging',
+        intro: 'Stand out on the shelf with non-traditional box structures designed for impact.',
+        filter: p => {
+            const id = (p['Product ID'] || '').toUpperCase();
+            const name = (p['Product Name'] || '').toLowerCase();
+            const sub = (p['Subcategory'] || '').toLowerCase();
+            return (id.startsWith('CS-') || name.includes('shape') || sub.includes('shape') || name.includes('heart')) && !name.includes('advent');
+        }
+    },
+    {
+        dir: 'products/rigid-boxes',
+        slug: 'lid-and-base-boxes',
+        name: 'Lid and Base Boxes',
+        title: 'Custom Lid and Base Boxes Manufacturer | Luxury Two-Piece Boxes',
+        desc: 'Custom lid and base boxes for jewelry, gift sets, premium chocolates and electronics. High-density rigid board with luxury finishing and custom inserts.',
+        h1: 'Custom Lid and Base Boxes Manufacturer',
+        heroSub: 'Classic Two-Piece Rigid Packaging for Premium Gifts',
+        intro: 'The timeless choice for premium brands. Our lid and base boxes provide superior structural integrity and a high-end unboxing experience.',
+        filter: p => {
+            const name = (p['Product Name'] || '').toLowerCase();
+            const sub = (p['Subcategory'] || '').toLowerCase();
+            const id = (p['Product ID'] || '').toUpperCase();
+            return (name.includes('lid') && name.includes('base')) || sub.includes('lid') || id.startsWith('RB-');
         }
     },
     {
         dir: 'products/rigid-boxes',
         slug: 'mailing-gift-boxes',
         name: 'Mailing Gift Boxes',
-        title: 'Custom Mailing Gift Boxes Manufacturer | Branded Mailer Boxes',
-        desc: 'Custom mailing gift boxes for e-commerce, promotional kits, and brand delivery. Printed mailers with durable construction.',
+        title: 'Custom Mailing Gift Boxes Manufacturer | Corrugated Rigid Mailers',
+        desc: 'Custom mailing gift boxes and corrugated rigid mailers for ecommerce, luxury shipping, and brand launches. Secure, durable, and luxury finishing options.',
         h1: 'Custom Mailing Gift Boxes Manufacturer',
-        heroSub: 'Protective & Branded Mailing Solutions',
-        intro: 'Turn delivery into an unboxing experience with branded mailer boxes.',
-        filter: p => (p['Product Name'] || '').toLowerCase().includes('mailer') || (p['Product Name'] || '').toLowerCase().includes('mailing')
-    },
-    {
-        dir: 'products',
-        slug: 'interactive-packaging',
-        name: 'Interactive Packaging',
-        title: 'Custom Interactive Packaging Boxes | Video, Music & LED Gift Boxes',
-        desc: 'Custom video gift boxes, music boxes and LED packaging for brands that want memorable unboxing experiences and high-value gift campaigns.',
-        h1: 'Custom Interactive Packaging Boxes with Video, Music and LED Lights',
-        heroSub: 'Packaging That Tells a Digital Story',
-        intro: 'Engage all senses with sensor-activated light, sound, and HD video.',
-        filter: p => {
-            const id = (p['Product ID'] || '').toUpperCase();
-            const name = (p['Product Name'] || '').toLowerCase();
-            const isInteractive = id.startsWith('IP-') || name.includes('video') || name.includes('music') || name.includes('led') || name.includes('light-up') || name.includes('sound');
-            return isInteractive && (!id.startsWith('AC-') || name.includes('led') || name.includes('music') || name.includes('light-up'));
-        }
-    },
-    {
-        dir: 'products',
-        slug: 'keepsake-boxes',
-        name: 'Keepsake Boxes',
-        title: 'Custom Keepsake Boxes Manufacturer | Premium Memory Packaging',
-        desc: 'Bespoke rigid keepsake and memory boxes for baby milestones, weddings, and anniversaries. High-durability packaging designed to be kept for years.',
-        h1: 'Custom Keepsake Boxes Manufacturer',
-        heroSub: 'Memory Packaging Too Good To Throw Away',
-        intro: 'We design and construct heavy, high-durability custom keepsake boxes meant to be stored and cherished for years.',
-        filter: p => {
-            const cat = (p['Main Category'] || '').toLowerCase();
-            const sub = (p['Subcategory'] || '').toLowerCase();
-            const name = (p['Product Name'] || '').toLowerCase();
-            const id = (p['Product ID'] || '').toUpperCase();
-            return cat.includes('keepsake') || id.startsWith('LM-') || sub.includes('keepsake') || name.includes('keepsake');
-        }
-    },
-    {
-        dir: 'products',
-        slug: 'greeting-cards',
-        name: 'Greeting Cards',
-        title: 'Custom Luxury Greeting Cards & PR Invitations | ShineleeBox',
-        desc: 'Custom luxury greeting cards, interactive sound cards, and pop-up 3D invitations for brand campaigns and corporate events.',
-        h1: 'Custom Luxury Greeting Cards Manufacturer',
-        heroSub: 'Premium Paper Gifts & Interactive Invitations',
-        intro: 'Intricate 3D pop-up structures and high-tech greeting cards with embedded music and video.',
-        filter: p => {
-            const id = (p['Product ID'] || '').toUpperCase();
-            const cat = (p['Main Category'] || '').toLowerCase();
-            return id.startsWith('GC-') || cat.includes('greeting');
-        }
-    },
-    {
-        dir: 'applications',
-        slug: 'beauty-perfume-personal-care-packaging',
-        name: 'Beauty, Perfume & Personal Care',
-        title: 'Custom Beauty & Perfume Packaging | Cosmetic Gift Box Manufacturer',
-        desc: 'Custom cosmetic gift boxes, perfume packaging, skincare gift sets and beauty PR boxes for premium brands. Low MOQ and custom structure support.',
-        h1: 'Custom Beauty & Perfume Packaging',
-        heroSub: 'Luxury Fragrance & Cosmetic Sourcing Solutions',
-        intro: 'First impressions are critical for premium beauty brands.',
-        filter: p => {
-            const app = (p['Application Tags'] || '').toLowerCase();
-            const name = (p['Product Name'] || '').toLowerCase();
-            return app.includes('beauty') || app.includes('perfume') || app.includes('skincare') || name.includes('beauty') || name.includes('skincare') || name.includes('perfume') || name.includes('cosmetic');
-        }
-    },
-    {
-        dir: 'applications',
-        slug: 'chocolate-and-food-packaging',
-        name: 'Chocolate & Food Packaging',
-        title: 'Custom Chocolate & Food Packaging | Dessert Gift Box Manufacturer',
-        desc: 'Custom chocolate boxes, dessert gift boxes, date packaging, bakery boxes and mooncake packaging for premium food brands.',
-        h1: 'Custom Chocolate & Food Packaging',
-        heroSub: 'Food-Safe Rigid Packaging for High-End Gifting',
-        intro: 'Protect and present with sophistication.',
-        filter: p => {
-            const app = (p['Application Tags'] || '').toLowerCase();
-            const name = (p['Product Name'] || '').toLowerCase();
-            const cat = (p['Main Category'] || '').toLowerCase();
-            return app.includes('food') || app.includes('chocolate') || name.includes('food') || name.includes('chocolate') || name.includes('date') || name.includes('mooncake') || name.includes('cake') || cat.includes('chocolate');
-        }
-    },
-    {
-        dir: 'applications',
-        slug: 'wine-liquor-packaging',
-        name: 'Wine & Liquor Packaging',
-        title: 'Custom Wine Boxes & Liquor Gift Packaging Manufacturer',
-        desc: 'Custom wine boxes, liquor gift packaging and premium rigid bottle boxes for brands, corporate gifts and holiday campaigns.',
-        h1: 'Custom Wine & Liquor Packaging',
-        heroSub: 'Bespoke Spirits & Liquor Bottle Packaging',
-        intro: 'Durable, high-end rigid boxes for champagne, whiskey and wine gifting.',
-        filter: p => {
-            const app = (p['Application Tags'] || '').toLowerCase();
-            const name = (p['Product Name'] || '').toLowerCase();
-            return app.includes('wine') || app.includes('liquor') || name.includes('wine') || name.includes('whiskey') || name.includes('spirits');
-        }
-    },
-    {
-        dir: 'applications',
-        slug: 'religious-and-cultural-gift-packaging',
-        name: 'Religious & Cultural Packaging',
-        title: 'Custom Religious & Cultural Gift Packaging Manufacturer | ShineleeBox',
-        desc: 'Bespoke cultural and religious packaging, featuring Ramadan dates boxes, Eid sweet gift boxes, Miswak holders, and luxury Islamic prayer set storage.',
-        h1: 'Religious & Cultural Packaging Manufacturer',
-        heroSub: 'Culturally-Compliant Packaging for Sacred Ceremonies',
-        intro: 'Respectful, premium packaging for religious milestones.',
-        filter: p => {
-            const name = (p['Product Name'] || '').toLowerCase();
-            const id = (p['Product ID'] || '').toUpperCase();
-            const sub = (p['Subcategory'] || '').toLowerCase();
-            return id.startsWith('RG-') || name.includes('miswak') || name.includes('hajj') || name.includes('zakat') || name.includes('wudu') || name.includes('pad') || name.includes('charity') || name.includes('islamic') || name.includes('ramadan') || name.includes('eid') || sub.includes('charity');
-        }
-    },
-    {
-        dir: 'applications',
-        slug: 'electronics-and-premium-gift-packaging',
-        name: 'Electronics & Premium Packaging',
-        title: 'Electronics & Premium Packaging Manufacturer | ShineleeBox',
-        desc: 'Luxury electronics gift boxes and premium LED/sound packaging. Custom rigid box manufacturer with integrated technology.',
-        h1: 'Electronics & Premium Packaging',
-        heroSub: 'Premium rigid boxes with integrated light sensors, sound modules, and HD video screens.',
-        intro: 'Protect and highlight high-value technology.',
+        heroSub: 'Secure & Elegant Corrugated Mailing Solutions',
+        intro: 'The perfect blend of durability and luxury. Our mailing boxes protect your products while providing a premium unboxing experience.',
         filter: p => {
             const id = (p['Product ID'] || '').toUpperCase();
             const name = (p['Product Name'] || '').toLowerCase();
             const sub = (p['Subcategory'] || '').toLowerCase();
-            const isInteractive = id.startsWith('IP-') || name.includes('video') || name.includes('music') || name.includes('led') || name.includes('light-up') || name.includes('sound') || sub.includes('video') || sub.includes('music') || sub.includes('led');
-            // Remove ordinary advent calendars, keep only the light-up/musical ones
-            return isInteractive && (!id.startsWith('AC-') || name.includes('led') || name.includes('music') || name.includes('light-up'));
+            return id.startsWith('MB-') || name.includes('mailing') || name.includes('mailer') || sub.includes('mailing') || sub.includes('mailer') || name.includes('shipping box');
+        }
+    },
+    {
+        dir: 'holiday-occasions',
+        slug: 'christmas-packaging',
+        name: 'Christmas Packaging',
+        title: 'Custom Christmas Packaging Manufacturer | Holiday Gift Boxes',
+        desc: 'Custom Christmas gift boxes, advent calendars, and festive packaging for holiday retail and corporate gifting.',
+        h1: 'Custom Christmas Packaging Manufacturer',
+        heroSub: 'Festive Packaging for the Holiday Season',
+        intro: 'Elevate your holiday collection with our premium Christmas-themed packaging solutions.',
+        filter: p => {
+            const h = (p['Holiday Tags'] || '').toLowerCase();
+            const n = (p['Product Name'] || '').toLowerCase();
+            return h.includes('christmas') || n.includes('christmas') || n.includes('holiday') || n.includes('xmas');
         }
     },
     {
         dir: 'holiday-occasions',
         slug: 'ramadan-and-eid-packaging',
         name: 'Ramadan & Eid Packaging',
-        title: 'Custom Ramadan & Eid Gift Packaging | Luxury Islamic Gift Boxes',
-        desc: 'Bespoke Ramadan advent calendars, Eid sweet boxes, and traditional Islamic pattern gift packaging. Miswak and Zakat storage solutions.',
-        h1: 'Ramadan & Eid Packaging',
-        heroSub: 'Elegant Cultural Packaging for the Holy Month',
-        intro: 'Celebrate faith with premium custom packaging.',
+        title: 'Custom Ramadan & Eid Packaging Manufacturer | Halal Gift Boxes',
+        desc: 'Custom Ramadan gift boxes, Eid Mubarak sweets packaging, dates boxes and Islamic themed rigid gift sets.',
+        h1: 'Custom Ramadan & Eid Packaging Manufacturer',
+        heroSub: 'Spiritual & Elegant Gifting for Ramadan & Eid',
+        intro: 'Premium packaging solutions designed for the Middle Eastern gifting market.',
         filter: p => {
-            const name = (p['Product Name'] || '').toLowerCase();
-            const hol = (p['Holiday Tags'] || '').toLowerCase();
-            const sub = (p['Subcategory'] || '').toLowerCase();
-            return name.includes('ramadan') || name.includes('eid') || name.includes('miswak') || name.includes('zakat') || name.includes('wudu') || name.includes('islamic') || name.includes('charity') || hol.includes('ramadan') || hol.includes('eid') || sub.includes('charity');
+            const h = (p['Holiday Tags'] || '').toLowerCase();
+            const n = (p['Product Name'] || '').toLowerCase();
+            return h.includes('ramadan') || h.includes('eid') || n.includes('ramadan') || n.includes('eid') || n.includes('halal') || n.includes('miswak') || n.includes('hajj');
         }
     }
 ];
@@ -404,82 +272,43 @@ function buildCategoryPages() {
     categories.forEach(cat => {
         const categoryDir = path.join(__dirname, cat.dir);
         ensureDir(categoryDir);
-
-        let html = headTemplate(cat.title, cat.desc, cat.dir.includes('/') ? '../../' : '../') + headerTemplate(cat.dir.includes('/') ? '../../' : '../');
-        
-        let matchedProducts = products.filter(cat.filter);
-
-        html += `
-    <section class="bg-brandIvory py-20 border-b border-brandBeige/50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <nav class="mb-8 text-[10px] font-bold uppercase tracking-[0.2em] text-brandGold flex items-center space-x-2">
-                <a href="${cat.dir.includes('/') ? '../../' : '../'}index.html" class="hover:text-brandCharcoal transition-colors">Home</a>
-                <span>/</span>
-                <span>${cat.dir.startsWith('products') ? 'Products' : 'Applications'}</span>
-                <span>/</span>
-                <span class="text-brandCharcoal font-extrabold underline decoration-brandGold decoration-2 underline-offset-4">${cat.name}</span>
-            </nav>
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-end">
-                <div class="lg:col-span-8 space-y-6">
-                    <h1 class="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold text-brandCharcoal leading-tight">${cat.h1}</h1>
-                    <p class="text-brandCharcoal/70 text-lg sm:text-xl max-w-2xl font-light leading-relaxed">${cat.heroSub}</p>
-                </div>
-                <div class="lg:col-span-4 pb-2">
-                    <p class="text-xs text-brandCharcoal/60 leading-relaxed italic border-l-2 border-brandGold pl-4">${cat.intro}</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            ${matchedProducts
-                .map(p => {
-                    const id = p['Product ID'];
-                    const idUpper = id.toUpperCase();
-                    const name = p['Product Name'];
-                    const folderName = p['Image Folder'] || resolveImageFolder(id);
-                    let prefix = 'ac';
-                    if (idUpper.startsWith('IP-')) prefix = 'ip';
-                    else if (idUpper.startsWith('LM-')) prefix = 'lm';
-                    else if (idUpper.startsWith('RG-')) prefix = 'rg';
-                    else if (idUpper.startsWith('GC-')) prefix = 'gc';
-                    else if (idUpper.startsWith('SLF-')) prefix = 'slf';
-                    else if (idUpper.startsWith('PP-')) prefix = 'pp';
-                    else if (idUpper.startsWith('CP-')) prefix = 'cp';
-                    else if (idUpper.startsWith('CFP-')) prefix = 'cfp';
-                    else if (idUpper.startsWith('MG-')) prefix = 'mg';
-                    else if (idUpper.startsWith('DR-')) prefix = 'dr';
-                    else if (idUpper.startsWith('CS-')) prefix = 'cs';
-                    else if (idUpper.startsWith('SC-')) prefix = 'sc';
-                    else if (idUpper.startsWith('RB-')) prefix = 'rb';
-                    
-                    const idLower = id.toLowerCase()
-                        .replace('ac-', '')
-                        .replace('ip-', '')
-                        .replace('lm-', '')
-                        .replace('rg-', '')
-                        .replace('gc-', '')
-                        .replace('slf-', '')
-                        .replace('pp-', '')
-                        .replace('cp-', '')
-                        .replace('cfp-', '')
-                        .replace('mg-', '')
-                        .replace('dr-', '')
-                        .replace('cs-', '')
-                        .replace('sc-', '')
-                        .replace('rb-', '');
-                    
-                    let imgPath = 'https://images.unsplash.com/photo-1549465220-1a8b9238cd48?auto=format&fit=crop&w=800&q=80';
-                    if (folderName) {
-                        const imageFolderPath = path.join(__dirname, 'images', 'products', folderName);
-                        if (fs.existsSync(imageFolderPath)) {
-                            const imgFiles = fs.readdirSync(imageFolderPath).filter(f => /\.(jpg|jpeg|png|gif|webp)$/i.test(f)).sort();
-                            if (imgFiles.length > 0) imgPath = `${cat.dir.includes('/') ? '../../' : '../'}images/products/${folderName}/${imgFiles[0]}`;
-                        }
+        const matchedProducts = products.filter(cat.filter);
+        const productsHtml = matchedProducts.map(p => {
+            const id = p['Product ID'];
+            const idUpper = id.toUpperCase();
+            const name = p['Product Name'];
+            let prefix = 'ac';
+            if (idUpper.startsWith('IP-')) prefix = 'ip';
+            else if (idUpper.startsWith('LM-')) prefix = 'lm';
+            else if (idUpper.startsWith('RG-')) prefix = 'rg';
+            else if (idUpper.startsWith('GC-')) prefix = 'gc';
+            else if (idUpper.startsWith('SLF-')) prefix = 'slf';
+            else if (idUpper.startsWith('PP-')) prefix = 'pp';
+            else if (idUpper.startsWith('CP-')) prefix = 'cp';
+            else if (idUpper.startsWith('CFP-')) prefix = 'cfp';
+            else if (idUpper.startsWith('MG-')) prefix = 'mg';
+            else if (idUpper.startsWith('DR-')) prefix = 'dr';
+            else if (idUpper.startsWith('CS-')) prefix = 'cs';
+            else if (idUpper.startsWith('SC-')) prefix = 'sc';
+            else if (idUpper.startsWith('RB-')) prefix = 'rb';
+            else if (idUpper.startsWith('CHOC-COL-')) prefix = 'choc';
+            else if (idUpper.startsWith('MB-')) prefix = 'mb';
+            const idLower = id.toLowerCase().replace('ac-', '').replace('ip-', '').replace('lm-', '').replace('rg-', '').replace('gc-', '').replace('slf-', '').replace('pp-', '').replace('cp-', '').replace('cfp-', '').replace('mg-', '').replace('dr-', '').replace('cs-', '').replace('sc-', '').replace('rb-', '').replace('choc-col-', '').replace('mb-', '');
+            let folderName = p['Image Folder'];
+            const checkPath = path.join(__dirname, 'images', 'products', folderName);
+            if (!folderName || !fs.existsSync(checkPath) || fs.readdirSync(checkPath).length === 0) folderName = resolveImageFolder(id);
+            let imgPath = DEFAULT_IMG;
+            if (folderName) {
+                const folderPath = path.join(__dirname, 'images', 'products', folderName);
+                if (fs.existsSync(folderPath)) {
+                    const files = fs.readdirSync(folderPath).filter(f => /\.(jpg|jpeg|png|webp)$/i.test(f)).sort();
+                    if (files.length > 0) {
+                        const mainFile = files.find(f => f.startsWith('00_main'));
+                        imgPath = `${cat.dir.includes('/') ? '../../' : '../'}images/products/${folderName}/${mainFile || files[0]}`;
                     }
-
-                    return `
+                }
+            }
+            return `
             <div class="bg-brandWhite rounded-sm overflow-hidden border border-brandBeige hover:border-brandGold transition-all flex flex-col group h-full luxury-shadow">
                 <div class="h-64 overflow-hidden bg-brandWhite relative p-8 flex items-center justify-center cursor-pointer" onclick="window.location.href='${cat.dir.includes('/') ? '../../' : '../'}products/${prefix}-${idLower}.html'">
                     <img src="${imgPath}" alt="${escapeHtml(name)}" class="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-700">
@@ -497,14 +326,32 @@ function buildCategoryPages() {
                     </div>
                 </div>
             </div>`;
-                }).join('')}
+        }).join('');
+        let html = headTemplate(cat.title, cat.desc, cat.dir.includes('/') ? '../../' : '../') + headerTemplate(cat.dir.includes('/') ? '../../' : '../');
+        html += `
+    <section class="bg-brandCharcoal py-20 border-b border-brandGold/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-end">
+                <div class="lg:col-span-8 space-y-6 text-brandIvory">
+                    <nav class="text-[10px] font-bold uppercase tracking-[0.2em] text-brandGold flex items-center space-x-2">
+                        <a href="${cat.dir.includes('/') ? '../../' : '../'}index.html" class="hover:text-brandWhite transition-colors">Home</a><span>/</span>
+                        <span>Products</span><span>/</span><span class="text-brandWhite">${cat.name}</span>
+                    </nav>
+                    <h1 class="font-serif text-4xl sm:text-6xl font-bold text-brandWhite leading-tight">${cat.h1}</h1>
+                    <p class="text-lg text-brandIvory/80 font-light max-w-2xl">${cat.heroSub}</p>
+                </div>
+                <div class="lg:col-span-4 pb-2">
+                    <p class="text-xs text-brandIvory/60 leading-relaxed italic border-l-2 border-brandGold pl-4">${cat.intro}</p>
+                </div>
+            </div>
         </div>
+    </section>
+    <section class="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">${productsHtml}</div>
     </section>`;
-
         html += footerTemplate(cat.dir.includes('/') ? '../../' : '../');
         fs.writeFileSync(path.join(categoryDir, `${cat.slug}.html`), html, 'utf8');
     });
 }
-
 buildCategoryPages();
 console.log("Category pages optimized and cleaned with final strict filters!");

@@ -42,6 +42,7 @@ const headTemplate = (title, description, relativePath = '') => `
                         brandIvory: '#F7F3EC',    
                         brandBurgundy: '#5A1F2B', 
                         brandForest: '#1F3A2E',   
+                        brandGreen: '#1F3A2E',    
                         brandBeige: '#E5DDD0',    
                         brandWhite: '#FFFFFF'
                     },
