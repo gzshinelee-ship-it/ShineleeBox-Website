@@ -181,44 +181,70 @@
 <main class="flex-grow">
 
     <!-- 1. Pure Hero Slider (NO TEXT, CLEAN VIEW) -->
-    <section class="relative bg-brandIvory overflow-hidden">
-        <div id="hero-slider" class="relative h-[280px] sm:h-[550px] lg:h-[750px] w-full overflow-hidden">
+    <section class="relative bg-brandCharcoal overflow-hidden border-b border-brandBeige/30">
+        <div id="hero-slider" class="relative h-[450px] sm:h-[650px] w-full overflow-hidden">
             
-            <div class="absolute inset-0 transition-all duration-1000 ease-in-out slide opacity-100 z-20" data-index="0">
-                <div class="absolute inset-0 z-0 bg-brandIvory flex items-center justify-center">
-                    <img src="https://sc02.alicdn.com/kf/Ac20561f68e0d4e66a3928e26414f673e2.png" class="h-full w-full object-cover lg:object-contain object-center" alt="Premium Packaging Slide 1">
-                </div>
-                <a href="products/index.html" class="absolute inset-0 z-30 cursor-pointer"></a>
+            <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out slide opacity-100 z-20" data-index="0">
+                <a href="products/index.html" class="block h-full w-full">
+                    <img src="https://sc04.alicdn.com/kf/Hc8f0a4ac37554945b2ac44c9600dafa8Y.jpg" class="h-full w-full object-cover" alt="ShineleeBox Premium Packaging 1">
+                </a>
             </div>
-            <div class="absolute inset-0 transition-all duration-1000 ease-in-out slide opacity-0 z-10" data-index="1">
-                <div class="absolute inset-0 z-0 bg-brandIvory flex items-center justify-center">
-                    <img src="https://sc04.alicdn.com/kf/H235c9b97a387437f8e44a3371ffe436fS.jpg" class="h-full w-full object-cover lg:object-contain object-center" alt="Premium Packaging Slide 2">
-                </div>
-                <a href="products/advent-calendar-boxes.html" class="absolute inset-0 z-30 cursor-pointer"></a>
+            <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out slide opacity-0 z-10" data-index="1">
+                <a href="products/advent-calendar-boxes.html" class="block h-full w-full">
+                    <img src="https://sc04.alicdn.com/kf/H235c9b97a387437f8e44a3371ffe436fS.jpg" class="h-full w-full object-cover" alt="ShineleeBox Premium Packaging 2">
+                </a>
             </div>
-            <div class="absolute inset-0 transition-all duration-1000 ease-in-out slide opacity-0 z-10" data-index="2">
-                <div class="absolute inset-0 z-0 bg-brandIvory flex items-center justify-center">
-                    <img src="https://sc04.alicdn.com/kf/H5b2542838a3f4470a7edfc94cfae1eacy.jpg" class="h-full w-full object-cover lg:object-contain object-center" alt="Premium Packaging Slide 3">
-                </div>
-                <a href="products/interactive-packaging.html" class="absolute inset-0 z-30 cursor-pointer"></a>
+            <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out slide opacity-0 z-10" data-index="2">
+                <a href="products/interactive-packaging.html" class="block h-full w-full">
+                    <img src="https://sc04.alicdn.com/kf/H5b2542838a3f4470a7edfc94cfae1eacy.jpg" class="h-full w-full object-cover" alt="ShineleeBox Premium Packaging 3">
+                </a>
             </div>
-            <div class="absolute inset-0 transition-all duration-1000 ease-in-out slide opacity-0 z-10" data-index="3">
-                <div class="absolute inset-0 z-0 bg-brandIvory flex items-center justify-center">
-                    <img src="https://sc04.alicdn.com/kf/H15caf04e02a5455cab9b7992ec60e6b1N.jpg" class="h-full w-full object-cover lg:object-contain object-center" alt="Premium Packaging Slide 4">
-                </div>
-                <a href="applications/beauty-perfume-personal-care-packaging.html" class="absolute inset-0 z-30 cursor-pointer"></a>
+            <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out slide opacity-0 z-10" data-index="3">
+                <a href="applications/beauty-perfume-personal-care-packaging.html" class="block h-full w-full">
+                    <img src="https://sc04.alicdn.com/kf/H15caf04e02a5455cab9b7992ec60e6b1N.jpg" class="h-full w-full object-cover" alt="ShineleeBox Premium Packaging 4">
+                </a>
             </div>
             
-            <button onclick="prevSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 z-40 p-2 sm:p-3 text-brandCharcoal/20 hover:text-brandGold transition-all">
-                <svg class="w-6 h-6 sm:w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M15 19l-7-7 7-7"/></svg>
+            <!-- Minimal Navigation Arrows -->
+            <button onclick="prevSlide()" class="absolute left-6 top-1/2 -translate-y-1/2 z-30 p-3 bg-brandWhite/10 hover:bg-brandWhite/20 text-white rounded-full transition-all backdrop-blur-sm border border-white/20">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
             </button>
-            <button onclick="nextSlide()" class="absolute right-4 top-1/2 -translate-y-1/2 z-40 p-2 sm:p-3 text-brandCharcoal/20 hover:text-brandGold transition-all">
-                <svg class="w-6 h-6 sm:w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 5l7 7-7 7"/></svg>
+            <button onclick="nextSlide()" class="absolute right-6 top-1/2 -translate-y-1/2 z-30 p-3 bg-brandWhite/10 hover:bg-brandWhite/20 text-white rounded-full transition-all backdrop-blur-sm border border-white/20">
+                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
             </button>
+            
+            <!-- Dots Indicator -->
+            <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-30 flex space-x-3">
+                <button onclick="goToSlide(0)" class="dot w-10 h-1 bg-white/30 rounded-full transition-all bg-brandGold w-12" data-index="0"></button><button onclick="goToSlide(1)" class="dot w-10 h-1 bg-white/30 rounded-full transition-all " data-index="1"></button><button onclick="goToSlide(2)" class="dot w-10 h-1 bg-white/30 rounded-full transition-all " data-index="2"></button><button onclick="goToSlide(3)" class="dot w-10 h-1 bg-white/30 rounded-full transition-all " data-index="3"></button>
+            </div>
         </div>
     </section>
 
-    <!-- 2. Prime B2B Headline Section (BELOW BANNER) -->
+    <!-- 2. Authority Stats Bar (ORIGINAL B2B TRUST) -->
+    <section class="bg-brandWhite py-12 border-b border-brandBeige/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center items-center">
+                <div class="group">
+                    <span class="block text-3xl font-serif font-bold text-brandCharcoal mb-1">300,000+</span>
+                    <span class="text-[9px] uppercase tracking-[0.2em] text-brandGold font-bold">Annual Set Capacity</span>
+                </div>
+                <div class="group">
+                    <span class="block text-3xl font-serif font-bold text-brandCharcoal mb-1">18 Years</span>
+                    <span class="text-[9px] uppercase tracking-[0.2em] text-brandGold font-bold">Industry Authority</span>
+                </div>
+                <div class="group">
+                    <span class="block text-3xl font-serif font-bold text-brandCharcoal mb-1">50 PCS</span>
+                    <span class="text-[9px] uppercase tracking-[0.2em] text-brandGold font-bold">Low MOQ Start</span>
+                </div>
+                <div class="group">
+                    <span class="block text-3xl font-serif font-bold text-brandCharcoal mb-1">USA DDP</span>
+                    <span class="text-[9px] uppercase tracking-[0.2em] text-brandGold font-bold">Global Logistics</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. Prime B2B Headline Section (BELOW STATS) -->
     <section class="bg-brandIvory py-16 sm:py-24 border-b border-brandBeige/50">
         <div class="max-w-5xl mx-auto px-4 text-center space-y-8">
             <span class="inline-block text-brandGold font-bold uppercase tracking-[0.4em] text-[10px]">Premium Manufacturing Excellence</span>
@@ -233,16 +259,6 @@
                 <p class="text-brandGold font-serif text-lg">Too Good To Throw Away.</p>
                 <div class="h-[1px] w-12 bg-brandGold self-center"></div>
             </div>
-        </div>
-    </section>
-
-    <!-- 3. Authority stats & featured sections follow... -->
-    <section class="py-24 bg-brandWhite border-b border-brandBeige/50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-12 text-center">
-            <div><span class="block text-4xl font-serif font-bold text-brandCharcoal">300k+</span><span class="text-[9px] uppercase tracking-widest text-brandGold font-bold">Annual Capacity</span></div>
-            <div><span class="block text-4xl font-serif font-bold text-brandCharcoal">18+ Yrs</span><span class="text-[9px] uppercase tracking-widest text-brandGold font-bold">Industry Authority</span></div>
-            <div><span class="block text-4xl font-serif font-bold text-brandCharcoal">50 PCS</span><span class="text-[9px] uppercase tracking-widest text-brandGold font-bold">Low MOQ Start</span></div>
-            <div><span class="block text-4xl font-serif font-bold text-brandCharcoal">DDP</span><span class="text-[9px] uppercase tracking-widest text-brandGold font-bold">Global Logistics</span></div>
         </div>
     </section>
 
@@ -353,16 +369,36 @@
     <script>
         let currentSlide = 0;
         const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
         const totalSlides = slides.length;
+        
         function updateSlider() {
             slides.forEach((s, i) => {
                 s.style.opacity = (i === currentSlide) ? '1' : '0';
                 s.style.zIndex = (i === currentSlide) ? '20' : '10';
             });
+            dots.forEach((d, i) => {
+                if (i === currentSlide) {
+                    d.classList.add('bg-brandGold', 'w-12');
+                    d.classList.remove('bg-white/30', 'w-10');
+                } else {
+                    d.classList.remove('bg-brandGold', 'w-12');
+                    d.classList.add('bg-white/30', 'w-10');
+                }
+            });
         }
+        
         function nextSlide() { currentSlide = (currentSlide + 1) % totalSlides; updateSlider(); }
         function prevSlide() { currentSlide = (currentSlide - 1 + totalSlides) % totalSlides; updateSlider(); }
-        setInterval(nextSlide, 6000);
+        function goToSlide(n) { currentSlide = n; updateSlider(); }
+        
+        let slideInterval = setInterval(nextSlide, 6000);
+        
+        // Pause on hover
+        const sliderContainer = document.getElementById('hero-slider');
+        sliderContainer.addEventListener('mouseenter', () => clearInterval(slideInterval));
+        sliderContainer.addEventListener('mouseleave', () => slideInterval = setInterval(nextSlide, 6000));
+        
         updateSlider();
     </script>
     
