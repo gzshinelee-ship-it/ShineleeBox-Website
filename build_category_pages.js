@@ -61,8 +61,9 @@ function buildCategoryPages() {
             allProducts.push({
                 id: id,
                 name: r['Product Name'] || r['Product Name EN'] || r['Product Title'] || 'Custom Packaging',
-                category: r['Main Category'] || r['Category'] || '',
-                subcategory: r['Subcategory'] || r['Products Subcategory'] || r['Box Type'] || '',
+                category: (r['Main Category'] || r['Category'] || '').trim(),
+                subcategory: (r['Subcategory'] || r['Products Subcategory'] || r['Box Type'] || '').trim(),
+                holidayTags: (r['Holiday Tags'] || r['Holiday / Occasion Tags'] || '').trim(),
                 folder: resolveImageFolder(id),
                 shortDesc: r['Short Description'] || r['Main Selling Point'] || ''
             });
@@ -70,10 +71,16 @@ function buildCategoryPages() {
     });
 
     const categories = [
-        { dir: 'products', slug: 'advent-calendar-boxes', name: 'Advent Calendar Boxes', h1: 'Custom Advent Calendar Boxes', filter: p => p.id.startsWith('AC-') || p.category.includes('Advent') },
-        { dir: 'products/rigid-boxes', slug: 'drawer-gift-boxes', name: 'Drawer Gift Boxes', h1: 'Custom Drawer Gift Boxes', filter: p => p.id.startsWith('DR-') || p.subcategory.includes('Drawer') },
-        { dir: 'products/rigid-boxes', slug: 'magnetic-gift-boxes', name: 'Magnetic Gift Boxes', h1: 'Custom Magnetic Gift Boxes', filter: p => p.id.startsWith('MG-') || p.subcategory.includes('Magnetic') }
-        // Add more categories as needed or load from a config
+        { dir: 'products', slug: 'advent-calendar-boxes', name: 'Advent Calendar Boxes', h1: 'Custom Advent Calendar Boxes', filter: p => p.id.startsWith('AC-') || p.category.toLowerCase().includes('advent') },
+        { dir: 'products', slug: 'interactive-packaging', name: 'Interactive Packaging', h1: 'Custom Interactive Packaging', filter: p => p.id.startsWith('IP-') || p.category.toLowerCase().includes('interactive') },
+        { dir: 'products/rigid-boxes', slug: 'drawer-gift-boxes', name: 'Drawer Gift Boxes', h1: 'Custom Drawer Gift Boxes', filter: p => p.id.startsWith('DR-') || p.subcategory.toLowerCase().includes('drawer') },
+        { dir: 'products/rigid-boxes', slug: 'magnetic-gift-boxes', name: 'Magnetic Gift Boxes', h1: 'Custom Magnetic Gift Boxes', filter: p => p.id.startsWith('MG-') || p.subcategory.toLowerCase().includes('magnetic') },
+        { dir: 'products/rigid-boxes', slug: 'round-gift-boxes', name: 'Round Gift Boxes', h1: 'Custom Round Gift Boxes', filter: p => p.id.startsWith('RG-') || p.subcategory.toLowerCase().includes('round') },
+        { dir: 'products/rigid-boxes', slug: 'suitcase-gift-boxes', name: 'Suitcase Gift Boxes', h1: 'Custom Suitcase Gift Boxes', filter: p => p.id.startsWith('SC-') || p.subcategory.toLowerCase().includes('suitcase') },
+        { dir: 'products/rigid-boxes', slug: 'mailing-gift-boxes', name: 'Mailing Gift Boxes', h1: 'Custom Mailing Gift Boxes', filter: p => p.id.startsWith('MB-') || p.subcategory.toLowerCase().includes('mailing') },
+        { dir: 'products/rigid-boxes', slug: 'lid-and-base-boxes', name: 'Lid and Base Boxes', h1: 'Custom Lid and Base Boxes', filter: p => p.id.startsWith('RB-') || p.subcategory.toLowerCase().includes('lid') },
+        { dir: 'holiday-occasions', slug: 'christmas-packaging', name: 'Christmas Packaging', h1: 'Custom Christmas Packaging', filter: p => p.holidayTags.toLowerCase().includes('christmas') },
+        { dir: 'holiday-occasions', slug: 'ramadan-and-eid-packaging', name: 'Ramadan & Eid Packaging', h1: 'Custom Ramadan & Eid Packaging', filter: p => p.holidayTags.toLowerCase().includes('ramadan') || p.holidayTags.toLowerCase().includes('eid') }
     ];
 
     categories.forEach(cat => {
