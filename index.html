@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
@@ -181,41 +180,41 @@
 <main class="flex-grow">
 
     <!-- 1. Pure Hero Slider (NO TEXT, CLEAN VIEW) -->
-    <section class="relative bg-brandCharcoal overflow-hidden border-b border-brandBeige/30">
-        <div id="hero-slider" class="relative h-[450px] sm:h-[650px] w-full overflow-hidden">
+    <section class="relative bg-brandIvory overflow-hidden border-b border-brandBeige/30">
+        <div id="hero-slider" class="relative w-full overflow-hidden" style="aspect-ratio: 16/9; max-height: 600px;">
             
-            <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out slide opacity-100 z-20" data-index="0">
-                <a href="products/index.html" class="block h-full w-full">
-                    <img src="https://sc04.alicdn.com/kf/Hc8f0a4ac37554945b2ac44c9600dafa8Y.jpg" class="h-full w-full object-cover" alt="ShineleeBox Premium Packaging 1">
+            <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out slide opacity-100 z-20 flex items-center justify-center" data-index="0">
+                <a href="products/index.html" class="w-[70%] block">
+                    <img src="https://sc04.alicdn.com/kf/Hc8f0a4ac37554945b2ac44c9600dafa8Y.jpg" class="w-full h-auto object-contain" alt="ShineleeBox Premium Packaging 1">
                 </a>
             </div>
-            <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out slide opacity-0 z-10" data-index="1">
-                <a href="products/advent-calendar-boxes.html" class="block h-full w-full">
-                    <img src="https://sc04.alicdn.com/kf/H235c9b97a387437f8e44a3371ffe436fS.jpg" class="h-full w-full object-cover" alt="ShineleeBox Premium Packaging 2">
+            <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out slide opacity-0 z-10 flex items-center justify-center" data-index="1">
+                <a href="products/advent-calendar-boxes.html" class="w-[70%] block">
+                    <img src="https://sc04.alicdn.com/kf/H235c9b97a387437f8e44a3371ffe436fS.jpg" class="w-full h-auto object-contain" alt="ShineleeBox Premium Packaging 2">
                 </a>
             </div>
-            <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out slide opacity-0 z-10" data-index="2">
-                <a href="products/interactive-packaging.html" class="block h-full w-full">
-                    <img src="https://sc04.alicdn.com/kf/H5b2542838a3f4470a7edfc94cfae1eacy.jpg" class="h-full w-full object-cover" alt="ShineleeBox Premium Packaging 3">
+            <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out slide opacity-0 z-10 flex items-center justify-center" data-index="2">
+                <a href="products/interactive-packaging.html" class="w-[70%] block">
+                    <img src="https://sc04.alicdn.com/kf/H5b2542838a3f4470a7edfc94cfae1eacy.jpg" class="w-full h-auto object-contain" alt="ShineleeBox Premium Packaging 3">
                 </a>
             </div>
-            <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out slide opacity-0 z-10" data-index="3">
-                <a href="applications/beauty-perfume-personal-care-packaging.html" class="block h-full w-full">
-                    <img src="https://sc04.alicdn.com/kf/H15caf04e02a5455cab9b7992ec60e6b1N.jpg" class="h-full w-full object-cover" alt="ShineleeBox Premium Packaging 4">
+            <div class="absolute inset-0 transition-opacity duration-1000 ease-in-out slide opacity-0 z-10 flex items-center justify-center" data-index="3">
+                <a href="applications/beauty-perfume-personal-care-packaging.html" class="w-[70%] block">
+                    <img src="https://sc04.alicdn.com/kf/H15caf04e02a5455cab9b7992ec60e6b1N.jpg" class="w-full h-auto object-contain" alt="ShineleeBox Premium Packaging 4">
                 </a>
             </div>
             
             <!-- Minimal Navigation Arrows -->
-            <button onclick="prevSlide()" class="absolute left-6 top-1/2 -translate-y-1/2 z-30 p-3 bg-brandWhite/10 hover:bg-brandWhite/20 text-white rounded-full transition-all backdrop-blur-sm border border-white/20">
+            <button onclick="prevSlide()" class="absolute left-6 top-1/2 -translate-y-1/2 z-30 p-3 bg-brandCharcoal/10 hover:bg-brandCharcoal/20 text-brandCharcoal rounded-full transition-all backdrop-blur-sm border border-brandCharcoal/20">
                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
             </button>
-            <button onclick="nextSlide()" class="absolute right-6 top-1/2 -translate-y-1/2 z-30 p-3 bg-brandWhite/10 hover:bg-brandWhite/20 text-white rounded-full transition-all backdrop-blur-sm border border-white/20">
+            <button onclick="nextSlide()" class="absolute right-6 top-1/2 -translate-y-1/2 z-30 p-3 bg-brandCharcoal/10 hover:bg-brandCharcoal/20 text-brandCharcoal rounded-full transition-all backdrop-blur-sm border border-brandCharcoal/20">
                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
             </button>
             
             <!-- Dots Indicator -->
             <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-30 flex space-x-3">
-                <button onclick="goToSlide(0)" class="dot w-10 h-1 bg-white/30 rounded-full transition-all bg-brandGold w-12" data-index="0"></button><button onclick="goToSlide(1)" class="dot w-10 h-1 bg-white/30 rounded-full transition-all " data-index="1"></button><button onclick="goToSlide(2)" class="dot w-10 h-1 bg-white/30 rounded-full transition-all " data-index="2"></button><button onclick="goToSlide(3)" class="dot w-10 h-1 bg-white/30 rounded-full transition-all " data-index="3"></button>
+                <button onclick="goToSlide(0)" class="dot w-10 h-1 bg-brandCharcoal/30 rounded-full transition-all bg-brandGold w-12" data-index="0"></button><button onclick="goToSlide(1)" class="dot w-10 h-1 bg-brandCharcoal/30 rounded-full transition-all " data-index="1"></button><button onclick="goToSlide(2)" class="dot w-10 h-1 bg-brandCharcoal/30 rounded-full transition-all " data-index="2"></button><button onclick="goToSlide(3)" class="dot w-10 h-1 bg-brandCharcoal/30 rounded-full transition-all " data-index="3"></button>
             </div>
         </div>
     </section>
