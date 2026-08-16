@@ -1,0 +1,9 @@
+{
+  "redirects": [
+    {
+      "source": "/products/keepsake-boxes.html",
+      "destination": "/products/interactive-packaging.html",
+      "permanent": true
+    }
+  ]
+}
