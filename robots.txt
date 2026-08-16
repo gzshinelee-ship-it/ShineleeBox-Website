@@ -9,5 +9,16 @@ Disallow: /temp_upload/
 Disallow: /structure_update/
 Disallow: /sample_analysis/
 
+# AI search discovery. OAI-SearchBot is used for ChatGPT search results.
+User-agent: OAI-SearchBot
+Allow: /
+
+# Keep public product and company information accessible to other answer engines.
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
 # Direct crawlers to our dynamically generated sitemap
 Sitemap: https://slpack.net/sitemap.xml
