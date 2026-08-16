@@ -30,7 +30,7 @@ const categoryPages = {
       ['Match the structure', 'Drawer, lid-and-base, suitcase and other grayboard box formats create different footprints and opening sequences.'],
       ['Confirm surface details', 'Approve wrap paper, print, foil and texture alongside the insert color so the complete presentation works as one system.']
     ],
-    links: [['View a drawer jewelry box', '../products/dr-001.html'], ['Compare drawer gift boxes', '../products/rigid-boxes/drawer-gift-boxes.html'], ['Explore keepsake boxes', '../products/keepsake-boxes.html']],
+    links: [['View a drawer jewelry box', '../products/dr-001.html'], ['Compare drawer gift boxes', '../products/rigid-boxes/drawer-gift-boxes.html'], ['Explore video and interactive packaging', '../products/interactive-packaging.html']],
     faqs: [
       ['What information is needed for a custom jewelry box insert?', 'Provide the product dimensions, weight, display orientation, retention points and preferred removal method. Photos or samples help define slots, cushions, tabs or other supports.'],
       ['Does jewelry packaging require a magnetic closure?', 'No. Magnetic closure is optional. Drawer, lid-and-base, suitcase and other structures may be better suited to the product, opening experience and shipping profile.'],

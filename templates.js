@@ -115,7 +115,6 @@ const headerTemplate = (relativePath = '') => `
                         </div>
 
                         <a href="${relativePath}products/interactive-packaging.html" class="block px-6 py-2.5 text-[10px] font-bold uppercase tracking-widest hover:bg-brandIvory hover:text-brandGold">Interactive Packaging</a>
-                        <a href="${relativePath}products/keepsake-boxes.html" class="block px-6 py-2.5 text-[10px] font-bold uppercase tracking-widest hover:bg-brandIvory hover:text-brandGold">Keepsake Boxes</a>
                         <a href="${relativePath}products/greeting-cards.html" class="block px-6 py-2.5 text-[10px] font-bold uppercase tracking-widest hover:bg-brandIvory hover:text-brandGold">Greeting Cards</a>
                         <a href="${relativePath}applications/religious-and-cultural-gift-packaging.html" class="block px-6 py-2.5 text-[10px] font-bold uppercase tracking-widest hover:bg-brandIvory hover:text-brandGold text-brandForest border-t border-brandBeige/50">Religious & Ritual Packaging</a>
                         <a href="${relativePath}products/index.html" class="block px-6 py-2.5 text-[10px] font-bold uppercase tracking-widest border-t border-brandBeige mt-2 hover:bg-brandIvory">All Products</a>
@@ -212,7 +211,6 @@ const footerTemplate = (relativePath = '') => `
             <ul class="space-y-4 text-[10px] uppercase font-bold tracking-widest opacity-80">
                 <li><a href="${relativePath}products/advent-calendar-boxes.html" class="hover:text-brandGold transition-colors">Advent Calendar</a></li>
                 <li><a href="${relativePath}products/rigid-boxes.html" class="hover:text-brandGold transition-colors">Rigid Gift Boxes</a></li>
-                <li><a href="${relativePath}products/keepsake-boxes.html" class="hover:text-brandGold transition-colors">Keepsake Boxes</a></li>
                 <li><a href="${relativePath}products/index.html" class="hover:text-brandGold transition-colors">Master Catalog</a></li>
             </ul>
         </div>
