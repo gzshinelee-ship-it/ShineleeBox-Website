@@ -21,31 +21,41 @@ function generateSitemap() {
     
     const sitemapEntries = [];
     const scanDirs = [
-        { dir: '', prefix: '' },
-        { dir: 'products', prefix: 'products/' },
-        { dir: 'applications', prefix: 'applications/' },
-        { dir: 'holiday-occasions', prefix: 'holiday-occasions/' },
-        { dir: 'blog', prefix: 'blog/' }
+        { dir: '', prefix: '', recursive: false },
+        { dir: 'products', prefix: 'products/', recursive: true },
+        { dir: 'applications', prefix: 'applications/', recursive: true },
+        { dir: 'holiday-occasions', prefix: 'holiday-occasions/', recursive: true },
+        { dir: 'blog', prefix: 'blog/', recursive: true }
     ];
 
     const todayStr = formatDate(new Date());
 
-    scanDirs.forEach(({ dir, prefix }) => {
+    function walkHtmlFiles(directory, prefix, recursive) {
+        const entries = [];
+        fs.readdirSync(directory, { withFileTypes: true }).forEach(entry => {
+            if (entry.name.startsWith('.') || entry.name === 'node_modules') return;
+            const fullEntryPath = path.join(directory, entry.name);
+            if (entry.isDirectory() && recursive) {
+                entries.push(...walkHtmlFiles(fullEntryPath, `${prefix}${entry.name}/`, recursive));
+            } else if (entry.name.endsWith('.html')) {
+                entries.push({ file: entry.name, filePath: fullEntryPath, relativeUrl: `${prefix}${entry.name}` });
+            }
+        });
+        return entries;
+    }
+
+    scanDirs.forEach(({ dir, prefix, recursive }) => {
         const fullPath = path.join(__dirname, dir);
         if (!fs.existsSync(fullPath)) return;
 
-        const files = fs.readdirSync(fullPath);
-        files.forEach(file => {
-            if (!file.endsWith('.html')) return;
-            
+        walkHtmlFiles(fullPath, prefix, recursive).forEach(({ file, filePath, relativeUrl: discoveredUrl }) => {
             // Skip index.html under root since we index it as base domain, but we can list it or index it as /index.html
             // Standard SEO prefers / as root, and lists other pages
-            let relativeUrl = prefix + file;
+            let relativeUrl = discoveredUrl;
             if (relativeUrl === 'index.html') {
                 relativeUrl = ''; // root /
             }
 
-            const filePath = path.join(fullPath, file);
             const stats = fs.statSync(filePath);
             const lastMod = formatDate(stats.mtime);
 
