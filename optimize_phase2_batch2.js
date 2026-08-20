@@ -55,23 +55,6 @@ const categoryPages = {
       ['Is a presentation box the same as a shipping box?', 'No. A presentation box usually needs a separate transport pack. The outer-carton configuration should be evaluated for the destination and distribution method.']
     ]
   },
-  'applications/electronics-and-premium-gift-packaging.html': {
-    heading: 'Plan Electronics Presentation Packaging as a Complete Kit',
-    summary: 'A premium electronics box should organize the device, cable, charger, literature and accessories while controlling movement and the order in which each item is discovered.',
-    cards: [
-      ['Inventory every component', 'List device and accessory dimensions, weights, cable shapes, protective films and the intended packing orientation.'],
-      ['Separate presentation and protection', 'Define which components are visible first and where extra retention or cushioning may be required.'],
-      ['Evaluate interactive options', 'Light, sound or video modules are optional project features and should be planned with power, activation, transport and assembly requirements.'],
-      ['Prototype the packed kit', 'Verify item fit, removal, cable control, lid clearance and the packing sequence before production approval.']
-    ],
-    links: [['View interactive packaging', '../products/interactive-packaging.html'], ['View a light-up gift box', '../products/ip-001.html'], ['View a video presentation box', '../products/lm-009.html']],
-    faqs: [
-      ['What should be included in an electronics packaging brief?', 'List the device, accessories, cables, documentation and any protective films with dimensions, weights and packing orientations. Include quantity, destination and target delivery window.'],
-      ['Are light, sound or video modules required?', 'No. Interactive modules are optional. They should be used only when they support the intended presentation and can be integrated with the structure, power and transport requirements.'],
-      ['How are cables and small accessories organized?', 'Dedicated cavities, paperboard compartments or other insert features can separate accessories when the complete kit and removal sequence are defined.'],
-      ['When is a functional prototype useful?', 'A functional prototype is useful when activation, electronics placement, viewing angle or a complex opening sequence must be verified before production planning.']
-    ]
-  },
   'holiday-occasions/christmas-packaging.html': {
     title: 'Custom Christmas Gift Boxes & Advent Packaging | ShineleeBox',
     description: 'Custom Christmas gift boxes, advent calendar packaging and seasonal presentation boxes with tailored compartments, printed paper wraps and optional interactive features.',
@@ -120,7 +103,6 @@ const productPages = {
     heading: 'Information to Prepare for a Functional Quote',
     intro: 'This light-up gift box combines a paperboard presentation structure with an optional lighting concept. The module, switch, power placement and insert must be planned together for the intended opening action.',
     checklist: ['Product dimensions, weight and intended placement', 'Desired activation action, light position and viewing direction', 'Order quantity, destination and target delivery window', 'Artwork, reference video and any functional expectations'],
-    links: [['Interactive packaging collection', 'interactive-packaging.html'], ['Electronics presentation packaging', '../applications/electronics-and-premium-gift-packaging.html']],
     faqs: [
       ['What activates the light-up feature?', 'The activation method is project-specific and should be defined during development according to the opening action, module placement and desired experience.'],
       ['Is the magnetic closure essential to the lighting?', 'No. The closure and lighting are separate design decisions. The suitable structure is selected around the product and intended interaction.'],
@@ -142,7 +124,6 @@ const productPages = {
     heading: 'Information to Prepare for a Functional Quote',
     intro: 'This video presentation box is a reference for corporate gifting and launch kits. Screen placement, media behavior, charging access, product insert and opening sequence should be confirmed as one functional system.',
     checklist: ['Product and accessory dimensions, weights and packing orientation', 'Required media behavior, screen viewing direction and controls', 'Order quantity, destination and target delivery window', 'Video assets, artwork status and functional reference materials'],
-    links: [['Electronics presentation packaging', '../applications/electronics-and-premium-gift-packaging.html'], ['Interactive packaging collection', 'interactive-packaging.html']],
     faqs: [
       ['What media details are needed for a video box project?', 'Describe the required playback behavior, controls, screen viewing direction, media files and any charging or access expectations.'],
       ['Can the product insert be customized with the screen layout?', 'Yes. The screen, module space, product and accessories should be planned together so the insert and opening sequence work around the complete kit.'],
