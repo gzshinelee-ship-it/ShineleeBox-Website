@@ -2,8 +2,8 @@ const fs = require('fs');
 const path = require('path');
 
 // Colors - Premium Western Minimalist Luxury Aesthetic
-const GA4_MEASUREMENT_ID = 'G-SDR60B17Y6'; 
-const GTM_CONTAINER_ID = 'GTM-T82P7C8W';   
+const GA4_MEASUREMENT_ID = 'G-SDR60B17Y6';
+const GTM_CONTAINER_ID = 'GTM-T82P7C8W';
 
 const headTemplate = (title, description, relativePath = '') => `
 <!DOCTYPE html>
@@ -37,13 +37,13 @@ const headTemplate = (title, description, relativePath = '') => `
             theme: {
                 extend: {
                     colors: {
-                        brandCharcoal: '#1F1F1F', 
-                        brandGold: '#C6A15B',     
-                        brandIvory: '#F7F3EC',    
-                        brandBurgundy: '#5A1F2B', 
-                        brandForest: '#1F3A2E',   
-                        brandGreen: '#1F3A2E',    
-                        brandBeige: '#E5DDD0',    
+                        brandCharcoal: '#1F1F1F',
+                        brandGold: '#C6A15B',
+                        brandIvory: '#F7F3EC',
+                        brandBurgundy: '#5A1F2B',
+                        brandForest: '#1F3A2E',
+                        brandGreen: '#1F3A2E',
+                        brandBeige: '#E5DDD0',
                         brandWhite: '#FFFFFF'
                     },
                     fontFamily: {
@@ -85,11 +85,11 @@ const headerTemplate = (relativePath = '') => `
                     <span class="text-[8px] uppercase tracking-[0.3em] text-brandGold font-bold -mt-1">Guangzhou Excellence</span>
                 </a>
             </div>
-            
+
             <!-- Desktop Navigation Links -->
             <nav class="hidden md:flex space-x-1 lg:space-x-4 items-center">
                 <a href="${relativePath}index.html" class="text-[10px] font-bold uppercase tracking-widest px-3 py-2 hover:text-brandGold transition-colors">Home</a>
-                
+
                 <!-- Products Menu -->
                 <div class="relative group">
                     <a href="${relativePath}products/index.html" class="text-[10px] font-bold uppercase tracking-widest px-3 py-2 hover:text-brandGold transition-colors flex items-center">
@@ -97,7 +97,7 @@ const headerTemplate = (relativePath = '') => `
                     </a>
                     <div class="absolute left-0 mt-0 w-72 bg-brandWhite rounded-b-lg shadow-xl py-4 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-200 border-x border-b border-brandBeige z-[60]">
                         <a href="${relativePath}products/advent-calendar-boxes.html" class="block px-6 py-2.5 text-[10px] font-bold uppercase tracking-widest hover:bg-brandIvory hover:text-brandGold">Advent Calendar Boxes</a>
-                        
+
                         <!-- Rigid Boxes Submenu -->
                         <div class="relative group/sub px-6 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-brandIvory hover:text-brandGold cursor-pointer flex items-center justify-between border-b border-slate-50 mb-2">
                             <a href="${relativePath}products/rigid-boxes.html" class="flex-grow">Rigid Gift Boxes</a>
@@ -133,8 +133,7 @@ const headerTemplate = (relativePath = '') => `
                         <a href="${relativePath}applications/jewelry-and-accessories-packaging.html" class="block px-6 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-brandIvory hover:text-brandGold">Jewelry & Accessories Packaging</a>
                         <a href="${relativePath}applications/corporate-and-retail-packaging.html" class="block px-6 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-brandIvory hover:text-brandGold">Corporate & Retail Packaging</a>
                         <a href="${relativePath}applications/religious-and-cultural-gift-packaging.html" class="block px-6 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-brandIvory hover:text-brandGold text-brandForest">Religious & Cultural Packaging</a>
-                        <a href="${relativePath}applications/electronics-and-premium-gift-packaging.html" class="block px-6 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-brandIvory hover:text-brandGold">Electronics & Premium Packaging</a>
-                        <a href="${relativePath}applications/index.html" class="block px-6 py-2 text-[10px] font-bold uppercase tracking-widest border-t border-brandBeige mt-2 hover:bg-brandIvory">All Solutions</a>
+<a href="${relativePath}applications/index.html" class="block px-6 py-2 text-[10px] font-bold uppercase tracking-widest border-t border-brandBeige mt-2 hover:bg-brandIvory">All Solutions</a>
                     </div>
                 </div>
 

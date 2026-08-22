@@ -62,7 +62,6 @@ const pages = {
     ],
     related: [
       ['View custom advent calendar boxes', '../products/advent-calendar-boxes.html'],
-      ['Explore electronics and premium gift packaging', '../applications/electronics-and-premium-gift-packaging.html'],
       ['Discuss a custom concept', '../contact.html']
     ],
     faqs: [
