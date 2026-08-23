@@ -53,6 +53,12 @@
         body { color: #1F1F1F; background-color: #F7F3EC; }
         .luxury-shadow { box-shadow: 0 10px 30px -5px rgba(31, 31, 31, 0.05); }
     </style>
+    <link rel="canonical" href="https://slpack.net/contact.html">
+    <meta property="og:url" content="https://slpack.net/contact.html">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Get a Free Sample & Quote with a 2-Hour Reply | ShineleeBox">
+    <meta property="og:description" content="Fill out our high-converting inquiry form to get custom advent calendars, rigid box samples, and factory-direct wholesale pricing from Guangzhou Shinelee Paper Product Co., Ltd.">
+    <script type="application/ld+json" data-contact-page-schema="true">{"@context":"https://schema.org","@type":"ContactPage","@id":"https://slpack.net/contact.html#contact-page","url":"https://slpack.net/contact.html","name":"Get a Free Sample & Quote with a 2-Hour Reply | ShineleeBox","description":"Fill out our high-converting inquiry form to get custom advent calendars, rigid box samples, and factory-direct wholesale pricing from Guangzhou Shinelee Paper Product Co., Ltd.","mainEntity":{"@type":"Organization","@id":"https://slpack.net/#organization","name":"Guangzhou Shinelee Paper Product Co., Ltd.","alternateName":"ShineleeBox","url":"https://slpack.net/","email":"info@slpack.net","telephone":"+86-188-1884-0878","contactPoint":{"@type":"ContactPoint","contactType":"sales","email":"info@slpack.net","telephone":"+86-188-1884-0878","availableLanguage":["English","Chinese"]}}}</script>
 </head>
 <body class="bg-brandIvory text-brandCharcoal font-sans min-h-screen flex flex-col">
     <!-- Google Tag Manager (noscript) -->
@@ -480,7 +486,9 @@
             // Prepare data
             const formData = new FormData(this);
             const productId = new URLSearchParams(window.location.search).get('product') || '';
+            const leadReference = 'SL-' + Date.now().toString(36).toUpperCase();
             formData.set('product_id', productId);
+            formData.set('lead_reference', leadReference);
             formData.set('page_path', window.location.pathname);
             formData.set('page_url', window.location.href);
             formData.set('_subject', productId ? 'ShineleeBox inquiry — ' + productId : 'New ShineleeBox packaging inquiry');
@@ -496,20 +504,15 @@
                 if (response.ok) {
                     const productType = formData.get('product_type');
                     const estimatedQuantity = formData.get('estimated_quantity');
-                    if (window.dataLayer) {
-                        window.dataLayer.push({
-                            'event': 'form_submission',
-                            'event_category': 'conversion',
-                            'product_id': productId,
-                            'product_type': productType,
-                            'estimated_quantity': estimatedQuantity
-                        });
-                    }
                     if (typeof gtag === 'function') {
                         gtag('event', 'generate_lead', {
+                            'lead_reference': leadReference,
+                            'lead_source': 'website_inquiry_form',
+                            'form_id': 'inquiryForm',
                             'product_id': productId,
                             'product_type': productType,
-                            'estimated_quantity': estimatedQuantity
+                            'estimated_quantity': estimatedQuantity,
+                            'page_location': window.location.href
                         });
                     }
                     document.getElementById('successModal').style.display = 'flex';
