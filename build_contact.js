@@ -7,6 +7,31 @@ function buildContactPage() {
     const desc = "Fill out our high-converting inquiry form to get custom advent calendars, rigid box samples, and factory-direct wholesale pricing from Guangzhou Shinelee Paper Product Co., Ltd.";
 
     let html = headTemplate(title, desc) + headerTemplate();
+    const contactSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'ContactPage',
+        '@id': 'https://slpack.net/contact.html#contact-page',
+        url: 'https://slpack.net/contact.html',
+        name: title,
+        description: desc,
+        mainEntity: {
+            '@type': 'Organization',
+            '@id': 'https://slpack.net/#organization',
+            name: 'Guangzhou Shinelee Paper Product Co., Ltd.',
+            alternateName: 'ShineleeBox',
+            url: 'https://slpack.net/',
+            email: 'info@slpack.net',
+            telephone: '+86-188-1884-0878',
+            contactPoint: {
+                '@type': 'ContactPoint',
+                contactType: 'sales',
+                email: 'info@slpack.net',
+                telephone: '+86-188-1884-0878',
+                availableLanguage: ['English', 'Chinese']
+            }
+        }
+    };
+    html = html.replace('</head>', `    <link rel="canonical" href="https://slpack.net/contact.html">\n    <meta property="og:url" content="https://slpack.net/contact.html">\n    <meta property="og:type" content="website">\n    <meta property="og:title" content="${title}">\n    <meta property="og:description" content="${desc}">\n    <script type="application/ld+json" data-contact-page-schema="true">${JSON.stringify(contactSchema)}</script>\n</head>`);
 
     html += `
     <!-- Header Hero Banner -->
@@ -311,7 +336,9 @@ function buildContactPage() {
             // Prepare data
             const formData = new FormData(this);
             const productId = new URLSearchParams(window.location.search).get('product') || '';
+            const leadReference = 'SL-' + Date.now().toString(36).toUpperCase();
             formData.set('product_id', productId);
+            formData.set('lead_reference', leadReference);
             formData.set('page_path', window.location.pathname);
             formData.set('page_url', window.location.href);
             formData.set('_subject', productId ? 'ShineleeBox inquiry — ' + productId : 'New ShineleeBox packaging inquiry');
@@ -327,20 +354,15 @@ function buildContactPage() {
                 if (response.ok) {
                     const productType = formData.get('product_type');
                     const estimatedQuantity = formData.get('estimated_quantity');
-                    if (window.dataLayer) {
-                        window.dataLayer.push({
-                            'event': 'form_submission',
-                            'event_category': 'conversion',
-                            'product_id': productId,
-                            'product_type': productType,
-                            'estimated_quantity': estimatedQuantity
-                        });
-                    }
                     if (typeof gtag === 'function') {
                         gtag('event', 'generate_lead', {
+                            'lead_reference': leadReference,
+                            'lead_source': 'website_inquiry_form',
+                            'form_id': 'inquiryForm',
                             'product_id': productId,
                             'product_type': productType,
-                            'estimated_quantity': estimatedQuantity
+                            'estimated_quantity': estimatedQuantity,
+                            'page_location': window.location.href
                         });
                     }
                     document.getElementById('successModal').style.display = 'flex';
