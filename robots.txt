@@ -1,4 +1,4 @@
-# Standard Robots.txt for ShineleeBox Custom Packaging Website (https://slpack.net)
+# Standard Robots.txt for ShineleeBox Custom Packaging Website (https://www.slpack.net)
 # Optimized for maximum search engine indexability and crawling efficiency.
 
 User-agent: *
@@ -21,5 +21,5 @@ User-agent: ClaudeBot
 Allow: /
 
 # Direct crawlers to our dynamically generated sitemap
-Sitemap: https://slpack.net/sitemap.xml
-Sitemap: https://slpack.net/sitemap-i18n.xml
+Sitemap: https://www.slpack.net/sitemap.xml
+Sitemap: https://www.slpack.net/sitemap-i18n.xml

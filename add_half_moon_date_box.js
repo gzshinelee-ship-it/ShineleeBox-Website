@@ -5,9 +5,9 @@ const slug = 'custom-half-moon-round-date-gift-box';
 const name = 'Custom Half-Moon Round Date Gift Box with Radial Compartments';
 const shortName = 'Half-Moon Round Date Gift Box';
 const description = 'Custom half-moon round date gift box with a sliding reveal lid, radial paperboard compartments, rigid greyboard construction and premium branded finishes for Ramadan and Eid gifting.';
-const productUrl = `https://slpack.net/products/${slug}.html`;
+const productUrl = `https://www.slpack.net/products/${slug}.html`;
 const imagePath = '../images/products/CS-007_half-moon-date-gift-box/main.jpg';
-const imageUrl = 'https://slpack.net/images/products/CS-007_half-moon-date-gift-box/main.jpg';
+const imageUrl = 'https://www.slpack.net/images/products/CS-007_half-moon-date-gift-box/main.jpg';
 const template = fs.readFileSync('products/rb-004.html', 'utf8');
 
 const faqs = [
@@ -26,9 +26,9 @@ const schema = {
       '@type': 'BreadcrumbList',
       '@id': `${productUrl}#breadcrumb`,
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://slpack.net/' },
-        { '@type': 'ListItem', position: 2, name: 'Chocolate & Food Packaging', item: 'https://slpack.net/applications/chocolate-and-food-packaging.html' },
-        { '@type': 'ListItem', position: 3, name: 'Custom Shape Boxes', item: 'https://slpack.net/products/rigid-boxes/custom-shape-boxes.html' },
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.slpack.net/' },
+        { '@type': 'ListItem', position: 2, name: 'Chocolate & Food Packaging', item: 'https://www.slpack.net/applications/chocolate-and-food-packaging.html' },
+        { '@type': 'ListItem', position: 3, name: 'Custom Shape Boxes', item: 'https://www.slpack.net/products/rigid-boxes/custom-shape-boxes.html' },
         { '@type': 'ListItem', position: 4, name, item: productUrl }
       ]
     },
@@ -43,7 +43,7 @@ const schema = {
       category: 'Custom Shape Boxes > Chocolate & Food Packaging > Date Gift Boxes',
       material: 'High-density greyboard wrapped with custom paper; food-contact primary tray or liner specified separately',
       brand: { '@type': 'Brand', name: 'ShineleeBox' },
-      manufacturer: { '@id': 'https://slpack.net/#organization' }
+      manufacturer: { '@id': 'https://www.slpack.net/#organization' }
     },
     {
       '@type': 'FAQPage',

@@ -10,16 +10,16 @@ function buildContactPage() {
     const contactSchema = {
         '@context': 'https://schema.org',
         '@type': 'ContactPage',
-        '@id': 'https://slpack.net/contact.html#contact-page',
-        url: 'https://slpack.net/contact.html',
+        '@id': 'https://www.slpack.net/contact.html#contact-page',
+        url: 'https://www.slpack.net/contact.html',
         name: title,
         description: desc,
         mainEntity: {
             '@type': 'Organization',
-            '@id': 'https://slpack.net/#organization',
+            '@id': 'https://www.slpack.net/#organization',
             name: 'Guangzhou Shinelee Paper Product Co., Ltd.',
             alternateName: 'ShineleeBox',
-            url: 'https://slpack.net/',
+            url: 'https://www.slpack.net/',
             email: 'info@slpack.net',
             telephone: '+86-188-1884-0878',
             contactPoint: {
@@ -31,7 +31,7 @@ function buildContactPage() {
             }
         }
     };
-    html = html.replace('</head>', `    <link rel="canonical" href="https://slpack.net/contact.html">\n    <meta property="og:url" content="https://slpack.net/contact.html">\n    <meta property="og:type" content="website">\n    <meta property="og:title" content="${title}">\n    <meta property="og:description" content="${desc}">\n    <script type="application/ld+json" data-contact-page-schema="true">${JSON.stringify(contactSchema)}</script>\n</head>`);
+    html = html.replace('</head>', `    <link rel="canonical" href="https://www.slpack.net/contact.html">\n    <meta property="og:url" content="https://www.slpack.net/contact.html">\n    <meta property="og:type" content="website">\n    <meta property="og:title" content="${title}">\n    <meta property="og:description" content="${desc}">\n    <script type="application/ld+json" data-contact-page-schema="true">${JSON.stringify(contactSchema)}</script>\n</head>`);
 
     html += `
     <!-- Header Hero Banner -->

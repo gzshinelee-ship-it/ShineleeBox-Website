@@ -72,11 +72,11 @@ const pages = {
 
 function escJson(value){return JSON.stringify(value).replace(/</g,'\\u003c')}
 function render(key, lang){
-  const c=common[lang], p=pages[key], d=p[lang], canonical=`https://slpack.net/${p.out[lang].replace(/index\.html$/,'')}`;
-  const alternates={en:`https://slpack.net${p.en}`,es:`https://slpack.net/${p.out.es.replace(/index\.html$/,'')}`,ar:`https://slpack.net/${p.out.ar.replace(/index\.html$/,'')}`};
+  const c=common[lang], p=pages[key], d=p[lang], canonical=`https://www.slpack.net/${p.out[lang].replace(/index\.html$/,'')}`;
+  const alternates={en:`https://www.slpack.net${p.en}`,es:`https://www.slpack.net/${p.out.es.replace(/index\.html$/,'')}`,ar:`https://www.slpack.net/${p.out.ar.replace(/index\.html$/,'')}`};
   const faq=d.faq.map(([q,a])=>({"@type":"Question",name:q,acceptedAnswer:{"@type":"Answer",text:a}}));
   const json={"@context":"https://schema.org","@graph":[{"@type":key==='contact'?'ContactPage':'WebPage',"@id":`${canonical}#webpage`,url:canonical,name:d.title,description:d.description,inLanguage:c.lang},{"@type":"FAQPage",mainEntity:faq}]};
-  const nav=c.nav.map((n,i)=>`<a href="https://slpack.net${c.links[i]}" class="hover:text-gold">${n}</a>`).join('');
+  const nav=c.nav.map((n,i)=>`<a href="https://www.slpack.net${c.links[i]}" class="hover:text-gold">${n}</a>`).join('');
   const uses=d.uses.map(x=>`<li>${x}</li>`).join('');
   const facts=c.facts.map(x=>`<li>${x}</li>`).join('');
   const faqHtml=d.faq.map(([q,a])=>`<article><h3>${q}</h3><p>${a}</p></article>`).join('');
@@ -84,10 +84,10 @@ function render(key, lang){
 <html lang="${c.lang}" dir="${c.dir}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${d.title}</title><meta name="description" content="${d.description}"><link rel="canonical" href="${canonical}">
 <link rel="alternate" hreflang="en" href="${alternates.en}"><link rel="alternate" hreflang="es" href="${alternates.es}"><link rel="alternate" hreflang="ar" href="${alternates.ar}"><link rel="alternate" hreflang="x-default" href="${alternates.en}">
-<meta property="og:type" content="website"><meta property="og:locale" content="${c.locale}"><meta property="og:title" content="${d.title}"><meta property="og:description" content="${d.description}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="https://slpack.net/images/products/CS-007_half-moon-date-gift-box/lifestyle-ramadan-v2.jpg">
-<script type="application/ld+json">${escJson(json)}</script><link rel="stylesheet" href="https://slpack.net/assets/localized-pages.css"></head>
-<body><div class="alert">BSCI · FSC · MOQ 50+ · Guangzhou Manufacturer</div><header><a class="brand" href="https://slpack.net${c.links[0]}">ShineleeBox<small>${c.eyebrow}</small></a><nav>${nav}</nav><div class="languages"><a href="${alternates.en}">EN</a><a href="${alternates.es}">ES</a><a href="${alternates.ar}">العربية</a></div></header>
-<main><section class="hero"><div><span>${c.eyebrow}</span><h1>${d.h1}</h1><p>${d.lead}</p><a class="button" href="https://slpack.net${c.links[5]}">${c.cta}</a></div><img src="https://slpack.net/images/products/CS-007_half-moon-date-gift-box/lifestyle-ramadan-v2.jpg" alt="${d.h1}" width="1600" height="1200"></section>
+<meta property="og:type" content="website"><meta property="og:locale" content="${c.locale}"><meta property="og:title" content="${d.title}"><meta property="og:description" content="${d.description}"><meta property="og:url" content="${canonical}"><meta property="og:image" content="https://www.slpack.net/images/products/CS-007_half-moon-date-gift-box/lifestyle-ramadan-v2.jpg">
+<script type="application/ld+json">${escJson(json)}</script><link rel="stylesheet" href="https://www.slpack.net/assets/localized-pages.css"></head>
+<body><div class="alert">BSCI · FSC · MOQ 50+ · Guangzhou Manufacturer</div><header><a class="brand" href="https://www.slpack.net${c.links[0]}">ShineleeBox<small>${c.eyebrow}</small></a><nav>${nav}</nav><div class="languages"><a href="${alternates.en}">EN</a><a href="${alternates.es}">ES</a><a href="${alternates.ar}">العربية</a></div></header>
+<main><section class="hero"><div><span>${c.eyebrow}</span><h1>${d.h1}</h1><p>${d.lead}</p><a class="button" href="https://www.slpack.net${c.links[5]}">${c.cta}</a></div><img src="https://www.slpack.net/images/products/CS-007_half-moon-date-gift-box/lifestyle-ramadan-v2.jpg" alt="${d.h1}" width="1600" height="1200"></section>
 <section class="answer"><strong>${lang==='es'?'Respuesta directa':'إجابة مباشرة'}</strong><p>${d.answer}</p></section>
 <section class="proof">${c.proof.map(x=>`<div>${x}</div>`).join('')}</section>
 <section class="two"><div><h2>${d.useTitle}</h2><ul>${uses}</ul></div><div><h2>${c.processTitle}</h2><p>${c.process}</p><p>${c.processNote}</p></div></section>
@@ -105,15 +105,15 @@ const englishFiles={home:'index.html',products:'products/index.html',chocolate:'
 for(const [key,file] of Object.entries(englishFiles)){
   const p=pages[key], target=path.join(root,file); let html=fs.readFileSync(target,'utf8');
   const marker='<!-- localized-alternates -->';
-  const block=`${marker}\n    <link rel="alternate" hreflang="en" href="https://slpack.net${p.en}">\n    <link rel="alternate" hreflang="es" href="https://slpack.net/${p.out.es.replace(/index\.html$/,'')}">\n    <link rel="alternate" hreflang="ar" href="https://slpack.net/${p.out.ar.replace(/index\.html$/,'')}">\n    <link rel="alternate" hreflang="x-default" href="https://slpack.net${p.en}">`;
+  const block=`${marker}\n    <link rel="alternate" hreflang="en" href="https://www.slpack.net${p.en}">\n    <link rel="alternate" hreflang="es" href="https://www.slpack.net/${p.out.es.replace(/index\.html$/,'')}">\n    <link rel="alternate" hreflang="ar" href="https://www.slpack.net/${p.out.ar.replace(/index\.html$/,'')}">\n    <link rel="alternate" hreflang="x-default" href="https://www.slpack.net${p.en}">`;
   if(html.includes(marker)) html=html.replace(/<!-- localized-alternates -->[\s\S]*?<link rel="alternate" hreflang="x-default"[^>]*>/,block); else html=html.replace(/(<link rel="canonical"[^>]*>)/,`$1\n    ${block}`);
-  const switcher='<script src="'+('../'.repeat(file.split('/').length-1))+'assets/language-switcher.js" data-language-switcher data-es="https://slpack.net/'+p.out.es.replace(/index\.html$/,'')+'" data-ar="https://slpack.net/'+p.out.ar.replace(/index\.html$/,'')+'"></script>';
+  const switcher='<script src="'+('../'.repeat(file.split('/').length-1))+'assets/language-switcher.js" data-language-switcher data-es="https://www.slpack.net/'+p.out.es.replace(/index\.html$/,'')+'" data-ar="https://www.slpack.net/'+p.out.ar.replace(/index\.html$/,'')+'"></script>';
   if(html.includes('data-language-switcher')) html=html.replace(/<script src="[^"]*assets\/language-switcher\.js"[^>]*><\/script>/,switcher); else html=html.replace('</body>',switcher+'\n</body>');
   fs.writeFileSync(target,html);
 }
 
 const sitemapEntries=[];
-for(const p of Object.values(pages)) for(const lang of ['es','ar']) sitemapEntries.push(`  <url>\n    <loc>https://slpack.net/${p.out[lang].replace(/index\.html$/,'')}</loc>\n    <lastmod>2026-09-06</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>${p===pages.home?'0.9':'0.8'}</priority>\n  </url>`);
+for(const p of Object.values(pages)) for(const lang of ['es','ar']) sitemapEntries.push(`  <url>\n    <loc>https://www.slpack.net/${p.out[lang].replace(/index\.html$/,'')}</loc>\n    <lastmod>2026-09-06</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>${p===pages.home?'0.9':'0.8'}</priority>\n  </url>`);
 const sitemapPath=path.join(root,'sitemap-i18n.xml');
 fs.writeFileSync(sitemapPath,`<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapEntries.join('\n')}\n</urlset>\n`);
 console.log(`Generated ${Object.keys(pages).length*2} localized pages, English alternates and i18n sitemap.`);
