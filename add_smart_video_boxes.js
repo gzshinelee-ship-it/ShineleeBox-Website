@@ -111,7 +111,7 @@ const itemList = {
   itemListElement: products.map((p, index) => ({
     '@type': 'ListItem',
     position: index + 1,
-    url: `https://slpack.net/products/${p.file}`,
+    url: `https://www.slpack.net/products/${p.file}`,
     name: (p.schemaName || p.name)
   }))
 };

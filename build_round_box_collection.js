@@ -19,15 +19,15 @@ const esc = value => value.replaceAll('&','&amp;');
 const productTemplate = fs.readFileSync('products/rg-001.html','utf8');
 
 for (const p of products) {
-  const url = `https://slpack.net/products/${p.slug}.html`;
+  const url = `https://www.slpack.net/products/${p.slug}.html`;
   const schema = {
     '@context':'https://schema.org','@graph':[
       {'@type':'BreadcrumbList','@id':`${url}#breadcrumb`,itemListElement:[
-        {'@type':'ListItem',position:1,name:'Home',item:'https://slpack.net/'},
-        {'@type':'ListItem',position:2,name:'Round Gift Boxes',item:'https://slpack.net/products/rigid-boxes/round-gift-boxes.html'},
+        {'@type':'ListItem',position:1,name:'Home',item:'https://www.slpack.net/'},
+        {'@type':'ListItem',position:2,name:'Round Gift Boxes',item:'https://www.slpack.net/products/rigid-boxes/round-gift-boxes.html'},
         {'@type':'ListItem',position:3,name:p.name,item:url}
       ]},
-      {'@type':'Product','@id':`${url}#product`,name:p.name,description:p.desc,sku:p.id,url,category:'Rigid Gift Boxes > Round Gift Boxes',brand:{'@type':'Brand',name:'ShineleeBox'},manufacturer:{'@id':'https://slpack.net/#organization'},image:[`https://slpack.net/images/products/${p.folder}/main.webp`]},
+      {'@type':'Product','@id':`${url}#product`,name:p.name,description:p.desc,sku:p.id,url,category:'Rigid Gift Boxes > Round Gift Boxes',brand:{'@type':'Brand',name:'ShineleeBox'},manufacturer:{'@id':'https://www.slpack.net/#organization'},image:[`https://www.slpack.net/images/products/${p.folder}/main.webp`]},
       {'@type':'FAQPage',mainEntity:[
         {'@type':'Question',name:`Can the ${p.name.toLowerCase()} be customized?`,acceptedAnswer:{'@type':'Answer',text:`Yes. Buyers can customize dimensions, structure, wrapped paper, printing, finishing and the ${p.insert}.`}},
         {'@type':'Question',name:'What information is needed for a quotation?',acceptedAnswer:{'@type':'Answer',text:'Provide the packed product dimensions, target quantity, preferred structure, artwork status, insert requirements and delivery country.'}},
@@ -59,12 +59,12 @@ const categoryTemplate = fs.readFileSync('products/rigid-boxes/round-gift-boxes.
 function card(p){return `<article class="bg-white border border-brandBeige p-5 flex flex-col luxury-shadow group"><a href="../../products/${p.slug}.html" class="block aspect-square bg-brandIvory overflow-hidden mb-5"><img src="../../images/products/${p.folder}/main.webp" alt="${esc(p.name)}" loading="lazy" decoding="async" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"></a><p class="text-[10px] text-brandGold font-bold uppercase tracking-[0.18em] mb-2">${p.id}</p><h2 class="font-serif text-xl font-bold leading-snug mb-3">${esc(p.name)}</h2><p class="text-sm text-brandCharcoal/65 leading-relaxed mb-5 flex-grow">${p.desc}</p><a href="../../products/${p.slug}.html" class="text-[10px] font-bold uppercase tracking-widest text-brandBurgundy">View product →</a></article>`}
 function categoryPage(page){
   const slice=products.slice((page-1)*6,page*6);
-  const pageUrl=page===1?'https://slpack.net/products/rigid-boxes/round-gift-boxes.html':'https://slpack.net/products/rigid-boxes/round-gift-boxes-page-2.html';
+  const pageUrl=page===1?'https://www.slpack.net/products/rigid-boxes/round-gift-boxes.html':'https://www.slpack.net/products/rigid-boxes/round-gift-boxes-page-2.html';
   const pageTitle=page===1?'Custom Round Gift Boxes & Paper Tubes | ShineleeBox':'Round Gift Box Collection Page 2 | ShineleeBox';
   const pageDescription=page===1?'Custom round gift boxes and cylindrical paper tube packaging for perfume, candles, jewelry, food, beauty and wine. OEM greyboard structures and inserts.':'Explore page 2 of ShineleeBox round packaging: paper tubes and cylindrical rigid gift boxes for tea, wine, cosmetics, flowers, macarons and holiday gift sets.';
   const prev=page===2?'<a href="round-gift-boxes.html" class="border border-brandCharcoal px-5 py-3">← Previous</a>':'';
   const next=page===1?'<a href="round-gift-boxes-page-2.html" class="bg-brandBurgundy text-white px-5 py-3">Next →</a>':'';
-  const itemList={'@context':'https://schema.org','@type':'ItemList',name:`Custom Round Gift Boxes — Page ${page}`,numberOfItems:slice.length,itemListElement:slice.map((p,i)=>({'@type':'ListItem',position:(page-1)*6+i+1,url:`https://slpack.net/products/${p.slug}.html`,name:p.name}))};
+  const itemList={'@context':'https://schema.org','@type':'ItemList',name:`Custom Round Gift Boxes — Page ${page}`,numberOfItems:slice.length,itemListElement:slice.map((p,i)=>({'@type':'ListItem',position:(page-1)*6+i+1,url:`https://www.slpack.net/products/${p.slug}.html`,name:p.name}))};
   const main=`<main class="flex-grow"><section class="bg-brandCharcoal text-brandIvory py-20 border-b border-brandGold/30 text-center"><p class="text-[10px] text-brandGold font-bold uppercase tracking-[0.25em] mb-4">Round Rigid Packaging · Page ${page} of 2</p><h1 class="font-serif text-4xl sm:text-5xl font-bold">Custom Round Gift Boxes &amp; Cylindrical Packaging</h1><p class="mt-5 max-w-3xl mx-auto text-sm sm:text-base leading-relaxed text-brandIvory/75">Original ShineleeBox concepts for perfume, candles, jewelry, chocolate, tea, wine, cosmetics and premium gifting. Every round box can be engineered in custom dimensions with grayboard construction, wrapped paper, branded finishes and fitted inserts.</p></section><section class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">${slice.map(card).join('')}</div><nav class="mt-12 flex justify-center items-center gap-4 text-[10px] font-bold uppercase tracking-widest" aria-label="Round gift box pagination">${prev}<span class="px-4 py-3">Page ${page} / 2</span>${next}</nav></section><section class="bg-white border-y border-brandBeige py-16"><div class="max-w-5xl mx-auto px-4 text-center"><h2 class="font-serif text-3xl font-bold">Need a custom cylinder box?</h2><p class="mt-4 text-slate-600">Send your product size, quantity, artwork, insert requirements and destination. We will review the suitable round-box structure and sampling route.</p><a href="../../contact.html" class="inline-flex mt-7 bg-brandBurgundy text-white px-7 py-4 text-[10px] font-bold uppercase tracking-widest">Request Custom Quote</a></div></section></main>`;
   return categoryTemplate
     .replace(/<title>[^<]*<\/title>/,`<title>${pageTitle}</title>`)

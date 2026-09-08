@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const DOMAIN = 'https://slpack.net';
+const DOMAIN = 'https://www.slpack.net';
 
 // Helper to format date as YYYY-MM-DD
 function formatDate(date) {

@@ -17,8 +17,8 @@ const esc = s => s.replaceAll('&','&amp;').replaceAll('"','&quot;');
 const template = fs.readFileSync('products/round-chocolate-box-with-window.html','utf8');
 
 for (const p of products) {
-  const url = `https://slpack.net/products/${p.slug}.html`;
-  const image = `https://slpack.net/images/products/${p.id}/main.webp`;
+  const url = `https://www.slpack.net/products/${p.slug}.html`;
+  const image = `https://www.slpack.net/images/products/${p.id}/main.webp`;
   const faq = [
     {q:`Can the ${p.name.toLowerCase()} be customized?`, a:`Yes. ShineleeBox can customize dimensions, wrapped paper, printing, finishing, compartment count and the ${p.insert}. Final specifications depend on the packed chocolate format and project requirements.`},
     {q:'Is the decorative box suitable for direct food contact?', a:'The rigid gift box is normally secondary packaging. Individually wrap the chocolates or use a separately specified food-contact tray, cup or liner, then confirm destination-market requirements before production.'},
@@ -27,11 +27,11 @@ for (const p of products) {
   ];
   const schema = {'@context':'https://schema.org','@graph':[
     {'@type':'BreadcrumbList','@id':`${url}#breadcrumb`,itemListElement:[
-      {'@type':'ListItem',position:1,name:'Home',item:'https://slpack.net/'},
-      {'@type':'ListItem',position:2,name:'Chocolate & Food Packaging',item:'https://slpack.net/applications/chocolate-and-food-packaging.html'},
+      {'@type':'ListItem',position:1,name:'Home',item:'https://www.slpack.net/'},
+      {'@type':'ListItem',position:2,name:'Chocolate & Food Packaging',item:'https://www.slpack.net/applications/chocolate-and-food-packaging.html'},
       {'@type':'ListItem',position:3,name:p.name,item:url}
     ]},
-    {'@type':'Product','@id':`${url}#product`,name:p.name,description:p.desc,sku:p.id,url,image:[image],category:'Chocolate & Food Packaging',brand:{'@type':'Brand',name:'ShineleeBox'},manufacturer:{'@id':'https://slpack.net/#organization'},material:'High-density greyboard with custom wrapped paper and a separately specified food-grade primary tray or liner'},
+    {'@type':'Product','@id':`${url}#product`,name:p.name,description:p.desc,sku:p.id,url,image:[image],category:'Chocolate & Food Packaging',brand:{'@type':'Brand',name:'ShineleeBox'},manufacturer:{'@id':'https://www.slpack.net/#organization'},material:'High-density greyboard with custom wrapped paper and a separately specified food-grade primary tray or liner'},
     {'@type':'FAQPage',mainEntity:faq.map(x=>({'@type':'Question',name:x.q,acceptedAnswer:{'@type':'Answer',text:x.a}}))}
   ]};
   const faqHtml = faq.map(x=>`<details class="border border-brandBeige p-5"><summary class="font-semibold cursor-pointer">${esc(x.q)}</summary><p class="mt-3 text-sm text-slate-600">${esc(x.a)}</p></details>`).join('');
@@ -57,7 +57,7 @@ for (const p of products) {
 }
 
 const card = p => `<article class="bg-brandWhite border border-brandBeige hover:border-brandGold transition-all flex flex-col group luxury-shadow"><a href="../products/${p.slug}.html" class="block aspect-square bg-brandIvory overflow-hidden"><img src="../images/products/${p.id}/main.webp" alt="${esc(p.name)}" width="1254" height="1254" loading="lazy" decoding="async" class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"></a><div class="p-6 flex flex-col flex-grow"><p class="text-[9px] font-bold text-brandGold uppercase tracking-[0.2em] mb-2">${p.id} · ${p.type}</p><h3 class="font-serif text-xl font-bold leading-snug mb-3"><a href="../products/${p.slug}.html">${esc(p.name)}</a></h3><p class="text-sm text-brandCharcoal/65 leading-relaxed mb-5 flex-grow">${esc(p.desc)}</p><div class="flex justify-between items-center border-t border-brandBeige pt-4"><span class="text-[9px] font-bold text-brandCharcoal/40 uppercase tracking-widest">Custom MOQ</span><a href="../products/${p.slug}.html" class="text-[10px] font-bold uppercase tracking-widest text-brandBurgundy">View details →</a></div></div></article>`;
-const collectionSchema = {'@context':'https://schema.org','@type':'ItemList',name:'Original ShineleeBox Chocolate Box Collection',numberOfItems:products.length,itemListElement:products.map((p,i)=>({'@type':'ListItem',position:i+1,name:p.name,url:`https://slpack.net/products/${p.slug}.html`}))};
+const collectionSchema = {'@context':'https://schema.org','@type':'ItemList',name:'Original ShineleeBox Chocolate Box Collection',numberOfItems:products.length,itemListElement:products.map((p,i)=>({'@type':'ListItem',position:i+1,name:p.name,url:`https://www.slpack.net/products/${p.slug}.html`}))};
 const section = `<!-- SHINELEE CHOCOLATE COLLECTION START --><section class="py-24 bg-brandIvory border-y border-brandBeige"><div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"><div class="text-center max-w-4xl mx-auto mb-14"><p class="text-[10px] font-bold text-brandGold uppercase tracking-[0.25em] mb-4">Original ShineleeBox Concepts · 10 Structures</p><h2 class="font-serif text-3xl sm:text-5xl font-bold">Featured Custom Chocolate Box Collection</h2><p class="mt-5 text-brandCharcoal/65 leading-relaxed">Book-style, lid-and-base, drawer, custom-shape, advent calendar and interactive presentation boxes engineered for branded chocolate assortments.</p></div><div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">${products.map(card).join('')}</div></div></section>
 <section class="py-20 bg-white"><div class="max-w-5xl mx-auto px-4"><div class="text-center mb-10"><h2 class="font-serif text-3xl sm:text-4xl font-bold">How to Source Custom Chocolate Packaging</h2><p class="mt-4 text-slate-600">Answers designed for brand buyers and AI-assisted sourcing research.</p></div><div class="grid md:grid-cols-2 gap-5"><div class="border border-brandBeige p-6"><h3 class="font-bold mb-2">Which box structure works best for premium chocolates?</h3><p class="text-sm text-slate-600">Book-style boxes create a guided reveal, lid-and-base boxes suit classic retail assortments, drawers support layered collections, and calendars work for countdown campaigns. Choose after confirming piece count, chocolate dimensions and distribution route.</p></div><div class="border border-brandBeige p-6"><h3 class="font-bold mb-2">What should a buyer send for an accurate quote?</h3><p class="text-sm text-slate-600">Send each wrapped chocolate's dimensions, total piece count, desired arrangement, estimated quantity, artwork, finish references and delivery country. A physical product sample is helpful for insert testing.</p></div><div class="border border-brandBeige p-6"><h3 class="font-bold mb-2">Are rigid chocolate boxes food safe?</h3><p class="text-sm text-slate-600">The decorative rigid box is normally secondary packaging. Chocolates should be individually wrapped or placed in an appropriately specified primary tray, cup or liner. Confirm food-contact requirements for the destination market.</p></div><div class="border border-brandBeige p-6"><h3 class="font-bold mb-2">Why sample before mass production?</h3><p class="text-sm text-slate-600">Sampling verifies fit, compartment retention, opening resistance, print color, foil position and shipping protection before production materials are committed.</p></div></div></div></section><!-- SHINELEE CHOCOLATE COLLECTION END -->`;
 
@@ -72,7 +72,7 @@ fs.writeFileSync('applications/chocolate-and-food-packaging.html',category);
 
 let llms = fs.readFileSync('llms.txt','utf8').replace(/^- \[Keepsake Boxes\].*\n/m,'');
 llms = llms.replace(/\n## Featured Chocolate Packaging[\s\S]*?(?=\n## Application Guides)/g,'');
-const llmsBlock = `\n## Featured Chocolate Packaging\n\n${products.map(p=>`- [${p.name}](https://slpack.net/products/${p.slug}.html): ${p.desc}`).join('\n')}\n`;
+const llmsBlock = `\n## Featured Chocolate Packaging\n\n${products.map(p=>`- [${p.name}](https://www.slpack.net/products/${p.slug}.html): ${p.desc}`).join('\n')}\n`;
 llms = llms.replace(/\n## Application Guides/,`${llmsBlock}\n## Application Guides`);
 fs.writeFileSync('llms.txt',llms);
 

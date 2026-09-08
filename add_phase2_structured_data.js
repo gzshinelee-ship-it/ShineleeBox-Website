@@ -61,20 +61,20 @@ function canonicalFromHtml(html) {
 }
 
 function breadcrumbItems(relativePath, name, canonical) {
-  const items = [{ '@type': 'ListItem', position: 1, name: 'Home', item: 'https://slpack.net/' }];
+  const items = [{ '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.slpack.net/' }];
   const segments = relativePath.split('/');
 
   if (segments[0] === 'products') {
-    items.push({ '@type': 'ListItem', position: 2, name: 'Products', item: 'https://slpack.net/products/' });
+    items.push({ '@type': 'ListItem', position: 2, name: 'Products', item: 'https://www.slpack.net/products/' });
     if (segments[1] === 'rigid-boxes' && segments.length > 2) {
-      items.push({ '@type': 'ListItem', position: 3, name: 'Rigid Gift Boxes', item: 'https://slpack.net/products/rigid-boxes.html' });
+      items.push({ '@type': 'ListItem', position: 3, name: 'Rigid Gift Boxes', item: 'https://www.slpack.net/products/rigid-boxes.html' });
     }
   } else if (segments[0] === 'applications') {
-    items.push({ '@type': 'ListItem', position: 2, name: 'Applications', item: 'https://slpack.net/applications/' });
+    items.push({ '@type': 'ListItem', position: 2, name: 'Applications', item: 'https://www.slpack.net/applications/' });
   } else if (segments[0] === 'holiday-occasions') {
-    items.push({ '@type': 'ListItem', position: 2, name: 'Holiday & Occasions', item: 'https://slpack.net/holiday-occasions/' });
+    items.push({ '@type': 'ListItem', position: 2, name: 'Holiday & Occasions', item: 'https://www.slpack.net/holiday-occasions/' });
   } else if (segments[0] === 'blog') {
-    items.push({ '@type': 'ListItem', position: 2, name: 'Packaging Insights', item: 'https://slpack.net/blog/' });
+    items.push({ '@type': 'ListItem', position: 2, name: 'Packaging Insights', item: 'https://www.slpack.net/blog/' });
   }
 
   const alreadyCurrent = items.some((item) => item.item === canonical);
@@ -118,7 +118,7 @@ for (const file of walk(root).filter((item) => item.endsWith('.html'))) {
       url: canonical,
       category: productCategories[prefix] || 'Custom Paper Packaging',
       brand: { '@type': 'Brand', name: 'ShineleeBox' },
-      manufacturer: { '@id': 'https://slpack.net/#organization' },
+      manufacturer: { '@id': 'https://www.slpack.net/#organization' },
     };
     if (imageSrc) product.image = [new URL(imageSrc, canonical).href];
     graph.push(product);

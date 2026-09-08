@@ -13,11 +13,11 @@ function walk(dir) {
 }
 
 function canonicalFor(relativePath) {
-  if (relativePath === 'index.html') return 'https://slpack.net/';
+  if (relativePath === 'index.html') return 'https://www.slpack.net/';
   if (relativePath.endsWith('/index.html')) {
-    return `https://slpack.net/${relativePath.slice(0, -'index.html'.length)}`;
+    return `https://www.slpack.net/${relativePath.slice(0, -'index.html'.length)}`;
   }
-  return `https://slpack.net/${relativePath}`;
+  return `https://www.slpack.net/${relativePath}`;
 }
 
 let canonicalCount = 0;

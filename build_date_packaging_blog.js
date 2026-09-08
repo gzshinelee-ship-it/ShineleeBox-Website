@@ -3,8 +3,8 @@ const fs = require('fs');
 const slug = 'custom-date-gift-box-packaging-ramadan-eid-guide';
 const title = 'Custom Date Gift Box Packaging: A B2B Guide for Ramadan & Eid';
 const description = 'Plan custom date gift box packaging for Ramadan and Eid with the right rigid structure, food-safe tray, compartments, finishes, MOQ, sampling and shipping details.';
-const url = `https://slpack.net/blog/${slug}.html`;
-const imageUrl = 'https://slpack.net/images/blog/custom-round-date-gift-box-ramadan-eid.jpg';
+const url = `https://www.slpack.net/blog/${slug}.html`;
+const imageUrl = 'https://www.slpack.net/images/blog/custom-round-date-gift-box-ramadan-eid.jpg';
 const template = fs.readFileSync('blog/custom-advent-calendar-box-cost.html', 'utf8');
 
 const faqs = [
@@ -28,7 +28,7 @@ const schema = {
       datePublished: '2026-08-21',
       dateModified: '2026-08-21',
       author: { '@type': 'Person', name: 'Lisa Xia' },
-      publisher: { '@id': 'https://slpack.net/#organization' },
+      publisher: { '@id': 'https://www.slpack.net/#organization' },
       mainEntityOfPage: { '@type': 'WebPage', '@id': url },
       articleSection: 'Ramadan & Eid Packaging',
       keywords: ['custom date gift box packaging', 'Ramadan date box', 'Eid gift box', 'round date box manufacturer', 'luxury date packaging']
@@ -37,8 +37,8 @@ const schema = {
       '@type': 'BreadcrumbList',
       '@id': `${url}#breadcrumb`,
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://slpack.net/' },
-        { '@type': 'ListItem', position: 2, name: 'Packaging Insights', item: 'https://slpack.net/blog/' },
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.slpack.net/' },
+        { '@type': 'ListItem', position: 2, name: 'Packaging Insights', item: 'https://www.slpack.net/blog/' },
         { '@type': 'ListItem', position: 3, name: title, item: url }
       ]
     },
