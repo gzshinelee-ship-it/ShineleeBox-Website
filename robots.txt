@@ -23,3 +23,4 @@ Allow: /
 # Direct crawlers to our dynamically generated sitemap
 Sitemap: https://www.slpack.net/sitemap.xml
 Sitemap: https://www.slpack.net/sitemap-i18n.xml
+Sitemap: https://www.slpack.net/sitemap-knowledge.xml

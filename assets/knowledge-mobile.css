@@ -1,0 +1,118 @@
+.table-wrap {
+  margin: 20px 0 36px;
+  overflow: hidden;
+  border: 1px solid #ddd6cc;
+  background: #fff;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+th,
+td {
+  padding: 15px;
+  border-right: 1px solid #e7e1d9;
+  border-bottom: 1px solid #e7e1d9;
+  text-align: left;
+  vertical-align: top;
+}
+
+thead th {
+  background: #183d30;
+  color: #fff;
+}
+
+tbody th {
+  color: #6d2230;
+  width: 23%;
+}
+
+.example,
+.about {
+  margin-top: 44px;
+}
+
+.example {
+  padding: 28px;
+  border: 1px solid #d9c69d;
+  background: #fbf7ee;
+}
+
+.example h2 {
+  margin-top: 0;
+}
+
+.claim {
+  padding: 22px;
+  margin: 14px 0;
+  border-left: 5px solid;
+  background: #fff;
+}
+
+.claim strong {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 11px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.claim p {
+  margin: 0;
+}
+
+.claim-fact {
+  border-color: #183d30;
+}
+
+.claim-position {
+  border-color: #b49352;
+}
+
+@media (max-width: 900px) {
+  header {
+    height: auto;
+    padding-block: 18px;
+    gap: 12px;
+    flex-wrap: nowrap;
+  }
+
+  .brand {
+    font-size: 22px;
+  }
+
+  nav {
+    order: initial;
+    width: auto;
+    margin-left: auto;
+    gap: 15px;
+    overflow: visible;
+    padding-bottom: 0;
+  }
+
+  nav a:nth-child(1),
+  nav a:nth-child(2),
+  nav a:nth-child(4) {
+    display: none;
+  }
+}
+
+@media (max-width: 700px) {
+  .content {
+    min-width: 0;
+  }
+
+  .table-wrap {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  table {
+    min-width: 640px;
+  }
+}
