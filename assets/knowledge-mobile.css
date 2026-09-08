@@ -73,6 +73,64 @@ tbody th {
   border-color: #b49352;
 }
 
+.knowledge-group {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 28px;
+  padding: 46px 0;
+  border-top: 1px solid #ddd6cc;
+}
+
+.group-number {
+  color: #b49352;
+  font: 700 24px Georgia, serif;
+}
+
+.knowledge-group h2 {
+  margin: 0 0 24px;
+  font: 700 34px Georgia, serif;
+}
+
+.topic-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  background: #ddd6cc;
+  border: 1px solid #ddd6cc;
+}
+
+.topic-list article {
+  padding: 24px;
+  background: #fff;
+}
+
+.topic-list h3 {
+  margin: 0 0 10px;
+  font: 700 20px/1.3 Georgia, serif;
+}
+
+.topic-list h3 a {
+  color: #202422;
+  text-decoration: none;
+}
+
+.topic-list p {
+  display: -webkit-box;
+  overflow: hidden;
+  color: #667085;
+  font-size: 13px;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.topic-list article > a {
+  color: #6d2230;
+  font-size: 11px;
+  font-weight: 700;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
 @media (max-width: 900px) {
   header {
     height: auto;
@@ -102,6 +160,13 @@ tbody th {
 }
 
 @media (max-width: 700px) {
+  .knowledge-group {
+    grid-template-columns: 1fr;
+  }
+
+  .topic-list {
+    grid-template-columns: 1fr;
+  }
   .content {
     min-width: 0;
   }
