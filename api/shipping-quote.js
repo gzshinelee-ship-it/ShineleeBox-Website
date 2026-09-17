@@ -1,4 +1,4 @@
-const DEFAULT_T6_RATE_ENDPOINT = 'https://gzch.t6soft.com/api/order/searchChannelPrice';
+const DEFAULT_T6_RATE_ENDPOINT = 'https://gzch.t6soft.com/api/searchChannelPrice';
 const PRODUCT = Object.freeze({
   sku: 'CS-007',
   piecesPerCarton: 30,
