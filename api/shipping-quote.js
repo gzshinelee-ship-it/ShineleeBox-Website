@@ -159,6 +159,13 @@ module.exports = async function handler(req, res) {
     }
 
     if (!response.ok || !upstream) {
+      console.error('T6 shipping upstream response error', {
+        status: response.status,
+        contentType: response.headers.get('content-type') || '',
+        responseParsed: Boolean(upstream),
+        upstreamCode: upstream?.code ?? null,
+        upstreamMessage: asText(upstream?.msg, upstream?.message).slice(0, 200)
+      });
       return sendJson(res, 502, {
         ok: false,
         code: 'T6_UPSTREAM_ERROR',
@@ -167,6 +174,10 @@ module.exports = async function handler(req, res) {
     }
 
     if (upstream.code !== undefined && Number(upstream.code) !== 0) {
+      console.warn('T6 shipping rate rejected', {
+        upstreamCode: upstream.code,
+        upstreamMessage: asText(upstream.msg, upstream.message).slice(0, 200)
+      });
       return sendJson(res, 422, {
         ok: false,
         code: 'T6_RATE_REJECTED',
@@ -200,6 +211,12 @@ module.exports = async function handler(req, res) {
       options
     });
   } catch (error) {
+    console.error('T6 shipping connection error', {
+      name: error?.name || 'Error',
+      message: asText(error?.message).slice(0, 200),
+      causeCode: asText(error?.cause?.code).slice(0, 80),
+      causeMessage: asText(error?.cause?.message).slice(0, 200)
+    });
     return sendJson(res, 502, {
       ok: false,
       code: error?.name === 'AbortError' ? 'T6_TIMEOUT' : 'T6_CONNECTION_ERROR',
