@@ -17,6 +17,7 @@ module.exports = async function handler(req, res) {
   const endpoint = process.env.T6_RATE_ENDPOINT || ENDPOINT;
 
   if (!customerCode || !apiToken) {
+    console.error('T6_PROBE_RESULT', { stage: 'configuration', code: 'MISSING_ENV' });
     return send(res, 503, { ok: false, stage: 'configuration', code: 'MISSING_ENV' });
   }
 
@@ -62,7 +63,7 @@ module.exports = async function handler(req, res) {
       : Array.isArray(result?.rows) ? result.rows
       : [];
 
-    return send(res, response.ok ? 200 : 502, {
+    const diagnostic = {
       ok: response.ok,
       stage: 'upstream-response',
       httpStatus: response.status,
@@ -70,15 +71,19 @@ module.exports = async function handler(req, res) {
       upstreamCode: result?.code ?? null,
       upstreamMessage: String(result?.msg || result?.message || '').slice(0, 300),
       rateRows: rows.length
-    });
+    };
+    console.log('T6_PROBE_RESULT', diagnostic);
+    return send(res, response.ok ? 200 : 502, diagnostic);
   } catch (error) {
-    return send(res, 502, {
+    const diagnostic = {
       ok: false,
       stage: 'connection',
       errorName: error?.name || 'Error',
       errorMessage: String(error?.message || '').slice(0, 200),
       causeCode: String(error?.cause?.code || '').slice(0, 80),
       causeMessage: String(error?.cause?.message || '').slice(0, 200)
-    });
+    };
+    console.error('T6_PROBE_RESULT', diagnostic);
+    return send(res, 502, diagnostic);
   }
 };
