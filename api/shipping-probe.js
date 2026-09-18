@@ -21,9 +21,7 @@ module.exports = async function handler(req, res) {
     return send(res, 503, { ok: false, stage: 'configuration', code: 'MISSING_ENV' });
   }
 
-  const payload = {
-    authorization: { code: customerCode, token: apiToken },
-    datas: [{
+  const baseData = [{
       order: {
         number: 2,
         forecastweight: 24,
@@ -39,41 +37,37 @@ module.exports = async function handler(req, res) {
         goodstypecode: 'WPX'
       },
       volumes: [{ prenum: 2, prelength: 49, prewidth: 36, preheight: 46, prerweight: 12 }]
-    }]
-  };
+    }];
 
   try {
-    const controller = new AbortController();
-    const timer = setTimeout(() => controller.abort(), 15000);
-    const response = await fetch(endpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-      body: JSON.stringify(payload),
-      signal: controller.signal
-    });
-    clearTimeout(timer);
+    const candidates = [...new Set([customerCode, 'SLBZ'])];
+    const attempts = [];
+    for (let index = 0; index < candidates.length; index += 1) {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 15000);
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ authorization: { code: candidates[index], token: apiToken }, datas: baseData }),
+        signal: controller.signal
+      });
+      clearTimeout(timer);
 
-    const text = await response.text();
-    let result = null;
-    try { result = JSON.parse(text); } catch {}
+      const text = await response.text();
+      let result = null;
+      try { result = JSON.parse(text); } catch {}
+      attempts.push({
+        candidate: index + 1,
+        httpStatus: response.status,
+        parsedJson: Boolean(result),
+        upstreamCode: result?.code ?? null,
+        upstreamMessage: String(result?.msg || result?.message || '').slice(0, 300)
+      });
+    }
 
-    const rows = Array.isArray(result?.data) ? result.data
-      : Array.isArray(result?.datas) ? result.datas
-      : Array.isArray(result?.result) ? result.result
-      : Array.isArray(result?.rows) ? result.rows
-      : [];
-
-    const diagnostic = {
-      ok: response.ok,
-      stage: 'upstream-response',
-      httpStatus: response.status,
-      parsedJson: Boolean(result),
-      upstreamCode: result?.code ?? null,
-      upstreamMessage: String(result?.msg || result?.message || '').slice(0, 300),
-      rateRows: rows.length
-    };
+    const diagnostic = { ok: true, stage: 'credential-candidates', attempts };
     console.log('T6_PROBE_RESULT', diagnostic);
-    return send(res, response.ok ? 200 : 502, diagnostic);
+    return send(res, 200, diagnostic);
   } catch (error) {
     const diagnostic = {
       ok: false,
